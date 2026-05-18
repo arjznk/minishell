@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 13:42:06 by azenk             #+#    #+#             */
-/*   Updated: 2026/05/18 16:44:05 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/05/18 16:45:38 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct s_token
     char *str;
     char *type;
     int index;
-    struct s_token *next_token;
+    struct t_token *next_token;
 } t_token;
 
 #endif
