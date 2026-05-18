@@ -6,7 +6,7 @@
 /*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 13:42:06 by azenk             #+#    #+#             */
-/*   Updated: 2026/05/18 13:43:55 by azenk            ###   ########.fr       */
+/*   Updated: 2026/05/18 15:21:04 by azenk            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,20 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <signal.h>
+
+typedef enum s_token_type 
+{
+    T_WORD,
+    T_PIPE,
+}   t_token_type;
+
+typedef struct s_token 
+{
+    char *str;
+    char *type;
+    int index;
+    struct s_token *next_token;
+} t_token;
 
 
 #endif
