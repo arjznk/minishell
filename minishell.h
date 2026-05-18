@@ -6,7 +6,7 @@
 /*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 13:42:06 by azenk             #+#    #+#             */
-/*   Updated: 2026/05/18 15:55:36 by azenk            ###   ########.fr       */
+/*   Updated: 2026/05/18 17:16:42 by azenk            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 
 typedef struct t_env
 {
-    char *key;
-    char *content;
+    char *variable;
+    char *values;
     struct t_env *next;
     
 }t_env;
@@ -34,6 +34,10 @@ typedef enum s_token_type
 {
     T_WORD,
     T_PIPE,
+    T_REDIR_IN,
+    T_REDIR_OUT,
+    T_APPEND,
+    T_HEREDOC,
 }   t_token_type;
 
 typedef struct s_token 
