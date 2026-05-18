@@ -6,7 +6,7 @@
 /*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 13:42:06 by azenk             #+#    #+#             */
-/*   Updated: 2026/05/18 15:21:04 by azenk            ###   ########.fr       */
+/*   Updated: 2026/05/18 15:53:07 by azenk            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,14 @@
 #include <fcntl.h>
 #include <signal.h>
 
+typedef struct t_env
+{
+    char *key;
+    char *content;
+    struct t_env *next;
+    
+}t_env;
+
 typedef enum s_token_type 
 {
     T_WORD,
@@ -35,6 +43,5 @@ typedef struct s_token
     int index;
     struct s_token *next_token;
 } t_token;
-
 
 #endif
