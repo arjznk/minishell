@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 13:42:06 by azenk             #+#    #+#             */
-/*   Updated: 2026/05/19 12:28:03 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/05/19 15:27:43 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ typedef struct s_token
     int index;
     struct t_token *next_token;
 } t_token;
+
+typedef struct s_path
+{
+    char *path;
+}   t_path;
 
 //list utils
 t_env				*ft_lstnew(char *value);

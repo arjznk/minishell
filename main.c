@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 15:25:14 by rijebbar          #+#    #+#             */
-/*   Updated: 2026/05/19 15:20:18 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/05/19 15:27:59 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,15 @@ void	print_list(t_env **env)
 	}
 }
 
-void    get_path(t_env **env)
+void    get_path(char **envp, t_path *path)
 {
     int i = 0;
-    char
+    char *compar = "PATH=";
+    
 
-    while()
+    while(ft_strncmp(compar, envp[i], 5) != 0)
+        i++;
+    path->path = 
 }
 
 int main(int ac, char **av, char **envp)
