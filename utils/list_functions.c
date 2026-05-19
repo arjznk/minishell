@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   list_functions.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/19 12:19:47 by rijebbar          #+#    #+#             */
-/*   Updated: 2026/05/19 12:24:13 by rijebbar         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -16,7 +5,7 @@ t_env	*ft_lstnew(char *value)
 {
 	t_env	*lstnew;
 
-	lstnew = malloc(sizeof(t_list));
+	lstnew = malloc(sizeof(t_env));
 	if (!lstnew)
 		return (NULL);
 	lstnew->value = value;

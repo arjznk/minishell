@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/18 15:25:14 by rijebbar          #+#    #+#             */
-/*   Updated: 2026/05/19 16:25:19 by rijebbar         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -34,21 +23,27 @@ void    get_path(char **envp, t_path *path)
 
     while(ft_strncmp(compar, envp[i], 5) != 0)
         i++;
-    path->path == envp[i];
+    path->path = envp[i];
+    // printf("%s\n", path->path);
 }
 
 int main(int ac, char **av, char **envp)
 {
-    t_env **env;
-    (void)av;
-    env = malloc(sizeof(t_env));
-    fill_list_env(envp, env, ac-1);
-    // print_list(env);
 
-    while(1)
-    {
-        
-    }
+    t_env   *env;
+    int     size;
+    t_path *path;
+
+    (void)av;
+    (void)ac;
+    path = NULL;
+    env = NULL;
+    size = 0;
+    while (envp[size])
+        size++;
+    fill_list_env(envp, &env, size);
+    // get_path(envp, path);
+    print_list(&env);
 }
 
 // recup et stock l'env -> moi

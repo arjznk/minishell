@@ -1,21 +1,10 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2026/05/18 13:41:59 by azenk             #+#    #+#              #
-#    Updated: 2026/05/19 12:27:19 by rijebbar         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
 
 NAME = minishell
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
-SRCS = main.c get_env.c utils/list_functions.c
+SRCS = main.c parsing/get_env.c utils/list_functions.c
 
 OBJS = $(SRCS:.c=.o)
 

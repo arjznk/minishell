@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/05/18 13:42:06 by azenk             #+#    #+#             */
-/*   Updated: 2026/05/19 16:25:30 by rijebbar         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -35,6 +24,10 @@ typedef enum s_token_type
 {
     T_WORD,
     T_PIPE,
+    T_REDIR_IN,
+    T_REDIR_OUT,
+    T_APPEND,
+    T_HEREDOC,
 }   t_token_type;
 
 typedef struct s_token 
