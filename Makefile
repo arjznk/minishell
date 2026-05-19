@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: azenk <azenk@student.42.fr>                +#+  +:+       +#+         #
+#    By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/05/18 13:41:59 by azenk             #+#    #+#              #
-#    Updated: 2026/05/18 15:56:31 by azenk            ###   ########.fr        #
+#    Updated: 2026/05/19 12:27:19 by rijebbar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,30 +15,33 @@ NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
-SRCS = 
+SRCS = main.c get_env.c utils/list_functions.c
 
 OBJS = $(SRCS:.c=.o)
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-INCLUDES = -I. -I/libft
+INCLUDES = -I. -I./libft
  
 all: $(LIBFT) $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+
+$(LIBFT):
+	make -C $(LIBFT_DIR)
 	
 %.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
 	rm -f $(OBJS)
-	rm - f $(LIBFT_DIR) clean
+	make -C $(LIBFT_DIR) clean
 
 fclean: clean
 	rm -f $(NAME)
-	rm - f $(LIBFT_DIR) fclean
+	make -C $(LIBFT_DIR) fclean
 
 re: fclean all
 

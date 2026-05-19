@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 21:03:03 by rijebbar          #+#    #+#             */
-/*   Updated: 2026/05/18 10:56:25 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/05/19 12:20:24 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,10 @@ void				ft_putnbr_fd(int n, int fd);
 void				ft_putstr_fd(char const *s, int fd);
 void				ft_putendl_fd(char const *s, int fd);
 
-t_list				*ft_lstnew(int value);
-int					ft_lstsize(t_list *lst);
-t_list				*ft_lstlast(t_list *lst);
-void				ft_lstadd_front(t_list **lst, t_list *new);
-void				ft_lstadd_back(t_list **lst, t_list *new);
+// t_list				*ft_lstnew(char *value);
+// int					ft_lstsize(t_list *lst);
+// t_list				*ft_lstlast(t_list *lst);
+// void				ft_lstadd_front(t_list **lst, t_list *new);
+// void				ft_lstadd_back(t_list **lst, t_list *new);
 
 #endif

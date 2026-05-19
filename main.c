@@ -6,15 +6,46 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 15:25:14 by rijebbar          #+#    #+#             */
-/*   Updated: 2026/05/18 16:34:15 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/05/19 15:20:18 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int main(int ac, char **av)
+void	print_list(t_env **env)
 {
-    
+	t_env	*tmp;
+
+	tmp = *env;
+	if (!tmp)
+		return ;
+	while (tmp != NULL)
+	{
+		printf("%s\n", tmp->value);
+		tmp = tmp->next;
+	}
+}
+
+void    get_path(t_env **env)
+{
+    int i = 0;
+    char
+
+    while()
+}
+
+int main(int ac, char **av, char **envp)
+{
+    t_env **env;
+    (void)av;
+    env = malloc(sizeof(t_env));
+    fill_list_env(envp, env, ac-1);
+    // print_list(env);
+
+    while(1)
+    {
+        
+    }
 }
 
 // recup et stock l'env -> moi
