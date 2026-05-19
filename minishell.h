@@ -6,13 +6,14 @@
 /*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/18 13:42:06 by azenk             #+#    #+#             */
-/*   Updated: 2026/05/18 17:16:42 by azenk            ###   ########.fr       */
+/*   Updated: 2026/05/19 16:42:07 by azenk            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include "libft/libft.h"
 #include <stdio.h>
 #include <unistd.h>
 #include <readline/readline.h>
@@ -22,11 +23,11 @@
 #include <fcntl.h>
 #include <signal.h>
 
-typedef struct t_env
+typedef struct s_env
 {
     char *variable;
-    char *values;
-    struct t_env *next;
+    char *value;
+    struct s_env *next;
     
 }t_env;
 
@@ -45,7 +46,17 @@ typedef struct s_token
     char *str;
     char *type;
     int index;
-    struct s_token *next_token;
+    struct t_token *next_token;
 } t_token;
+
+//list utils
+t_env				*ft_lstnew(char *value);
+int					ft_lstsize(t_env *lst);
+t_env				*ft_lstlast(t_env *lst);
+void				ft_lstadd_front(t_env **lst, t_env *new);
+void				ft_lstadd_back(t_env **lst, t_env *new);
+
+void fill_list_env(char **envp, t_env **env, int size);
+void	print_list(t_env **env);
 
 #endif
