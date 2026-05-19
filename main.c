@@ -57,10 +57,18 @@ int main (int ac, char **av)
             token_type(av[i]);
             i++;
         }
+        printf("%s\n", find_word(av[1]));
     }
     return 0;
 }
 
-// recup et stock l'env -> moi
-// areej -> tokenisation
-// une fois env stock -> relier avec les commandes pour l'exec
+// int main(void)
+// {
+//     t_token *new;
+
+//     new = new_token("echo", T_WORD);
+//     printf("%s\n", new->str);
+//     printf("%d\n", new->type);
+//     printf("%p\n", new->next_token);
+//     return (0);
+// }

@@ -33,7 +33,7 @@ typedef enum e_token_type
 typedef struct s_token 
 {
     char *str;
-    t_token_type *type;
+    t_token_type type;
     struct s_token *next_token;
 } t_token;
 
@@ -57,5 +57,7 @@ void	print_list(t_env **env);
 
 // tokenisation functions
 void    token_type(char *str);
+t_token *new_token(char *str, t_token_type type);
+char    *find_word(char *str);
 
 #endif

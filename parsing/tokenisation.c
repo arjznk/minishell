@@ -36,4 +36,18 @@ t_token *new_token(char *str, t_token_type type)
     return (new);
 }
 
+char    *find_word(char *str)
+{
+    char    *dup;
+    int i;
+    int start;
+    int end;
 
+    i = 0;
+    start = i;
+    while (str[i] && str[i] != ' ' && str[i] != '|' && str[i] != '>' && str[i] != '<')
+        i++;
+    end = i;
+    dup = ft_substr(str, start, end);
+    return (dup);
+}
