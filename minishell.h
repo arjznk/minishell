@@ -20,7 +20,7 @@ typedef struct s_env
     
 }t_env;
 
-typedef enum s_token_type 
+typedef enum e_token_type 
 {
     T_WORD,
     T_PIPE,
@@ -33,8 +33,8 @@ typedef enum s_token_type
 typedef struct s_token 
 {
     char *str;
-    char *type;
-    struct t_token *next_token;
+    t_token_type *type;
+    struct s_token *next_token;
 } t_token;
 
 typedef struct s_path

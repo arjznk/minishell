@@ -23,4 +23,17 @@ void    token_type(char *str)
     }
 }
 
+t_token *new_token(char *str, t_token_type type)
+{
+    t_token *new;
+
+    new = malloc(sizeof(t_token));
+    if (!new)
+        return (NULL);
+    new->str = ft_strdup(str);
+    new->type = type;
+    new->next_token = NULL;
+    return (new);
+}
+
 
