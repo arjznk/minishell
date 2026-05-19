@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void    token_type(char *str)
+void    cmd_type(char *str)
 {
     int i;
 
@@ -50,4 +50,15 @@ char    *find_word(char *str)
     end = i;
     dup = ft_substr(str, start, end);
     return (dup);
+}
+
+void    add_token(t_token **token, t_token *new)
+{
+    if (!*token)
+        token = new;
+    // sinon
+    // prendre un tmp
+    // aller jusqu’au dernier token
+    // faire :
+    //     dernier->next_token = new
 }
