@@ -54,5 +54,6 @@ void				ft_lstadd_back(t_env **lst, t_env *new);
 
 void fill_list_env(char **envp, t_env **env, int size);
 void	print_list(t_env **env);
+void    assign_name(t_env **env);
 
 #endif

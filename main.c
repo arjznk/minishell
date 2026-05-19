@@ -20,16 +20,14 @@ void    get_path(char **envp, t_path *path)
     int i = 0;
     char *compar = "PATH=";
     
-
-    while(ft_strncmp(compar, envp[i], 5) != 0)
+    while(ft_strncmp(compar, envp[i], 4) != 0)
         i++;
     path->path = envp[i];
-    // printf("%s\n", path->path);
+    printf("%s\n", path->path);
 }
 
 int main(int ac, char **av, char **envp)
 {
-
     t_env   *env;
     int     size;
     t_path *path;
@@ -43,6 +41,7 @@ int main(int ac, char **av, char **envp)
         size++;
     fill_list_env(envp, &env, size);
     // get_path(envp, path);
+    // assign_name(&env);
     print_list(&env);
 }
 
