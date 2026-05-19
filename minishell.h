@@ -34,7 +34,6 @@ typedef struct s_token
 {
     char *str;
     char *type;
-    int index;
     struct t_token *next_token;
 } t_token;
 
@@ -54,5 +53,9 @@ void				ft_lstadd_back(t_env **lst, t_env *new);
 
 void fill_list_env(char **envp, t_env **env, int size);
 void	print_list(t_env **env);
+
+
+// tokenisation functions
+void    token_type(char *str);
 
 #endif
