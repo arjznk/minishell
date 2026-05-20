@@ -56,7 +56,7 @@ void    add_token(t_token **token, t_token *new)
 {
     if (!*token)
         token = new;
-    // sinon
+    else
     // prendre un tmp
     // aller jusqu’au dernier token
     // faire :
