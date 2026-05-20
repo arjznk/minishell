@@ -4,7 +4,7 @@ NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
-SRCS = main.c parsing/get_env.c utils/list_functions.c utils/utils.c
+SRCS = main.c parsing/get_env.c parsing/tokenisation utils/list_functions.c utils/utils.c
 
 OBJS = $(SRCS:.c=.o)
 
