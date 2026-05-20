@@ -2,6 +2,8 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+#define BUFFER_SIZE 40
+
 # include "libft/libft.h"
 #include <stdio.h>
 #include <unistd.h>
@@ -11,6 +13,8 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <signal.h>
+#include <sys/types.h>
+#include <dirent.h>
 
 typedef struct s_env
 {
@@ -64,6 +68,9 @@ void    get_and_cut_path(char **envp, t_path *path);
 void fill_list_env(char **envp, t_env **env, int size);
 void	print_list(t_env **env);
 void    get_only_access(t_path *path);
+
+//built-in
+void    ft_pwd(char *str);
 
 // tokenisation functions
 void    token_type(char *str);
