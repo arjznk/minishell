@@ -6,11 +6,23 @@ void fill_list_env(char **envp, t_env **env, int size)
     t_env *newnode;
     while(i < size)
     {
-        newnode = ft_lstnew(envp[i]);
+        newnode = ft_lstnew_for_env(envp[i]);
         ft_lstadd_back(env, newnode);
         i++;
     }
 }
+
+void    get_and_cut_path(char **envp, t_path *path)
+{
+    int i = 0;
+    char *compar = "PATH";
+
+    while(envp[i] != NULL && ft_strncmp(compar, envp[i], 4) != 0 )
+        i++;
+    path->path_env = envp[i];
+    path->path_access = ft_split(path->path_env, ':');
+}
+
 
 // recup et stock l'env -> moi
 // areej -> tokenisation

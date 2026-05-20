@@ -39,8 +39,15 @@ typedef struct s_token
 
 typedef struct s_path
 {
-    char *path;
+    char *path_env;
+    char **path_access;
 }   t_path;
+
+typedef struct s_path_access
+{
+    char *acces;
+    struct s_path_access *next;
+}   t_path_access;
 
 //list utils
 t_env				*ft_lstnew_for_env(char *value);
@@ -52,10 +59,9 @@ void				ft_lstadd_back(t_env **lst, t_env *new);
 // utils functions
 char *search_and_stop(char *str, char c);
 
-
+void    get_and_cut_path(char **envp, t_path *path);
 void fill_list_env(char **envp, t_env **env, int size);
 void	print_list(t_env **env);
-
 
 // tokenisation functions
 void    token_type(char *str);

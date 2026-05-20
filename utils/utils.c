@@ -2,8 +2,11 @@
 
 char *search_and_stop(char *str, char c)
 {
-    int i = 0;
-    char *dest = malloc(sizeof(char) * ft_strlen(str));
+    int i;
+    char *dest;
+    
+    i = 0;
+    dest = malloc(sizeof(char) * ft_strlen(str));
     if(!dest)
         return NULL;
     while(str[i] && str[i] != c)
