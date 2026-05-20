@@ -8,7 +8,8 @@ t_env	*ft_lstnew(char *value)
 	lstnew = malloc(sizeof(t_env));
 	if (!lstnew)
 		return (NULL);
-	lstnew->value = value;
+	lstnew->value = ft_strchr(value, '=');
+	lstnew->variable = search_and_stop(value, '=');
 	lstnew->next = NULL;
 	return (lstnew);
 }

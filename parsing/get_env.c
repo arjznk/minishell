@@ -7,9 +7,7 @@ void fill_list_env(char **envp, t_env **env, int size)
     while(i < size)
     {
         newnode = ft_lstnew(envp[i]);
-        (*env)->value = ft_strchr(envp[i], '=');
         ft_lstadd_back(env, newnode);
-        *env = (*env)->next;
         i++;
     }
 }
@@ -18,7 +16,7 @@ void fill_list_env(char **envp, t_env **env, int size)
 // {
 //     while(*env != NULL)
 //     {
-//         (*env)->value = ft_strchr(envp[i], '=');
+//         (*env)->value = ft_strchr((*env)->variable, '=');
 //         *env = (*env)->next;
 //     }
 // }

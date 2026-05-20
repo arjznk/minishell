@@ -51,9 +51,11 @@ void				ft_lstadd_front(t_env **lst, t_env *new);
 void				ft_lstadd_back(t_env **lst, t_env *new);
 
 // utils functions
+char *search_and_stop(char *str, char c);
+
 
 void fill_list_env(char **envp, t_env **env, int size);
 void	print_list(t_env **env);
-void    assign_name(t_env **env);
+// void    assign_name(t_env **env);
 
 #endif
