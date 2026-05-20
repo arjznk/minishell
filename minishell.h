@@ -52,12 +52,13 @@ void				ft_lstadd_back(t_env **lst, t_env *new);
 // utils functions
 
 void fill_list_env(char **envp, t_env **env, int size);
-void	print_list(t_env **env);
+void	print_list(t_token **token);
 
 
 // tokenisation functions
-void    token_type(char *str);
+void    cmd_type(char *str);
 t_token *new_token(char *str, t_token_type type);
 char    *find_word(char *str);
+void    add_token(t_token **token, t_token *new);
 
 #endif

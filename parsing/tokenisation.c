@@ -54,11 +54,17 @@ char    *find_word(char *str)
 
 void    add_token(t_token **token, t_token *new)
 {
+    t_token *tmp;
+
+    tmp = *token;
     if (!*token)
-        token = new;
+        *token = new;
     else
-    // prendre un tmp
-    // aller jusqu’au dernier token
-    // faire :
-    //     dernier->next_token = new
+    {
+        while (tmp->next_token)
+        {
+            tmp = tmp->next_token;
+        }
+    }
+    tmp->next_token = new;
 }

@@ -1,19 +1,19 @@
 
 #include "minishell.h"
 
-// void	print_list(t_env **env)
-// {
-// 	t_env	*tmp;
+void	print_list(t_token **token)
+{
+	t_token	*tmp;
 
-// 	tmp = *env;
-// 	if (!tmp)
-// 		return ;
-// 	while (tmp != NULL)
-// 	{
-// 		printf("%s\n", tmp->value);
-// 		tmp = tmp->next;
-// 	}
-// }
+	tmp = *token;
+	if (!tmp)
+		return ;
+	while (tmp != NULL)
+	{
+		printf("%s\n", tmp->str);
+		tmp = tmp->next_token;
+	}
+}
 
 // void    get_path(char **envp, t_path *path)
 // {
@@ -49,15 +49,23 @@
 
 int main (int ac, char **av)
 {
+    t_token *token;
+    t_token *new;
+    t_token_type *type;
+
+    type = malloc(sizeof(t_token_type));
+    token = malloc(sizeof(t_token));
     if (ac > 1)
     {
         int i = 1;
         while (av[i])
         {
-            token_type(av[i]);
+            cmd_type(av[i]);
+            new = new_token(av[i], T_WORD);
             i++;
         }
         printf("%s\n", find_word(av[1]));
+        print_list(&new);
     }
     return 0;
 }
