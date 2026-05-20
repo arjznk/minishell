@@ -60,7 +60,7 @@ int main (int ac, char **av)
         int i = 1;
         while (av[i])
         {
-            cmd_type(av[i]);
+            token_type(av[i]);
             new = new_token(av[i], T_WORD);
             i++;
         }
