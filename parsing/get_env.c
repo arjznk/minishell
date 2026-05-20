@@ -23,7 +23,15 @@ void    get_and_cut_path(char **envp, t_path *path)
     path->path_access = ft_split(path->path_env, ':');
 }
 
+void    get_only_access(t_path *path)
+{
+    int i = 0;
+    char *compar = "/usr/bin";
 
+    while(path->path_access[i] && ft_strncmp(compar, path->path_access[i], 8) != 0)
+        i++;
+    path->access_usr = path->path_access[i];
+}
 // recup et stock l'env -> moi
 // areej -> tokenisation
 // une fois env stock -> relier avec les commandes pour l'exec

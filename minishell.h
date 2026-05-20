@@ -41,6 +41,7 @@ typedef struct s_path
 {
     char *path_env;
     char **path_access;
+    char *access_usr;
 }   t_path;
 
 typedef struct s_path_access
@@ -62,6 +63,7 @@ char *search_and_stop(char *str, char c);
 void    get_and_cut_path(char **envp, t_path *path);
 void fill_list_env(char **envp, t_env **env, int size);
 void	print_list(t_env **env);
+void    get_only_access(t_path *path);
 
 // tokenisation functions
 void    token_type(char *str);

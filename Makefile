@@ -2,7 +2,7 @@
 NAME = minishell
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror 
 
 SRCS = main.c parsing/get_env.c parsing/tokenisation.c utils/list_functions.c utils/utils.c
 
@@ -16,7 +16,7 @@ INCLUDES = -I. -I./libft
 all: $(LIBFT) $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME) 
 
 $(LIBFT):
 	make -C $(LIBFT_DIR)

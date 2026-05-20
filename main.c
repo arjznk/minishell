@@ -15,7 +15,6 @@ void	print_list(t_env **env)
 	}
 }
 
-
 int main(int ac, char **av, char **envp)
 {
     t_env   *env;
@@ -33,6 +32,12 @@ int main(int ac, char **av, char **envp)
         size++;
     fill_list_env(envp, &env, size);
     get_and_cut_path(envp, path);
+    get_only_access(path);
+
+    while(1)
+    {
+        readline("minishell>");
+    }
     // print_list(&env);
 }
 
