@@ -29,9 +29,7 @@ char	*ft_itoa(int n)
 {
 	char	*str;
 	int		len;
-	int		temp;
 
-	temp = n;
 	len = ft_len(n);
 	if (n == -2147483648)
 		return (ft_strdup("-2147483648"));
