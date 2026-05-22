@@ -74,6 +74,7 @@ void    get_only_access(t_path *path);
 //built-in
 void    ft_pwd(char *str);
 void    ft_cd(char *str, t_path *path);
+void    ft_exit(char *str);
 
 // tokenisation functions
 void    token_type(char *str);

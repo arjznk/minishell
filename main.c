@@ -42,6 +42,7 @@ int main(int ac, char **av, char **envp)
         ft_pwd(line);
         if(ft_strncmp(line, "cd", 2) == 0)
             ft_cd(line, path);
+        ft_exit(line);
     }
 }
 
