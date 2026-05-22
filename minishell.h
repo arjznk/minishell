@@ -63,10 +63,11 @@ void				ft_lstadd_back(t_env **lst, t_env *new);
 
 // utils functions
 char *search_and_stop(char *str, char c);
+void	print_list(t_env **env);
 
+//env   
 void    get_and_cut_path(char **envp, t_path *path);
 void fill_list_env(char **envp, t_env **env, int size);
-void	print_list(t_env **env);
 void    get_only_access(t_path *path);
 
 //built-in
