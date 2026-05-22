@@ -64,6 +64,7 @@ void				ft_lstadd_back(t_env **lst, t_env *new);
 // utils functions
 char *search_and_stop(char *str, char c);
 void	print_list(t_env **env);
+char	*ft_strchr_value(const char *s, int c);
 
 //env   
 void    get_and_cut_path(char **envp, t_path *path);
@@ -72,6 +73,7 @@ void    get_only_access(t_path *path);
 
 //built-in
 void    ft_pwd(char *str);
+void    ft_cd(char *str, t_path *path);
 
 // tokenisation functions
 void    token_type(char *str);
