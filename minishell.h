@@ -76,6 +76,11 @@ void    ft_pwd(char *str);
 void    ft_cd(char *str, t_path *path);
 void    ft_exit(char *str);
 
+//free
+void	free_tab(long *tab);
+void	free_node(t_list **list);
+
+
 // tokenisation functions
 void    token_type(char *str);
 t_token *new_token(char *str, t_token_type type);
