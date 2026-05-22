@@ -40,8 +40,9 @@ int main(int ac, char **av, char **envp)
         if(line)
             add_history(line);
         ft_pwd(line);
+        if(ft_strncmp(line, "cd", 2) == 0)
+            ft_cd(line);
     }
-    // print_list(&env);
 }
 
 // lire et stock ce que j'ecris dans le term
