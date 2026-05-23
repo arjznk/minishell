@@ -20,10 +20,22 @@ void    ft_exit(char *str)
             printf("exit\nbash: exit: g: numeric argument required\n");
             exit(0);
         }
-
+        
     }  
 }
 
 // exit + nombre = exit code + nb et prochaine cmd = echo $? -> contient le nb
 // exit + str = exit code 2 et prochaine cmd = echo $? -> contient 2
 //exit seul -> exit
+//code de sortie stockes sur 8 bits, entre 0 et 255
+//exemple : si exit 6789 -> echo $? -> 133 car 6789 / 256 = 133
+// code :
+/*
+0 = succes
+1 = erreur generique, command qui echou sans raison precise
+2 = mauvaise utilisation (mauvais arg, fichier introuvable)
+126 = commande trouvee mais non executable
+127 = commande introuvable
+128 +N = processus tue par le signal N
+130 = interrompu par ctrl C (signal 2)
+*/

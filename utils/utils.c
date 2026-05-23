@@ -18,18 +18,25 @@ char *search_and_stop(char *str, char c)
     return (dest);
 }
 
-char	*ft_strchr_value(const char *s, int c)
+char    *str_between(char *str, char c)
 {
-	int	i;
+    char *line;
+  
+    line = ft_strchr(str, c);
+    line = search_and_stop(line, c);
+    return(line);
+}
 
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] && s[i] == (char)c)
-			return ((char *)&s[i] + 1);
-		i++;
-	}
-	if ((char)c == '\0')
-		return ((char *)&s[i] + 1);
-	return (NULL);
+int c_strcmp(char *str, char b)
+{
+    int i;
+    
+    i = 0;
+    while(str[i])
+    {
+        if(str[i] == b)
+            return (0);
+        i++;
+    }
+    return (1);
 }

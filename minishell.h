@@ -64,7 +64,9 @@ void				ft_lstadd_back(t_env **lst, t_env *new);
 // utils functions
 char *search_and_stop(char *str, char c);
 void	print_list(t_env **env);
-char	*ft_strchr_value(const char *s, int c);
+char    *str_between(char *str, char c);
+int c_strcmp(char *str, char b);
+char    *ft_strchr_between(char *s, char c);
 
 //env   
 void    get_and_cut_path(char **envp, t_path *path);
@@ -75,6 +77,7 @@ void    get_only_access(t_path *path);
 void    ft_pwd(char *str);
 void    ft_cd(char *str, t_path *path);
 void    ft_exit(char *str);
+void    ft_echo(char *str);
 
 //free
 void	free_tab(long *tab);
