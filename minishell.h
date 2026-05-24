@@ -56,39 +56,42 @@ typedef struct s_path_access
 }   t_path_access;
 
 //list utils
-t_env				*ft_lstnew_for_env(char *value);
-int					ft_lstsize(t_env *lst);
-t_env				*ft_lstlast(t_env *lst);
-void				ft_lstadd_front(t_env **lst, t_env *new);
-void				ft_lstadd_back(t_env **lst, t_env *new);
+t_env   *ft_lstnew_for_env(char *value);
+int     ft_lstsize(t_env *lst);
+t_env	*ft_lstlast(t_env *lst);
+void	ft_lstadd_front(t_env **lst, t_env *new);
+void	ft_lstadd_back(t_env **lst, t_env *new);
 
 // utils functions
-char *search_and_stop(char *str, char c);
+char    *search_and_stop(char *str, char c);
 void	print_list(t_env **env);
 char    *str_between(char *str, char c);
-int c_strcmp(char *str, char b);
-int is_letter(char *str);
-void    ft_exit_code(char *line, char *nb);
+int     c_strcmp(char *str, char b);
+int     is_letter(char *str);
 void	print_env(t_env **env);
+char	*ft_strchr_echo(const char *s, int c);
+int c_strrcmp(char *str, char b);
 
 //env   
 void    get_and_cut_path(char **envp, t_path *path);
-void fill_list_env(char **envp, t_env **env, int size);
+void    fill_list_env(char **envp, t_env **env, int size);
 void    get_only_access(t_path *path);
 
 //built-in
 void    execute_builtins(char *line, t_env **env);
 void    ft_pwd(char *str);
 void    ft_cd(char *str, t_path *path);
+void    ft_exit_code(char *line, char *nb);
 void    ft_exit(char *str);
 void    ft_echo(char *str);
-void    echo_for_exit(char *str, int nb);
 void    ft_env(char *str, t_env **env);
+int    ft_echo_n(char *str);
+int     echo_quote(char *str);
+
 
 //free
 void	free_tab(long *tab);
 void	free_node(t_list **list);
-
 
 // tokenisation functions
 void    cmd_type(char *str);

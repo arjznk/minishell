@@ -34,15 +34,11 @@ int main(int ac, char **av, char **envp)
         if(line)
             add_history(line);
         execute_builtins(line, &env);
-        
     }
 }
 
-// lire et stock ce que j'ecris dans le term
-// ensuite interpreter 
-// grace au parsing ? si mot alors -> mot et si commande alors -> cmd
 // et si cmd alors exec avec le chemin absolu /usr/bin
-// faire les builtin : echo (avec -n, donc on affiche pas le retour a la ligne)
+// faire les builtin : 
 // cd avec -> opendir, readdir, closedir, chdir
 // pour tout les builtin utiliser getenv -> prendre la valeur de l'env
 // export ->

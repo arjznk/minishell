@@ -5,31 +5,67 @@ void    ft_echo(char *str)
     char *line; 
 
     line = ft_strchr(str, ' ');
+    if(ft_echo_n(str) == 0 || echo_quote(str) == 0)
+        return;
     if(ft_strncmp(str, "echo", 4) == 0)
     {
         if(c_strcmp(line, (char)'"') == 0)
+        {
+            // printf("line dans echo : %s\n", line);
             line = str_between(line, (char)'"');
-        printf("%s\n", line);   
+            // printf("line dans str_between : %s\n", line);
+            printf("%s\n", line);
+            return;
+        }
+        else if(c_strcmp(line, '\'') == 0)
+            line = str_between(line, '\'');  
+        printf("%s\n", line);
     }
 
 }
-
-void    echo_for_exit(char *str, int nb)
+int    ft_echo_n(char *str)
 {
     char *line;
+
+    line = ft_strchr_echo(str, 'n');
+    if(ft_strncmp(str, "echo -n", 7) == 0)
+    {
+        if(c_strcmp(line, (char)'"') == 0)
+        {
+            line = str_between(line, (char)'"');
+            printf("%s", line);
+            return (0);
+        }
+        else if(c_strcmp(line, '\'') == 0)
+            line = str_between(line, '\''); 
+        printf("%s", line);
+        return(0);
+    }
+    return (1);
+}
+
+int     echo_quote(char *str)
+{
+    char *line;
+    char *newline;
 
     line = ft_strchr(str, ' ');
     if(ft_strncmp(str, "echo", 4) == 0)
     {
-        if(ft_strncmp(line, "$?", 2) == 0)
+        if(c_strrcmp(line, (char)'"') == 0)
         {
-            if(nb > 255)
-                printf("%d\n", nb / 256);
-            else
-                printf("%d\n", nb);
-            if((nb >= 'a' && nb <= 'z') || (nb >= 'A' && nb <= 'Z'))
-                printf("2\n");
+            newline = search_and_stop(line, '"');
+            printf("%s\n", newline);    
+            return (0);
+        }
+        else if (c_strcmp(line, '\'') == 0)
+        {
+            newline = search_and_stop(line, '\'');
+            printf("%s\n", newline);
+            return (0);
         }
     }
+    return (1);
 }
+
 
