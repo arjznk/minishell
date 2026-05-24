@@ -5,7 +5,6 @@ void    ft_exit(char *str)
     char *nb;
     char *line;
 
-    
     if(ft_strncmp(str, "exit", 4) == 0)
     {
         nb = ft_strchr(str, ' ');
@@ -17,11 +16,11 @@ void    ft_exit(char *str)
         }
         if(line && ft_isdigit(nb) == 1)
         {
-            printf("exit\nbash: exit: g: numeric argument required\n");
-            exit(0);
+            printf("exit\nbash: exit: %s: numeric argument required\n", nb);
+            exit(2);
         }
-        
-    }  
+    }
+
 }
 
 // exit + nombre = exit code + nb et prochaine cmd = echo $? -> contient le nb
@@ -38,4 +37,6 @@ void    ft_exit(char *str)
 127 = commande introuvable
 128 +N = processus tue par le signal N
 130 = interrompu par ctrl C (signal 2)
+
+donc si nb > 255 alors on fait la division sinon. print le nb 
 */

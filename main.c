@@ -44,6 +44,7 @@ int main(int ac, char **av, char **envp)
             ft_cd(line, path);
         ft_exit(line);
         ft_echo(line);
+        
     }
 }
 

@@ -78,6 +78,7 @@ void    ft_pwd(char *str);
 void    ft_cd(char *str, t_path *path);
 void    ft_exit(char *str);
 void    ft_echo(char *str);
+void    echo_for_exit(char *str, int nb);
 
 //free
 void	free_tab(long *tab);
