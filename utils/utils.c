@@ -1,5 +1,19 @@
 #include "minishell.h"
 
+void	print_list(t_env **env)
+{
+	t_env	*tmp;
+
+	tmp = *env;
+	if (!tmp)
+		return ;
+	while (tmp != NULL)
+	{
+		printf("%s\n", tmp->value);
+		tmp = tmp->next;
+	}
+}
+
 char *search_and_stop(char *str, char c)
 {
     int i;
@@ -40,3 +54,18 @@ int c_strcmp(char *str, char b)
     }
     return (1);
 }
+
+int is_letter(char *str)
+{
+    int i;
+
+    i = 0;
+    while(str[i])
+    {
+        if(!(str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z'))
+            return(1);
+        i++;
+    }
+    return(0);
+}
+

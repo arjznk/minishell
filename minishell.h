@@ -15,6 +15,7 @@
 #include <signal.h>
 #include <sys/types.h>
 #include <dirent.h>
+#include <limits.h>
 
 typedef struct s_env
 {
@@ -66,7 +67,9 @@ char *search_and_stop(char *str, char c);
 void	print_list(t_env **env);
 char    *str_between(char *str, char c);
 int c_strcmp(char *str, char b);
-char    *ft_strchr_between(char *s, char c);
+int is_letter(char *str);
+void    ft_exit_code(char *line, char *nb);
+void	print_env(t_env **env);
 
 //env   
 void    get_and_cut_path(char **envp, t_path *path);
@@ -74,11 +77,13 @@ void fill_list_env(char **envp, t_env **env, int size);
 void    get_only_access(t_path *path);
 
 //built-in
+void    execute_builtins(char *line, t_env **env);
 void    ft_pwd(char *str);
 void    ft_cd(char *str, t_path *path);
 void    ft_exit(char *str);
 void    ft_echo(char *str);
 void    echo_for_exit(char *str, int nb);
+void    ft_env(char *str, t_env **env);
 
 //free
 void	free_tab(long *tab);
@@ -86,7 +91,7 @@ void	free_node(t_list **list);
 
 
 // tokenisation functions
-void    token_type(char *str);
+void    cmd_type(char *str);
 t_token *new_token(char *str, t_token_type type);
 char    *find_word(char *str);
 void    add_token(t_token **token, t_token *new);

@@ -1,18 +1,12 @@
 
 #include "minishell.h"
 
-void	print_list(t_env **env)
+void    execute_builtins(char *line, t_env **env)
 {
-	t_env	*tmp;
-
-	tmp = *env;
-	if (!tmp)
-		return ;
-	while (tmp != NULL)
-	{
-		printf("%s\n", tmp->value);
-		tmp = tmp->next;
-	}
+    ft_pwd(line);
+    ft_exit(line);
+    ft_echo(line);
+    ft_env(line, env);
 }
 
 int main(int ac, char **av, char **envp)
@@ -39,11 +33,7 @@ int main(int ac, char **av, char **envp)
         line = readline("minishell>");
         if(line)
             add_history(line);
-        ft_pwd(line);
-        if(ft_strncmp(line, "cd", 2) == 0)
-            ft_cd(line, path);
-        ft_exit(line);
-        ft_echo(line);
+        execute_builtins(line, &env);
         
     }
 }

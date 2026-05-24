@@ -9,19 +9,47 @@ void    ft_exit(char *str)
     {
         nb = ft_strchr(str, ' ');
         line = search_and_stop(str, 't');
-        if((line && !nb) || (line && ft_isdigit(nb) == 0))
+        if(line && !nb)
         {
             printf("exit\n");
             exit(0);
         }
-        if(line && ft_isdigit(nb) == 1)
+        else if(line && ft_isdigit(nb) == 1)
         {
-            printf("exit\nbash: exit: %s: numeric argument required\n", nb);
+            printf("exit\nminishell: exit: %s: numeric argument required\n", nb);
             exit(2);
         }
+        else
+            ft_exit_code(line, nb);
     }
-
 }
+
+void    ft_exit_code(char *line, char *nb)
+{
+    long nbr;
+    
+    if((line && ft_isdigit(nb) == 0))
+    {
+        nbr = ft_atoi(nb);
+        if(nbr > INT_MAX || nbr < INT_MIN)
+        {
+            printf("exit\nminishell: exit: %ld: numeric argument required\n", nbr);
+            exit(2);
+        }
+        if(nbr > 255)
+        {
+            printf("exit\n");
+            exit(nbr % 256);
+        }
+        else
+        {
+            printf("exit\n");
+            exit(nbr);
+        }    
+    }
+}
+
+
 
 // exit + nombre = exit code + nb et prochaine cmd = echo $? -> contient le nb
 // exit + str = exit code 2 et prochaine cmd = echo $? -> contient 2
