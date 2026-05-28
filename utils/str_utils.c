@@ -23,7 +23,7 @@ int c_strrcmp(char *str, char b)
     i = 0;
 	while(str[i])
 		i++;
-    while(i > 0)
+    while(i >= 0)
     {
         if(str[i] == b)
             return (0);
