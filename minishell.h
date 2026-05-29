@@ -86,8 +86,8 @@ void    ft_exit(char *str);
 void    ft_echo(char *str);
 void    ft_env(char *str, t_env **env);
 void    ft_echo_n(char *str);
-// int    echo_double_quote(char *str);
 void    echo_simple_quote(char *str);
+void 	ft_unset(char *str, t_env **env);
 
 
 //free

@@ -36,11 +36,8 @@ char    *str_between(char *str, char c)
 {
     char *line;
 
-    // printf("str dans str_between : %s\n", str);
     line = ft_strchr(str, c);
-    // printf("line dans str_between : %s\n", str);
     line = search_and_stop(line, c);
-    // printf("line dans str_between : %s\n", line);
     return(line);
 }
 
