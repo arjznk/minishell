@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void    cmd_type(char *str)
+t_token    *token_type(char *str)
 {
     int i;
 
@@ -36,10 +36,9 @@ t_token *new_token(char *str, t_token_type type)
     return (new);
 }
 
-char    *find_word(char *str)
+char    *find_word(char *str, int i)
 {
     char    *dup;
-    int i;
     int start;
     int end;
 
@@ -58,7 +57,10 @@ void    add_token(t_token **token, t_token *new)
 
     tmp = *token;
     if (!*token)
+    {
         *token = new;
+        return ;
+    }
     else
     {
         while (tmp->next_token)

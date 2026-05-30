@@ -64,7 +64,7 @@ int main (int ac, char **av)
             new = new_token(av[i], T_WORD);
             i++;
         }
-        printf("%s\n", find_word(av[1]));
+        printf("%s\n", find_word(av[1], i));
         print_list(&new);
     }
     return 0;
