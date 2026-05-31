@@ -91,6 +91,7 @@ void    echo_simple_quote(char *str);
 void    ft_unset(char *str, t_env **env);
 void    unset_if_first(t_env **env, t_env *tmp, t_env *to_free);
 void    unset_if_middle(t_env *tmp, t_env *prev, t_env *to_free);
+void    ft_export(char *str);
 
 //free
 void	free_tab(long *tab);
