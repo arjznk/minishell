@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void    token_type(char *str)
+t_token    *token_type(char *str)
 {
     int i;
     t_token *new;
