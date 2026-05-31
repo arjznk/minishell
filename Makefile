@@ -6,7 +6,7 @@ CFLAGS = -Wall -Wextra -Werror
 
 SRCS = main.c parsing/get_env.c parsing/tokenisation.c utils/list_functions.c utils/utils.c \
 builtins/pwd.c builtins/cd.c builtins/exit.c builtins/echo.c builtins/env.c utils/str_utils.c \
-builtins/unset.c
+builtins/unset.c free/free_all.c
 
 OBJS = $(SRCS:.c=.o)
 

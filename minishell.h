@@ -56,7 +56,6 @@ typedef struct s_path_access
 }   t_path_access;
 
 
-
 //list utils
 t_env   *ft_lstnew_for_env(char *value);
 int     ft_lstsize(t_env *lst);
@@ -72,7 +71,7 @@ int     c_strcmp(char *str, char b);
 int     is_letter(char *str);
 void	print_env(t_env **env);
 char	*ft_strchr_echo(const char *s, int c);
-int c_strrcmp(char *str, char b);
+int     c_strrcmp(char *str, char b);
 
 //env   
 void    get_and_cut_path(char **envp, t_path *path);
@@ -90,11 +89,12 @@ void    ft_env(char *str, t_env **env);
 void    ft_echo_n(char *str);
 void    echo_simple_quote(char *str);
 void    ft_unset(char *str, t_env **env);
-
+void    unset_if_first(t_env **env, t_env *tmp, t_env *to_free);
+void    unset_if_middle(t_env *tmp, t_env *prev, t_env *to_free);
 
 //free
 void	free_tab(long *tab);
-void	free_node(t_list **list);
+void	free_node(t_env **list);
 
 // tokenisation functions
 void    cmd_type(char *str);
