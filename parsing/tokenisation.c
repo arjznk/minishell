@@ -1,27 +1,67 @@
 #include "minishell.h"
 
-void    cmd_type(char *str)
+t_token    *token_type(char *str)
 {
     int i;
+    t_token *new;
+    t_token *token;
+    char *word;
+
+    token = NULL;
 
     i = 0;
     while (str[i])
     {
         if (str[i] == ' ')
             i++;
-        else if (str[i] == '|' || str[i] == '<' || str[i] == '>')
+        else if (str[i] == '|')
         {
-            printf("T_REDIR\n");
+            new = new_token("|", T_PIPE);
+            add_token(&token, new);
             i++;
         }
-        else
+        else if (str[i] == '<')
         {
-            printf("T_WORD\n");
+            if (str[i + 1] == '<')
+            {
+               new = new_token("<<", T_HEREDOC);
+               add_token(&token, new);
+               i += 2;
+            }
+            else
+            {
+                new = new_token("<", T_REDIR_IN);
+                add_token(&token, new);
+                i++;
+            }
+        }
+        else if (str[i] == '>')
+        {
+            if (str[i + 1] == '>')
+            {
+                new = new_token(">>", T_APPEND);
+                add_token(&token, new);
+                i += 2;
+            }
+            else
+            {
+                new = new_token(">", T_REDIR_OUT);
+                add_token(&token, new);
+                i++;
+            }
+        }
+        else 
+        {
+            word = find_word(str, i);
+            new = new_token(word, T_WORD);
+            add_token(&token, new);
             while (str[i] && str[i] != ' ' && str[i] != '|' && str[i] != '<' && str[i] != '>')
                 i++;
         }
     }
+    return(token);
 }
+
 
 t_token *new_token(char *str, t_token_type type)
 {
@@ -36,19 +76,15 @@ t_token *new_token(char *str, t_token_type type)
     return (new);
 }
 
-char    *find_word(char *str)
+char    *find_word(char *str, int i)
 {
     char    *dup;
-    int i;
     int start;
-    int end;
-
-    i = 0;
+    
     start = i;
     while (str[i] && str[i] != ' ' && str[i] != '|' && str[i] != '>' && str[i] != '<')
         i++;
-    end = i;
-    dup = ft_substr(str, start, end);
+    dup = ft_substr(str, start ,i - start);
     return (dup);
 }
 
@@ -56,15 +92,13 @@ void    add_token(t_token **token, t_token *new)
 {
     t_token *tmp;
 
-    tmp = *token;
     if (!*token)
-        *token = new;
-    else
     {
-        while (tmp->next_token)
-        {
-            tmp = tmp->next_token;
-        }
+        *token = new;
+        return;
     }
+    tmp = *token;
+    while (tmp->next_token)
+        tmp = tmp->next_token;
     tmp->next_token = new;
 }

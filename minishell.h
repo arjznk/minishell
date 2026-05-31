@@ -56,9 +56,9 @@ void	print_list(t_token **token);
 
 
 // tokenisation functions
-void    token_type(char *str);
+t_token    *token_type(char *str);
 t_token *new_token(char *str, t_token_type type);
-char    *find_word(char *str);
+char    *find_word(char *str, int i);
 void    add_token(t_token **token, t_token *new);
 
 #endif
