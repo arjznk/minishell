@@ -49,19 +49,20 @@ void	print_list(t_token **token)
 
 int main (int ac, char **av)
 {
-    t_token *new;
-
+    t_token *token;
+  
     if (ac > 1)
     {
         int i = 1;
         while (av[i])
         {
             token_type(av[i]);
-            new = new_token(av[i], T_WORD);
+            token = new_token(av[i], T_WORD);
             i++;
         }
         printf("%s\n", find_word(av[1], i));
-        print_list(&new);
+        print_list(&token);
+        check_syntax(token);
     }
     return 0;
 }

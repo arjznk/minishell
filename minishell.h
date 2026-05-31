@@ -61,4 +61,7 @@ t_token *new_token(char *str, t_token_type type);
 char    *find_word(char *str, int i);
 void    add_token(t_token **token, t_token *new);
 
+
+// parsing functions
+void    check_syntax(t_token *token);
 #endif
