@@ -28,7 +28,6 @@ void    echo_simple_quote(char *str)
     }
 }
 
-
 void   ft_echo_n(char *str)
 {
     char *line;
