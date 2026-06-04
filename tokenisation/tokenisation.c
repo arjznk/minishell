@@ -3,65 +3,25 @@
 t_token    *token_type(char *str)
 {
     int i;
-    t_token *new;
     t_token *token;
-    char *word;
 
     token = NULL;
-
     i = 0;
     while (str[i])
     {
         if (str[i] == ' ')
             i++;
         else if (str[i] == '|')
-        {
-            new = new_token("|", T_PIPE);
-            add_token(&token, new);
-            i++;
-        }
+            token_pipe(&token, &i);
         else if (str[i] == '<')
-        {
-            if (str[i + 1] == '<')
-            {
-               new = new_token("<<", T_HEREDOC);
-               add_token(&token, new);
-               i += 2;
-            }
-            else
-            {
-                new = new_token("<", T_REDIR_IN);
-                add_token(&token, new);
-                i++;
-            }
-        }
+            token_redir_in(&token, &i, str);
         else if (str[i] == '>')
-        {
-            if (str[i + 1] == '>')
-            {
-                new = new_token(">>", T_APPEND);
-                add_token(&token, new);
-                i += 2;
-            }
-            else
-            {
-                new = new_token(">", T_REDIR_OUT);
-                add_token(&token, new);
-                i++;
-            }
-        }
-        else 
-        {
-            word = find_word(str, i);
-            new = new_token(word, T_WORD);
-            add_token(&token, new);
-            while (str[i] && str[i] != ' ' && str[i] != '|' && str[i] != '<' && str[i] != '>')
-                i++;
-        }
+            token_redir_out(&token, &i, str);
+        else
+            token_word(&token, &i, str);
     }
-    return(token);
+    return (token);
 }
-
 
 t_token *new_token(char *str, t_token_type type)
 {
@@ -92,6 +52,7 @@ void    add_token(t_token **token, t_token *new)
 {
     t_token *tmp;
 
+    tmp = *token;
     if (!*token)
     {
         *token = new;

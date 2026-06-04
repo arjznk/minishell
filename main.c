@@ -46,25 +46,17 @@ void	print_list(t_token **token)
 //     print_list(&env);
 // }
 
-
-int main (int ac, char **av)
+int main(int ac, char **av)
 {
-    t_token *token;
-  
-    if (ac > 1)
+    t_token *tokens;
+
+    if (ac == 2)
     {
-        int i = 1;
-        while (av[i])
-        {
-            token_type(av[i]);
-            token = new_token(av[i], T_WORD);
-            i++;
-        }
-        printf("%s\n", find_word(av[1], i));
-        print_list(&token);
-        check_syntax(token);
+        tokens = token_type(av[1]);
+        print_list(&tokens);
+        check_syntax(tokens);
     }
-    return 0;
+    return (0);
 }
 
 // int main(void)
