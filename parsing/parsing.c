@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 void    check_syntax(t_token *token)
 {
