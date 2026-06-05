@@ -1,28 +1,27 @@
-#include "minishell.h"
+#include "../minishell.h"
 
-void    token_type(char *str)
+t_token    *token_type(char *str)
 {
     int i;
+    t_token *token;
 
+    token = NULL;
     i = 0;
     while (str[i])
     {
         if (str[i] == ' ')
             i++;
-        else if (str[i] == '|' || str[i] == '<' || str[i] == '>')
-        {
-            printf("T_REDIR\n");
-            i++;
-        }
+        else if (str[i] == '|')
+            token_pipe(&token, &i);
+        else if (str[i] == '<')
+            token_redir_in(&token, &i, str);
+        else if (str[i] == '>')
+            token_redir_out(&token, &i, str);
         else
-        {
-            printf("T_WORD\n");
-            while (str[i] && str[i] != ' ' && str[i] != '|' && str[i] != '<' && str[i] != '>')
-                i++;
-        }
+            token_word(&token, &i, str);
     }
+    return (token);
 }
-
 
 t_token *new_token(char *str, t_token_type type)
 {
@@ -41,14 +40,11 @@ char    *find_word(char *str, int i)
 {
     char    *dup;
     int start;
-    int end;
-
-    i = 0;
+    
     start = i;
     while (str[i] && str[i] != ' ' && str[i] != '|' && str[i] != '>' && str[i] != '<')
         i++;
-    end = i;
-    dup = ft_substr(str, start, end);
+    dup = ft_substr(str, start ,i - start);
     return (dup);
 }
 
