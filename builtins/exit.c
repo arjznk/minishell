@@ -5,23 +5,20 @@ void    ft_exit(char *str)
     char *nb;
     char *line;
 
-    if(ft_strncmp(str, "exit", 4) == 0)
+    nb = ft_strchr(str, ' ');
+    line = search_and_stop(str, 't');
+    if(line && !nb)
     {
-        nb = ft_strchr(str, ' ');
-        line = search_and_stop(str, 't');
-        if(line && !nb)
-        {
-            printf("exit\n");
-            exit(0);
-        }
-        else if(line && ft_isdigit(nb) == 1)
-        {
-            printf("exit\nminishell: exit: %s: numeric argument required\n", nb);
-            exit(2);
-        }
-        else
-            ft_exit_code(line, nb);
+        printf("exit\n");
+        exit(0);
     }
+    else if(line && ft_isdigit(nb) == 1)
+    {
+        printf("exit\nminishell: exit: %s: numeric argument required\n", nb);
+        exit(2);
+    }
+    else
+        ft_exit_code(line, nb);
 }
 
 void    ft_exit_code(char *line, char *nb)

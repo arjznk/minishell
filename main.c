@@ -3,13 +3,18 @@
 
 void    execute_builtins(char *line, t_env **env)
 {
-    ft_pwd(line);
-    ft_exit(line);
-    ft_echo(line);
-    ft_env(line, env);
-    if(ft_strncmp(line, "export", 6) == 0)
+    if(ft_strncmp(line, "pwd", 3) == 0)
+        ft_pwd();
+    else if(ft_strncmp(line, "exit", 4) == 0)
+        ft_exit(line);
+    if(ft_strncmp(line, "echo", 4) == 0)
+        ft_echo(line);
+    else if (ft_strncmp(line, "env", 3) == 0)
+        ft_env(line, env);
+    else if(ft_strncmp(line, "export", 6) == 0)
         ft_export(line, env);
-    ft_unset(line, env);
+    if(ft_strncmp(line, "unset", 5) == 0)
+        ft_unset(line, env);
 }
 
 int main(int ac, char **av, char **envp)

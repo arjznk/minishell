@@ -55,17 +55,23 @@ int c_strcmp(char *str, char b)
     return (1);
 }
 
-int is_letter(char *str)
-{
-    int i;
+// void    sort_str(t_env **env)
+// {
+//     t_env *tmp;
 
-    i = 0;
-    while(str[i])
-    {
-        if(!(str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z'))
-            return(1);
-        i++;
-    }
-    return(0);
-}
-
+//     tmp = *env;
+//     while()
+//     {
+//         while(tmp )
+//         {
+//             if(ft_strcmp(tmp->variable, tmp->next->variable) > 0)
+//             {
+//                 // donc s1 > s2 donc swap value et variable
+//             }
+//         }
+//     }
+// }
+/*
+boucle tant que tout n'est pas trie
+2e boucle, on compare tmp avc tmp->next
+si tmp->variable > tmp->next->variable on swap + value aussi*/
