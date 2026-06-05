@@ -18,6 +18,11 @@ void    echo_simple_quote(char *str)
     line = ft_strchr(str, ' ');
     if(ft_strncmp(str, "echo", 4) == 0)
     {
+        if(line == NULL)
+        {
+            printf("\n");
+            return;
+        }
         while(line[i])
         {
             while(line[i] == '\'' || line[i] == (char)'"')

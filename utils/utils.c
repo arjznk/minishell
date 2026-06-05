@@ -9,7 +9,7 @@ void	print_list(t_env **env)
 		return ;
 	while (tmp != NULL)
 	{
-		printf("%s\n", tmp->value);
+		printf("%s\n", tmp->variable);
 		tmp = tmp->next;
 	}
 }

@@ -56,6 +56,7 @@ typedef struct s_path_access
 }   t_path_access;
 
 
+
 //list utils
 t_env   *ft_lstnew_for_env(char *value);
 int     ft_lstsize(t_env *lst);
@@ -91,14 +92,14 @@ void    echo_simple_quote(char *str);
 void    ft_unset(char *str, t_env **env);
 void    unset_if_first(t_env **env, t_env *tmp, t_env *to_free);
 void    unset_if_middle(t_env *tmp, t_env *prev, t_env *to_free);
-void    ft_export(char *str);
+void    ft_export(char *str, t_env **env);
 
 //free
 void	free_tab(long *tab);
 void	free_node(t_env **list);
 
 // tokenisation functions
-void    cmd_type(char *str);
+t_token    *token_type(char *str);
 t_token *new_token(char *str, t_token_type type);
 char    *find_word(char *str, int i);
 void    add_token(t_token **token, t_token *new);

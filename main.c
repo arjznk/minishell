@@ -8,6 +8,7 @@ void    execute_builtins(char *line, t_env **env)
     ft_echo(line);
     ft_env(line, env);
     ft_unset(line, env);
+    ft_export(line, env);
 }
 
 int main(int ac, char **av, char **envp)

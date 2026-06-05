@@ -22,6 +22,7 @@ t_env	*ft_lstlast(t_env *lst)
 		lst = lst->next;
 	return (lst);
 }
+
 int	ft_lstsize(t_env *lst)
 {
 	int	count;
