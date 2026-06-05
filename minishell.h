@@ -37,6 +37,17 @@ typedef struct s_token
     struct s_token *next_token;
 } t_token;
 
+typedef struct s_cmd
+{
+    char *args;
+    char *infile;
+    char *outfile;
+    int append;
+    char *heredoc;
+    struct s_cmd *next;
+
+} t_cmd;
+
 typedef struct s_path
 {
     char *path;
@@ -68,4 +79,5 @@ void    token_pipe(t_token **token, int *i);
 
 // parsing functions
 void    check_syntax(t_token *token);
+t_cmd   *new_cmd (void);
 #endif
