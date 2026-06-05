@@ -5,15 +5,14 @@ void    ft_unset(char *str, t_env **env)
     char *line;
 
     line = ft_strchr(str, ' ');
-    if(!line)
-        return;
-    if(ft_strncmp(str, "unset", 5) == 0)
+    if(ft_strncmp(str, "unset", 5) == 0 && line)
     {
         t_env *tmp;
         t_env *prev;
         t_env *to_free;
 
-        (1 && (prev = NULL, tmp = *env));
+        prev = NULL;
+        tmp = *env;
         while(tmp)
         {
             if(ft_strncmp(tmp->variable, line, ft_strlen(line)) == 0)

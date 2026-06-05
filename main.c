@@ -1,4 +1,4 @@
-
+ 
 #include "minishell.h"
 
 void    execute_builtins(char *line, t_env **env)
@@ -7,8 +7,9 @@ void    execute_builtins(char *line, t_env **env)
     ft_exit(line);
     ft_echo(line);
     ft_env(line, env);
+    if(ft_strncmp(line, "export", 6) == 0)
+        ft_export(line, env);
     ft_unset(line, env);
-    ft_export(line, env);
 }
 
 int main(int ac, char **av, char **envp)
@@ -43,10 +44,7 @@ int main(int ac, char **av, char **envp)
 // faire les builtin : 
 // cd avec -> opendir, readdir, closedir, chdir
 // pour tout les builtin utiliser getenv -> prendre la valeur de l'env
-// export ->
-// unset (supprimer une variable)  
-//env -> affiche l'env 
-//exit -> exit le bash 
+
 
 // recup et stock l'env -> moi
 // areej -> tokenisation

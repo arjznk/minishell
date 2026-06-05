@@ -93,10 +93,15 @@ void    ft_unset(char *str, t_env **env);
 void    unset_if_first(t_env **env, t_env *tmp, t_env *to_free);
 void    unset_if_middle(t_env *tmp, t_env *prev, t_env *to_free);
 void    ft_export(char *str, t_env **env);
+void    export_w_space(char *variable);
+void    export_space(char *variable, t_env *newnode, t_env **env);
+void    export_w_error(char *line, t_env **env, t_env *newnode);
 
 //free
+void free_all(char *line, t_path_access **path, t_env **env);
 void	free_tab(long *tab);
-void	free_node(t_env **list);
+void	free_node_env(t_env **list);
+void	free_node_path(t_path_access **list);
 
 // tokenisation functions
 t_token    *token_type(char *str);
