@@ -12,7 +12,25 @@ t_cmd   *new_cmd (void)
     cmd->heredoc = NULL;
     cmd->infile = NULL;
     cmd->outfile = NULL;
-    cmd->next = NULL;
+    cmd->next_cmd = NULL;
     return(cmd);
+}
+
+void    add_cmd(t_cmd **cmds, t_cmd *new)
+{
+    t_cmd *tmp;
+
+    tmp = *cmds;
+    if (!*cmds)
+    {
+        *cmds = new;
+        return ;
+    }
+    else
+    {
+        while (tmp->next_cmd)
+            tmp = tmp->next_cmd;
+    }
+    tmp->next_cmd = new;
 }
 

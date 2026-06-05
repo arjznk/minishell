@@ -61,9 +61,7 @@ void    add_token(t_token **token, t_token *new)
     else
     {
         while (tmp->next_token)
-        {
             tmp = tmp->next_token;
-        }
     }
     tmp->next_token = new;
 }

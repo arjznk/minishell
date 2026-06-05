@@ -44,7 +44,7 @@ typedef struct s_cmd
     char *outfile;
     int append;
     char *heredoc;
-    struct s_cmd *next;
+    struct s_cmd *next_cmd;
 
 } t_cmd;
 
@@ -80,4 +80,5 @@ void    token_pipe(t_token **token, int *i);
 // parsing functions
 void    check_syntax(t_token *token);
 t_cmd   *new_cmd (void);
+void    add_cmd(t_cmd **cmds, t_cmd *new);
 #endif
