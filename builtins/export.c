@@ -9,7 +9,10 @@ void    ft_export(char *str, t_env **env)
 
     line = ft_strchr(str, ' ');
     if(!line)
-        export_only(env);
+    {
+		export_only(env);
+		return;
+	}
     variable = search_and_stop(line, '=');
     value = ft_strchr(line, '=');
     newnode = malloc(sizeof(t_env));
@@ -41,16 +44,20 @@ void    export_w_error(char *line, t_env **env, t_env *newnode)
 }
 void    export_only(t_env **env)
 {
+	t_env *tmp;
+	
     sort_str(env);
-    t_env *tmp;
-
     tmp = *env;
     while(tmp)
     {
         printf("export %s=\"%s\"\n", tmp->variable, tmp->value);
-        tmp = tmp->next;
+		tmp = tmp->next;
     }
 }
+
+
+
+
 
 /*
 si export seul : 

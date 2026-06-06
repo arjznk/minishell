@@ -55,23 +55,32 @@ int c_strcmp(char *str, char b)
     return (1);
 }
 
-// void    sort_str(t_env **env)
-// {
-//     t_env *tmp;
+void    sort_str(t_env **env)
+{
+    t_env *tmp;
+	char *tmp_var;
+	char *tmp_val;
+	int swap;
 
-//     tmp = *env;
-//     while()
-//     {
-//         while(tmp )
-//         {
-//             if(ft_strcmp(tmp->variable, tmp->next->variable) > 0)
-//             {
-//                 // donc s1 > s2 donc swap value et variable
-//             }
-//         }
-//     }
-// }
-/*
-boucle tant que tout n'est pas trie
-2e boucle, on compare tmp avc tmp->next
-si tmp->variable > tmp->next->variable on swap + value aussi*/
+	swap = 1;
+    while(swap)
+    {
+		swap = 0;
+		tmp = *env;
+		while(tmp && tmp->next)
+        {
+            if(ft_strcmp(tmp->variable, tmp->next->variable) > 0)
+            {
+				tmp_var = tmp->variable;
+				tmp->variable = tmp->next->variable;
+				tmp->next->variable = tmp_var;
+				tmp_val = tmp->value;
+				tmp->value = tmp->next->value;
+				tmp->next->value = tmp_val;
+				swap = 1;
+            }
+			tmp = tmp->next;
+        }
+    }
+}
+

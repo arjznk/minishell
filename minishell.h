@@ -16,6 +16,8 @@
 #include <sys/types.h>
 #include <dirent.h>
 #include <limits.h>
+#include <errno.h>
+#include <sys/wait.h>
 
 typedef struct s_env
 {
@@ -70,17 +72,21 @@ int     c_strcmp(char *str, char b);
 void	print_env(t_env **env);
 char	*ft_strchr_echo(const char *s, int c);
 int     c_strrcmp(char *str, char b);
+void    sort_str(t_env **env);
 
 //env   
 void    get_and_cut_path(char **envp, t_path *path);
 void    fill_list_env(char **envp, t_env **env, int size);
 void    get_only_access(t_path *path);
 
+//exec
+void	ft_exec(t_path *path, char **argv, char **envp);
+
 //built-in
-void    execute_builtins(char *line, t_env **env);
+void    execute_builtins(char *line, t_env **env, t_path *path, char **argv, char **envp);
 void    ft_env(char *str, t_env **env);
 void    ft_pwd();
-void    ft_cd(char *str, t_path *path);
+void    ft_cd(char *str);
 void    ft_exit_code(char *line, char *nb);
 void    ft_exit(char *str);
 void    ft_echo(char *str);
@@ -109,7 +115,6 @@ void    token_word(t_token **token, int *i, char *str);
 void    token_redir_out(t_token **token, int *i, char *str);
 void    token_redir_in(t_token **token, int *i, char *str);
 void    token_pipe(t_token **token, int *i);
-
 
 // parsing functions
 void    check_syntax(t_token *token);

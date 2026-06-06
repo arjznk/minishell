@@ -1,10 +1,12 @@
 #include "minishell.h"
 
-void    ft_cd(char *str, t_path *path)
+void    ft_cd(char *str)
 {
-    // DIR *dir;
-    (void)str;
-    // dir = opendir(ft_strchr(str, 'd'));
-    chdir(path->access_usr);
-    // closedir(dir);
+	char *line;
+
+	line = ft_strchr(str, ' ');
+	if(!line)
+		return;
+	if(chdir(line) == -1)
+		printf("minishell: cd: %s: %s\n", line, strerror(errno));
 }
