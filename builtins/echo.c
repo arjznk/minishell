@@ -2,10 +2,18 @@
 
 void    ft_echo(char *str)
 {
-    if(ft_strncmp(str, "echo -n", 7) == 0)
-        echo_n(str);
+    char *cmd;
+
+    cmd = search_and_stop(str, ' ');
+    if(ft_strcmp(cmd, "echo") == 0)
+    {
+        if(ft_strncmp(str, "echo -n", 7) == 0)
+            echo_n(str);
+        else
+            echo_quote(str);
+    }
     else
-        echo_quote(str);
+        printf("minishell: %s: command not found\n", cmd);
 }
 
 void    echo_quote(char *str)

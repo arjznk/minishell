@@ -81,9 +81,10 @@ void    get_only_access(t_path *path);
 
 //exec
 void	ft_exec(t_path *path, char **argv, char **envp);
+void    other_cmd(char *line, t_path *path, char **envp);
 
 //built-in
-void    execute_builtins(char *line, t_env **env, t_path *path, char **argv, char **envp);
+void    execute_builtins(char *line, t_env **env, t_path *path, char **envp);
 void    ft_env(char *str, t_env **env);
 void    ft_pwd();
 void    ft_cd(char *str);
@@ -96,12 +97,11 @@ void    ft_unset(char *str, t_env **env);
 void    unset_if_first(t_env **env, t_env *tmp, t_env *to_free);
 void    unset_if_middle(t_env *tmp, t_env *prev, t_env *to_free);
 void    ft_export(char *str, t_env **env);
-void    export_space(char *variable, t_env *newnode, t_env **env);
-void    export_w_error(char *line, t_env **env, t_env *newnode);
+void    export_w_error(char **all, t_env **env, t_env *newnode);
 void    export_only(t_env **env);
 
 //free
-void free_all(char *line, t_path_access **path, t_env **env);
+void free_all(char *line, t_path *path, t_env **env);
 void	free_tab(long *tab);
 void	free_node_env(t_env **list);
 void	free_node_path(t_path_access **list);

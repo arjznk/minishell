@@ -4,21 +4,28 @@ void    ft_exit(char *str)
 {
     char *nb;
     char *line;
+    char *cmd;
 
     nb = ft_strchr(str, ' ');
     line = search_and_stop(str, 't');
-    if(line && !nb)
+    cmd = search_and_stop(str, ' ');
+    if(ft_strcmp(cmd, "exit") == 0)
     {
-        printf("exit\n");
-        exit(0);
-    }
-    else if(line && ft_isdigit(nb) == 1)
-    {
-        printf("exit\nminishell: exit: %s: numeric argument required\n", nb);
-        exit(2);
+        if(line && !nb)
+        {
+            printf("exit\n");
+            exit(0);
+        }
+        else if(line && ft_isdigit(nb) == 1)
+        {
+            printf("exit\nminishell: exit: %s: numeric argument required\n", nb);
+            exit(2);
+        }
+        else
+            ft_exit_code(line, nb);
     }
     else
-        ft_exit_code(line, nb);
+        printf("minishell: %s: command not found\n", cmd);
 }
 
 void    ft_exit_code(char *line, char *nb)
