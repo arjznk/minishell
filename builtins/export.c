@@ -23,12 +23,6 @@ void    ft_export(char *str, t_env **env)
             export_only(env);
             return;
         }
-        // printf("3\n");
-        // else if(ft_strchr(variable, ' ') != NULL)
-        // {
-        //     printf("minishell: export: `=': not a valid identifier\n");
-        //     return;
-        // }
         else 
             export_w_error(all, env, newnode);
     }
@@ -36,15 +30,24 @@ void    ft_export(char *str, t_env **env)
 
 void    export_w_error(char **all, t_env **env, t_env *newnode)
 {
-    int i = 1;
-    while(all[i])
+    // int i;
+    
+    // i = 1;
+    (void)env;
+    (void)newnode;
+    int j = 1;
+    while(all[j])
     {
-        printf("all = %s\n", all[i]);
-        newnode->variable = search_and_stop(all[i], ' ');
-        newnode->value = ft_strchr(all[i], '=');
-        i++;
+        printf("all = %s\n", all[j]);
+        j++;
     }
-    ft_lstadd_back(env, newnode);
+    // while(all[i])
+    // {
+    //     newnode->variable = search_and_stop(all[i], ' ');
+    //     newnode->value = ft_strchr(all[i], '=');
+    //     ft_lstadd_front(env, newnode);
+    //     i++;
+    // }
 }
 
 void    export_only(t_env **env)
@@ -63,4 +66,11 @@ void    export_only(t_env **env)
 		tmp = tmp->next;
     }
 }
+
+/*
+si :
+export test -> export seulement la variabe mais si on fait env, ne s'affiche pas
+si export test= -> export la variable + dans le env s'affiche ; test=, et dans export -> test=""
+si export=bjr -> export la variable + dans le env s'affiche ; test=bjr, et dans export -> test="bjr"
+*/
  

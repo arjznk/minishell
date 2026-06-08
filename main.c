@@ -29,12 +29,5 @@ int main(int ac, char **av, char **envp)
     }
 }
 
-// et si cmd alors exec avec le chemin absolu /usr/bin
-// faire les builtin : 
-// cd avec -> opendir, readdir, closedir, chdir
-// pour tout les builtin utiliser getenv -> prendre la valeur de l'env
 
 
-// recup et stock l'env -> moi
-// areej -> tokenisation
-// une fois env stock -> relier avec les commandes pour l'exec

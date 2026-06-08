@@ -16,6 +16,8 @@ void    execute_builtins(char *line, t_env **env, t_path *path, char **envp)
         ft_unset(line, env);
 	else if (ft_strncmp(line, "cd", 2) == 0)
         ft_cd(line);
+    else if(ft_strncmp(line, "/usr/bin/", 9) == 0)
+        cmd_absolute_path(line, env, path, envp);
 	else
         other_cmd(line, path, envp);
 }
@@ -36,8 +38,26 @@ void    other_cmd(char *line, t_path *path, char **envp)
 
             }    
             else
-                printf("minishell: %s: command not found\n", line);
+                printf("minishell: %s: %s\n", line, strerror(errno));
 		}
 		else
 			waitpid(id, NULL, 0);
+}
+
+void    cmd_absolute_path(char *str, t_env **env, t_path *path, char **envp)
+{
+    char *line = ft_strchr_echo(str, 'n');
+    if(ft_strncmp(line, "cd", 2) == 0)
+        ft_cd(line);
+    else if(ft_strncmp(line, "pwd", 3) == 0)
+        ft_pwd();
+    else if(ft_strncmp(line, "echo", 4) == 0)
+        ft_echo(line);
+    else if(ft_strncmp(line, "cd", 2) == 0)
+        return;
+    else if(ft_strncmp(line, "env", 3) == 0)
+        ft_env(line, env);
+    else
+        other_cmd(line, path, envp);
+
 }

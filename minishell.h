@@ -80,11 +80,12 @@ void    fill_list_env(char **envp, t_env **env, int size);
 void    get_only_access(t_path *path);
 
 //exec
-void	ft_exec(t_path *path, char **argv, char **envp);
+
+void    execute_builtins(char *line, t_env **env, t_path *path, char **envp);
 void    other_cmd(char *line, t_path *path, char **envp);
+void    cmd_absolute_path(char *str, t_env **env, t_path *path, char **envp);
 
 //built-in
-void    execute_builtins(char *line, t_env **env, t_path *path, char **envp);
 void    ft_env(char *str, t_env **env);
 void    ft_pwd();
 void    ft_cd(char *str);

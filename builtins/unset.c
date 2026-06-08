@@ -2,14 +2,14 @@
 
 void    ft_unset(char *str, t_env **env)
 {
-    // char *line;
+    char *line;
     t_env *tmp;
     t_env *prev;
     t_env *to_free;
 
-    // line = ft_strchr(str, ' ');
+    line = ft_strchr(str, ' ');
     char **all = ft_split(str, ' ');
-    if(!all)
+    if(!line)
         return;
     prev = NULL;
     tmp = *env;
@@ -18,7 +18,7 @@ void    ft_unset(char *str, t_env **env)
     {
         while(all[i])
         {
-            if(ft_strncmp(tmp->variable, all[i], ft_strlen(all[i])) == 0)
+            if(ft_strncmp(tmp->variable, line, ft_strlen(line)) == 0)
             {
                 to_free = tmp;
                 if(prev == NULL)
