@@ -4,11 +4,13 @@
 t_env	*ft_lstnew_for_env(char *value)
 {
 	t_env	*lstnew;
+	// char *tmp;
 
 	lstnew = malloc(sizeof(t_env));
 	if (!lstnew)
 		return (NULL);
-	lstnew->value = ft_strchr(value, '=');
+	// tmp = ft_strtrim(value, "=");
+	lstnew->value = search_and_return(value, '=');
 	lstnew->variable = search_and_stop(value, '=');
 	lstnew->next = NULL;
 	return (lstnew);

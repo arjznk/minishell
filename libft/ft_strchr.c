@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 20:53:35 by rijebbar          #+#    #+#             */
-/*   Updated: 2026/06/05 12:00:13 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/06/09 17:31:09 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*ft_strchr(const char *s, int c)
 {
 	int	i;
-
+	
 	i = 0;
 	while (s[i])
 	{

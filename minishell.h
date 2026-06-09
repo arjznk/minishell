@@ -74,6 +74,7 @@ void	print_env(t_env **env);
 char	*ft_strchr_echo(const char *s, int c);
 int     c_strrcmp(char *str, char b);
 void    sort_str(t_env **env);
+char	*search_and_return(char *str, char c);
 
 //env   
 void    get_and_cut_path(char **envp, t_path *path);
@@ -81,7 +82,6 @@ void    fill_list_env(char **envp, t_env **env, int size);
 void    get_only_access(t_path *path);
 
 //exec
-
 void    execute_builtins(char *line, t_env **env, t_path *path, char **envp);
 void    other_cmd(char *line, t_path *path, char **envp);
 void    cmd_absolute_path(char *str, t_env **env, t_path *path, char **envp);
@@ -97,7 +97,7 @@ void    echo_n(char *str);
 void    echo_quote(char *str);
 void    ft_unset(char *str, t_env **env);
 void    unset_if_first(t_env **env, t_env *tmp, t_env *to_free);
-void    unset_if_middle(t_env *tmp, t_env *prev, t_env *to_free);
+void    unset_if_middle(t_env *prev, t_env *to_free);
 void    ft_export(char *str, t_env **env);
 void    export_w_error(char **all, t_env **env, t_env *newnode);
 void    export_only(t_env **env);

@@ -31,3 +31,22 @@ int c_strrcmp(char *str, char b)
     }
     return (1);
 }
+
+char	*search_and_return(char *str, char c)
+{
+	char *dest;
+	int i;
+
+	i = 0;
+	dest = malloc(sizeof(char) * ft_strlen(str));
+	if(!dest)
+		return (NULL);
+	while(str[i])
+	{
+		if(str[i] == c)
+			dest[i] = str[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return(dest);
+}

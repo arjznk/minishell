@@ -62,11 +62,13 @@ void    sort_str(t_env **env)
 	char *tmp_val;
 	int swap;
 
+    printf("ici passe\n");
 	swap = 1;
     while(swap)
     {
 		swap = 0;
 		tmp = *env;
+        printf("la?\n");
 		while(tmp && tmp->next)
         {
             if(ft_strcmp(tmp->variable, tmp->next->variable) > 0)
@@ -81,6 +83,7 @@ void    sort_str(t_env **env)
             }
 			tmp = tmp->next;
         }
+        printf("avant\n");
     }
 }
 

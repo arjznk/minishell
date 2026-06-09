@@ -13,18 +13,24 @@ void    ft_export(char *str, t_env **env)
     // printf("2\n");
     char **all = ft_split(str, ' ');
     cmd = search_and_stop(str, ' ');
+    printf("a\n");
     newnode = malloc(sizeof(t_env));
     if(!newnode)
         return;
+    printf("b\n");
     if(ft_strcmp(cmd, "export") == 0)
     {
+        printf("c\n");
         if(!line)
         {
+            printf("d\n");
             export_only(env);
-            return;
+            // return;
         }
-        else 
+        else
+        {
             export_w_error(all, env, newnode);
+        }
     }
 }
 
@@ -33,9 +39,11 @@ void    export_w_error(char **all, t_env **env, t_env *newnode)
     int i;
     
     i = 1;
+    printf("passe\n");
     while(all[i])
     {
         newnode = ft_lstnew_for_env(all[i]);
+        printf("la\n");
         ft_lstadd_back(env, newnode);
         i++;
     }
@@ -45,6 +53,7 @@ void    export_only(t_env **env)
 {
 	t_env *tmp;
 	
+    printf("e\n");
     sort_str(env);
     tmp = *env;
     while(tmp)
@@ -63,5 +72,7 @@ si :
 export test -> export seulement la variabe mais si on fait env, ne s'affiche pas
 si export test= -> export la variable + dans le env s'affiche ; test=, et dans export -> test=""
 si export=bjr -> export la variable + dans le env s'affiche ; test=bjr, et dans export -> test="bjr"
+
+faire un dup du env et le mettre dans un tab pour l'export
 */
  
