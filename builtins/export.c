@@ -30,24 +30,15 @@ void    ft_export(char *str, t_env **env)
 
 void    export_w_error(char **all, t_env **env, t_env *newnode)
 {
-    // int i;
+    int i;
     
-    // i = 1;
-    (void)env;
-    (void)newnode;
-    int j = 1;
-    while(all[j])
+    i = 1;
+    while(all[i])
     {
-        printf("all = %s\n", all[j]);
-        j++;
+        newnode = ft_lstnew_for_env(all[i]);
+        ft_lstadd_back(env, newnode);
+        i++;
     }
-    // while(all[i])
-    // {
-    //     newnode->variable = search_and_stop(all[i], ' ');
-    //     newnode->value = ft_strchr(all[i], '=');
-    //     ft_lstadd_front(env, newnode);
-    //     i++;
-    // }
 }
 
 void    export_only(t_env **env)

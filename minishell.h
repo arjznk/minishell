@@ -63,6 +63,7 @@ int     ft_lstsize(t_env *lst);
 t_env	*ft_lstlast(t_env *lst);
 void	ft_lstadd_front(t_env **lst, t_env *new);
 void	ft_lstadd_back(t_env **lst, t_env *new);
+t_env	*ft_lstnew_for_export(char *value);
 
 // utils functions
 char    *search_and_stop(char *str, char c);

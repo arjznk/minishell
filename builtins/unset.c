@@ -18,7 +18,7 @@ void    ft_unset(char *str, t_env **env)
     {
         while(all[i])
         {
-            if(ft_strncmp(tmp->variable, line, ft_strlen(line)) == 0)
+            if(ft_strncmp(tmp->variable, all[i], ft_strlen(all[i])) == 0)
             {
                 to_free = tmp;
                 if(prev == NULL)
