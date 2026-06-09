@@ -35,10 +35,9 @@ void    other_cmd(char *line, t_path *path, char **envp)
                 char **all;
                 all = ft_split(line, ' ');
                 execve(valid_cmd, all, envp);
-
             }    
             else
-                printf("minishell: %s: %s\n", line, strerror(errno));
+                printf("minishell: %s: command not found\n", line);
 		}
 		else
 			waitpid(id, NULL, 0);
@@ -58,6 +57,27 @@ void    cmd_absolute_path(char *str, t_env **env, t_path *path, char **envp)
     else if(ft_strncmp(line, "env", 3) == 0)
         ft_env(line, env);
     else
-        other_cmd(line, path, envp);
+        other_absolute_path(line, path, envp);
 
+}
+
+void	other_absolute_path(char *line, t_path *path, char **envp)
+{
+    int id = fork();
+		if(id == 0)
+		{
+			char *newline = ft_strjoin(path->access_usr, "/");
+            char *preline = search_and_stop(line, ' ');
+			char *valid_cmd = ft_strjoin(newline, preline);
+            if(access(valid_cmd, F_OK) == 0)
+            {
+                char **all;
+                all = ft_split(line, ' ');
+                execve(valid_cmd, all, envp);
+            }    
+            else
+				printf("minishell: %s: %s\n", line, strerror(errno));
+		}
+		else
+			waitpid(id, NULL, 0);
 }

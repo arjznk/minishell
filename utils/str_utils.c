@@ -44,7 +44,10 @@ char	*search_and_return(char *str, char c)
 	while(str[i])
 	{
 		if(str[i] == c)
+		{
+			i++;
 			dest[i] = str[i];
+		}
 		i++;
 	}
 	dest[i] = '\0';
