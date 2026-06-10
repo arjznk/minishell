@@ -34,16 +34,3 @@ int main(int ac, char **av, char **envp)
     }
 }
 
-// int main(int ac, char **av)
-// {
-//     t_token *tokens;
-
-//     if (ac == 2)
-//     {
-//         tokens = tokenisation(av[1]);
-//         print_token(&tokens);
-//         check_syntax(tokens);
-//     }
-//     return (0);
-// }
-
