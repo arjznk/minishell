@@ -6,17 +6,32 @@ void fill_list_env(char **envp, t_env **env, int size)
     t_env *newnode;
     while(i < size)
     {
-        newnode = ft_lstnew(envp[i]);
+        newnode = ft_lstnew_for_env(envp[i]);
         ft_lstadd_back(env, newnode);
         i++;
     }
 }
 
-// void    assigne_name(t_env **env)
-// {
+void    get_and_cut_path(char **envp, t_path *path)
+{
+    int i = 0;
+    char *compar = "PATH";
 
-// }
+    while(envp[i] != NULL && ft_strncmp(compar, envp[i], 4) != 0 )
+        i++;
+    path->path_env = envp[i];
+    path->path_access = ft_split(path->path_env, ':');
+}
 
+void    get_only_access(t_path *path)
+{
+    int i = 0;
+    char *compar = "/usr/bin";
+
+    while(path->path_access[i] && ft_strncmp(compar, path->path_access[i], 8) != 0)
+        i++;
+    path->access_usr = path->path_access[i];
+}
 // recup et stock l'env -> moi
 // areej -> tokenisation
 // une fois env stock -> relier avec les commandes pour l'exec

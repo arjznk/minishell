@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-t_token    *token_type(char *str)
+t_token    *tokenisation(char *str)
 {
     int i;
     t_token *token;

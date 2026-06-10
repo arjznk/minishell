@@ -6,15 +6,15 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 20:32:02 by rijebbar          #+#    #+#             */
-/*   Updated: 2025/11/17 17:13:04 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/05/24 14:29:45 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *nptr)
+long	ft_atoi(const char *nptr)
 {
-	int	nb;
+	long	nb;
 	int	sign;
 	int	i;
 

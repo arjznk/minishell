@@ -33,4 +33,3 @@ void    add_cmd(t_cmd **cmds, t_cmd *new)
     }
     tmp->next_cmd = new;
 }
-

@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 20:53:35 by rijebbar          #+#    #+#             */
-/*   Updated: 2025/11/17 18:55:36 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/05/24 16:08:52 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ char	*ft_strchr(const char *s, int c)
 	while (s[i])
 	{
 		if (s[i] && s[i] == (char)c)
-			return ((char *)&s[i]);
+			return ((char *)&s[i]+1);
 		i++;
 	}
 	if ((char)c == '\0')
-		return ((char *)&s[i]);
+		return ((char *)&s[i]+1);
 	return (NULL);
 }
 /*int main()

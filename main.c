@@ -1,19 +1,19 @@
 
 #include "minishell.h"
 
-void	print_list(t_token **token)
-{
-	t_token	*tmp;
+// void    execute_builtins(char *line, t_env **env)
+// {
+// 	t_token	*tmp;
 
-	tmp = *token;
-	if (!tmp)
-		return ;
-	while (tmp)
-	{
-		printf("%s\n", tmp->str);
-		tmp = tmp->next_token;
-	}
-}
+// 	tmp = *token;
+// 	if (!tmp)
+// 		return ;
+// 	while (tmp != NULL)
+// 	{
+// 		printf("%s\n", tmp->str);
+// 		tmp = tmp->next_token;
+// 	}
+// }
 
 // void    get_path(char **envp, t_path *path)
 // {
@@ -46,17 +46,25 @@ void	print_list(t_token **token)
 //     print_list(&env);
 // }
 
-int main(int ac, char **av)
-{
-    t_token *tokens;
 
-    if (ac == 2)
+int main (int ac, char **av)
+{
+    t_token *token;
+  
+    if (ac > 1)
     {
-        tokens = token_type(av[1]);
-        print_list(&tokens);
-        check_syntax(tokens);
+        int i = 1;
+        while (av[i])
+        {
+            tokenisation(av[i]);
+            token = new_token(av[i], T_WORD);
+            i++;
+        }
+        printf("%s\n", find_word(av[1], i));
+        print_list(&token);
+        check_syntax(token);
     }
-    return (0);
+    return 0;
 }
 
 // int main(void)

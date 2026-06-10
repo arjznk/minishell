@@ -2,9 +2,10 @@
 NAME = minishell
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror 
 
-SRCS = main.c tokenisation/get_env.c tokenisation/tokenisation.c tokenisation/token_type.c utils/list_functions.c parsing/parsing.c parsing/cmd.c
+SRCS = main.c tokenisation/get_env.c tokenisation/tokenisation.c utils/list_functions.c parsing/parsing.c builtins/cd.c builtins/echo.c \
+builtins/env.c builtins/exit.c builtins/export.c builtins/pwd.c builtins/unset.c exec/exec.c free/free_all.c utils/str_utils.c utils/utils.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -16,7 +17,7 @@ INCLUDES = -I. -I./libft
 all: $(LIBFT) $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME) 
 
 $(LIBFT):
 	make -C $(LIBFT_DIR)
