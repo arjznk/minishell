@@ -1,10 +1,14 @@
 #include "minishell.h"
 
-// int free_all(t_path *path)
-// {
-//     // free list env + list token 
-//     // free tableau path_access
-// }
+void free_all(char *line, t_path *path, t_env **env)
+{
+	// (void)path;
+   free_node_env(env);
+//    free_node_path(path);
+	free(path);
+   free(line);
+   exit(0);
+}
 
 void	free_tab(long *tab)
 {
@@ -19,9 +23,23 @@ void	free_tab(long *tab)
 	free(tab);
 }
 
-void	free_node(t_env **list)
+void	free_node_env(t_env **list)
 {
 	t_env	*tmp;
+
+	if (!list)
+		return ;
+	while (*list)
+	{
+		tmp = (*list)->next;
+		free(*list);
+	    (*list)->next = tmp;
+	}
+	*list = NULL;
+}
+void	free_node_path(t_path_access **list)
+{
+	t_path_access	*tmp;
 
 	if (!list)
 		return ;

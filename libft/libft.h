@@ -50,6 +50,7 @@ size_t				ft_strlcat(char *dst, const char *src, size_t dstsize);
 size_t				ft_strlcpy(char *src, const char *dst, size_t siz);
 size_t				ft_strlen(const char *s);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
+int					ft_strcmp(char *s1, char *s2);
 char				*ft_strnstr(const char *big, const char *little,
 						size_t len);
 int					ft_toupper(int c);

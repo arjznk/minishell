@@ -4,11 +4,13 @@ void    ft_exit(char *str)
 {
     char *nb;
     char *line;
+    char *cmd;
 
-    if(ft_strncmp(str, "exit", 4) == 0)
+    nb = ft_strchr(str, ' ');
+    line = search_and_stop(str, 't');
+    cmd = search_and_stop(str, ' ');
+    if(ft_strcmp(cmd, "exit") == 0)
     {
-        nb = ft_strchr(str, ' ');
-        line = search_and_stop(str, 't');
         if(line && !nb)
         {
             printf("exit\n");
@@ -22,6 +24,8 @@ void    ft_exit(char *str)
         else
             ft_exit_code(line, nb);
     }
+    else
+        printf("minishell: %s: command not found\n", cmd);
 }
 
 void    ft_exit_code(char *line, char *nb)

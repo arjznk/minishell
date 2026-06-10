@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "minishell.h"
 
 t_token    *tokenisation(char *str)
 {
@@ -38,14 +38,12 @@ t_token *new_token(char *str, t_token_type type)
 
 char    *find_word(char *str, int i)
 {
-    char    *dup;
     int start;
     
     start = i;
     while (str[i] && str[i] != ' ' && str[i] != '|' && str[i] != '>' && str[i] != '<')
         i++;
-    dup = ft_substr(str, start ,i - start);
-    return (dup);
+    return(ft_substr(str, start ,i - start));
 }
 
 void    add_token(t_token **token, t_token *new)

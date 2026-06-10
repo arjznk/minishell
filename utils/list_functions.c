@@ -4,12 +4,22 @@
 t_env	*ft_lstnew_for_env(char *value)
 {
 	t_env	*lstnew;
+	char *tmp;
 
 	lstnew = malloc(sizeof(t_env));
 	if (!lstnew)
 		return (NULL);
-	lstnew->value = ft_strchr(value, '=');
-	lstnew->variable = search_and_stop(value, '=');
+	if(ft_strchr(value, '=') != NULL)
+	{
+		tmp = ft_strchr(value, '=');
+		lstnew->value = ft_strdup(tmp);
+		lstnew->variable = search_and_stop(value, '=');
+	}
+	else
+	{
+		lstnew->variable = ft_strdup(value);
+		lstnew->value = NULL; 
+	}
 	lstnew->next = NULL;
 	return (lstnew);
 }
@@ -22,6 +32,7 @@ t_env	*ft_lstlast(t_env *lst)
 		lst = lst->next;
 	return (lst);
 }
+
 int	ft_lstsize(t_env *lst)
 {
 	int	count;

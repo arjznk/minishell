@@ -16,6 +16,8 @@
 #include <sys/types.h>
 #include <dirent.h>
 #include <limits.h>
+#include <errno.h>
+#include <sys/wait.h>
 
 typedef struct s_env
 {
@@ -66,47 +68,56 @@ typedef struct s_path_access
     struct s_path_access *next;
 }   t_path_access;
 
-
 //list utils
 t_env   *ft_lstnew_for_env(char *value);
 int     ft_lstsize(t_env *lst);
 t_env	*ft_lstlast(t_env *lst);
 void	ft_lstadd_front(t_env **lst, t_env *new);
 void	ft_lstadd_back(t_env **lst, t_env *new);
+t_env	*ft_lstnew_for_export(char *value);
 
 // utils functions
 char    *search_and_stop(char *str, char c);
-void	print_list(t_token **token);
+void	print_token(t_token **token);
 char    *str_between(char *str, char c);
 int     c_strcmp(char *str, char b);
-int     is_letter(char *str);
 void	print_env(t_env **env);
 char	*ft_strchr_echo(const char *s, int c);
 int     c_strrcmp(char *str, char b);
+void    sort_str(t_env **env);
+char	*search_and_return(char *str, char c);
 
 //env   
 void    get_and_cut_path(char **envp, t_path *path);
 void    fill_list_env(char **envp, t_env **env, int size);
 void    get_only_access(t_path *path);
 
+//exec
+void    execute_builtins(char *line, t_env **env, t_path *path, char **envp);
+void    other_cmd(char *line, t_path *path, char **envp);
+void    cmd_absolute_path(char *str, t_env **env, t_path *path, char **envp);
+void	other_absolute_path(char *line, t_path *path, char **envp);
+
 //built-in
-void    execute_builtins(char *line, t_env **env);
-void    ft_pwd(char *str);
-void    ft_cd(char *str, t_path *path);
+void    ft_env(char *str, t_env **env);
+void    ft_pwd();
+void    ft_cd(char *str);
 void    ft_exit_code(char *line, char *nb);
 void    ft_exit(char *str);
 void    ft_echo(char *str);
-void    ft_env(char *str, t_env **env);
-void    ft_echo_n(char *str);
-void    echo_simple_quote(char *str);
+void    echo_n(char *str);
+void    echo_quote(char *str);
 void    ft_unset(char *str, t_env **env);
-void    unset_if_first(t_env **env, t_env *tmp, t_env *to_free);
-void    unset_if_middle(t_env *tmp, t_env *prev, t_env *to_free);
-void    ft_export(char *str);
+void	unset_env(char *line, t_env **env);
+void    ft_export(char *str, t_env **env);
+void    export_w_error(char **all, t_env **env, t_env *newnode);
+void    export_only(t_env **env);
 
 //free
+void 	free_all(char *line, t_path *path, t_env **env);
 void	free_tab(long *tab);
-void	free_node(t_env **list);
+void	free_node_env(t_env **list);
+void	free_node_path(t_path_access **list);
 
 // tokenisation functions
 t_token    *tokenisation(char *str);
@@ -117,7 +128,6 @@ void    token_word(t_token **token, int *i, char *str);
 void    token_redir_out(t_token **token, int *i, char *str);
 void    token_redir_in(t_token **token, int *i, char *str);
 void    token_pipe(t_token **token, int *i);
-
 
 // parsing functions
 void    check_syntax(t_token *token);

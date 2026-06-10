@@ -1,79 +1,49 @@
-
+ 
 #include "minishell.h"
 
-// void    execute_builtins(char *line, t_env **env)
-// {
-// 	t_token	*tmp;
-
-// 	tmp = *token;
-// 	if (!tmp)
-// 		return ;
-// 	while (tmp != NULL)
-// 	{
-// 		printf("%s\n", tmp->str);
-// 		tmp = tmp->next_token;
-// 	}
-// }
-
-// void    get_path(char **envp, t_path *path)
-// {
-//     int i = 0;
-//     char *compar = "PATH=";
-    
-
-//     while(ft_strncmp(compar, envp[i], 5) != 0)
-//         i++;
-//     path->path = envp[i];
-//     // printf("%s\n", path->path);
-// }
-
-// int main(int ac, char **av, char **envp)
-// {
-
-//     t_env   *env;
-//     int     size;
-//     t_path *path;
-
-//     (void)av;
-//     (void)ac;
-//     path = NULL;
-//     env = NULL;
-//     size = 0;
-//     while (envp[size])
-//         size++;
-//     fill_list_env(envp, &env, size);
-//     // get_path(envp, path);
-//     print_list(&env);
-// }
-
-
-int main (int ac, char **av)
+int main(int ac, char **av, char **envp)
 {
-    t_token *token;
-  
-    if (ac > 1)
+    t_env   *env;
+    int     size;
+    t_path *path;
+    t_token *tokens;
+
+    (void)av;
+    (void)ac;
+
+    path = malloc(sizeof(t_path));
+    env = malloc(sizeof(t_env));
+    env = NULL;
+    tokens = malloc(sizeof(t_token));
+    size = 0;
+    while (envp[size])
+        size++;
+    fill_list_env(envp, &env, size);
+    get_and_cut_path(envp, path);
+    get_only_access(path);
+    char *line;
+    while(1)
     {
-        int i = 1;
-        while (av[i])
-        {
-            tokenisation(av[i]);
-            token = new_token(av[i], T_WORD);
-            i++;
-        }
-        printf("%s\n", find_word(av[1], i));
-        print_list(&token);
-        check_syntax(token);
+		line = readline("minishell>");
+		if(line)
+			add_history(line);
+		// execute_builtins(line, &env, path, envp);
+        tokens = tokenisation(line);
+        print_token(&tokens);
+        check_syntax(tokens);
     }
-    return 0;
 }
 
-// int main(void)
+// int main(int ac, char **av)
 // {
-//     t_token *new;
+//     t_token *tokens;
 
-//     new = new_token("echo", T_WORD);
-//     printf("%s\n", new->str);
-//     printf("%d\n", new->type);
-//     printf("%p\n", new->next_token);
+//     if (ac == 2)
+//     {
+//         tokens = tokenisation(av[1]);
+//         print_token(&tokens);
+//         check_syntax(tokens);
+//     }
 //     return (0);
 // }
+

@@ -1,7 +1,6 @@
 #include "minishell.h"
 
-
-void	print_list(t_token **token)
+void	print_token(t_token **token)
 {
 	t_token	*tmp;
 
@@ -56,17 +55,35 @@ int c_strcmp(char *str, char b)
     return (1);
 }
 
-int is_letter(char *str)
+void    sort_str(t_env **env)
 {
-    int i;
+    t_env *tmp;
+	char *tmp_var;
+	char *tmp_val;
+	int swap;
 
-    i = 0;
-    while(str[i])
+    printf("ici passe\n");
+	swap = 1;
+    while(swap)
     {
-        if(!(str[i] >= 'a' && str[i] <= 'z') || (str[i] >= 'A' && str[i] <= 'Z'))
-            return(1);
-        i++;
+		swap = 0;
+		tmp = *env;
+        printf("la?\n");
+		while(tmp && tmp->next)
+        {
+            if(ft_strcmp(tmp->variable, tmp->next->variable) > 0)
+            {
+				tmp_var = tmp->variable;
+				tmp->variable = tmp->next->variable;
+				tmp->next->variable = tmp_var;
+				tmp_val = tmp->value;
+				tmp->value = tmp->next->value;
+				tmp->next->value = tmp_val;
+				swap = 1;
+            }
+			tmp = tmp->next;
+        }
+        printf("avant\n");
     }
-    return(0);
 }
 
