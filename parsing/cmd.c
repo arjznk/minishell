@@ -33,3 +33,43 @@ void    add_cmd(t_cmd **cmds, t_cmd *new)
     }
     tmp->next_cmd = new;
 }
+
+t_cmd   *parse_cmd(t_token *tokens)
+{
+    t_token   *tmp;
+    t_cmd *new;
+    t_cmd   *cmds;
+    t_cmd   *current;
+
+    tmp = tokens;
+    cmds = NULL;
+    new = new_cmd();
+    add_cmd(&cmds, new);
+    current = new;
+    while (tmp)
+    {
+        if (tmp->type == T_PIPE)
+        {
+            new = new_cmd();
+            add_cmd(&cmds, new);
+            current = new;
+        }
+        tmp = tmp->next_token;
+    }
+    return(cmds);
+}
+
+void   add_args(t_cmd *current, char *str)
+{
+    char    **args;
+    int i;
+
+    i = 0;
+
+    if (current->args)
+    {
+        while (current->args[i])
+            i++;
+    }
+    args = malloc(sizeof(char *) * (i + 2));
+}
