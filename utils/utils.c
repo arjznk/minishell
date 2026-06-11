@@ -14,6 +14,29 @@ void	print_token(t_token **token)
 	}
 }
 
+void    print_cmds(t_cmd *cmds)
+{
+    t_cmd   *tmp;
+    int i;
+    
+    i = 0;
+    tmp = cmds;
+    while(tmp)
+    {
+        printf("CMD\n");
+        i = 0;
+        if (tmp->args)
+        {
+            while (tmp->args[i])
+            {
+                printf("%s\n", tmp->args[i]);
+                i++;
+            }
+        }
+        tmp = tmp->next_cmd;
+    }
+}
+
 char *search_and_stop(char *str, char c)
 {
     int i;

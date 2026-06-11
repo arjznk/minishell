@@ -54,6 +54,8 @@ t_cmd   *parse_cmd(t_token *tokens)
             add_cmd(&cmds, new);
             current = new;
         }
+        else if (tmp->type == T_WORD)
+            add_args(current, tmp->str);
         tmp = tmp->next_token;
     }
     return(cmds);
@@ -63,8 +65,10 @@ void   add_args(t_cmd *current, char *str)
 {
     char    **args;
     int i;
+    int j;
 
     i = 0;
+    j = 0;
 
     if (current->args)
     {
@@ -72,4 +76,13 @@ void   add_args(t_cmd *current, char *str)
             i++;
     }
     args = malloc(sizeof(char *) * (i + 2));
+    while (j < i)
+    {
+        args[j] = current->args[j];
+        j++;
+    }
+    args[i] = ft_strdup(str);
+    args[i + 1] = NULL;
+    current->args = args;
 }
+
