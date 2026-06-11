@@ -33,6 +33,13 @@ void    print_cmds(t_cmd *cmds)
                 i++;
             }
         }
+        if (tmp->infile)
+            printf("INFILE = %s\n", tmp->infile);
+        if (tmp->outfile)
+            printf("OUTFILE = %s\n", tmp->outfile);
+        if (tmp->heredoc)
+            printf("HEREDOC = %s\n", tmp->heredoc);
+        printf("APPEND = %d\n", tmp->append);
         tmp = tmp->next_cmd;
     }
 }

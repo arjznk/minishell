@@ -56,6 +56,27 @@ t_cmd   *parse_cmd(t_token *tokens)
         }
         else if (tmp->type == T_WORD)
             add_args(current, tmp->str);
+        else if (tmp->type == T_REDIR_IN)
+        {
+            current->infile = ft_strdup(tmp->next_token->str);
+            tmp = tmp->next_token;
+        }
+        else if (tmp->type == T_REDIR_OUT)
+        {
+            current->outfile = ft_strdup(tmp->next_token->str);
+            tmp = tmp->next_token;
+        }
+        else if (tmp->type == T_APPEND)
+        {
+            current->outfile = ft_strdup(tmp->next_token->str);
+            current->append = 1;
+            tmp = tmp->next_token;
+        }
+        else if (tmp->type == T_HEREDOC)
+        {
+            current->heredoc = ft_strdup(tmp->next_token->str);
+            tmp = tmp->next_token;
+        }
         tmp = tmp->next_token;
     }
     return(cmds);
