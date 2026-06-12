@@ -79,4 +79,15 @@ void    add_token(t_token **token, t_token *new)
     tmp->next_token = new;
 }
 
-void    delete_quotes()
+char    *delete_quotes(char *str)
+{
+    int len;
+    char *s;
+
+    len = ft_strlen(str);
+    if ((str[0] == '"' && str[len - 1] == '"') || (str[0] == '\'' && str[len - 1] == '\''))
+        s = ft_substr(str, 1, len - 2);
+    else
+        s = ft_strdup(str);
+    return(s);
+}
