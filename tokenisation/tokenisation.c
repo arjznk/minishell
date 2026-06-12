@@ -91,3 +91,37 @@ char    *delete_quotes(char *str)
         s = ft_strdup(str);
     return(s);
 }
+
+int check_quotes(char *str)
+{
+    int i;
+
+    i = 0;
+    while (str[i])
+    {
+        if (str[i] == '\'')
+        {
+            i++;
+            while (str[i] && str[i] != '\'')
+                i++;
+            if (!str[i])
+            {
+                printf("Error quotes\n");
+                return 1;
+            }
+        }
+        if (str[i] == '"')
+        {
+            i++;
+            while (str[i] && str[i] != '"')
+                i++;
+            if (!str[i])
+            {
+                printf("Error quotes\n");
+                return 1;
+            }
+        }
+        i++;
+    }
+    return 0;
+}

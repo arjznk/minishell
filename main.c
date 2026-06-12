@@ -29,11 +29,14 @@ int main(int ac, char **av, char **envp)
 		if(line)
 			add_history(line);
 		// execute_builtins(line, &env, path, envp);
-        tokens = tokenisation(line);
-        if (check_syntax(tokens) == 0)
+        if (check_quotes(line) == 0)
         {
-            cmds = parse_cmd(tokens);
-            print_cmds(cmds);
+            tokens = tokenisation(line);
+            if (check_syntax(tokens) == 0)
+            {
+                cmds = parse_cmd(tokens);
+                print_cmds(cmds);
+            }
         }
         // print_token(&tokens);
     }
