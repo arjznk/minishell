@@ -7,6 +7,7 @@ int main(int ac, char **av, char **envp)
     int     size;
     t_path *path;
     t_token *tokens;
+    t_cmd   *cmds;
 
     (void)av;
     (void)ac;
@@ -28,8 +29,15 @@ int main(int ac, char **av, char **envp)
 		if(line)
 			add_history(line);
 		// execute_builtins(line, &env, path, envp);
-        tokens = tokenisation(line);
-        print_token(&tokens);
-        check_syntax(tokens);
+        if (check_quotes(line) == 0)
+        {
+            tokens = tokenisation(line);
+            if (check_syntax(tokens) == 0)
+            {
+                cmds = parse_cmd(tokens);
+                print_cmds(cmds);
+            }
+        }
+        // print_token(&tokens);
     }
 }

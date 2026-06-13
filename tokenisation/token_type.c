@@ -49,11 +49,12 @@ void    token_word(t_token **token, int *i, char *str)
 {
     t_token *new;
     char *word;
+    char *clean;
 
     word = find_word(str, *i);
-    new = new_token(word, T_WORD);
+    clean = delete_quotes(word);
+    new = new_token(clean, T_WORD);
     add_token(token, new);
+    *i += ft_strlen(word);
     free(word);
-    while (str[*i] && str[*i] != ' ' && str[*i] != '|' && str[*i] != '<' && str[*i] != '>')
-        (*i)++;
 }

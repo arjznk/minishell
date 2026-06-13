@@ -42,7 +42,22 @@ char    *find_word(char *str, int i)
     
     start = i;
     while (str[i] && str[i] != ' ' && str[i] != '|' && str[i] != '>' && str[i] != '<')
-        i++;
+    {
+        if (str[i] == '\'')
+        {
+            i++;
+            while (str[i] && str[i] != '\'')
+                i++;
+        }
+        else if (str[i] == '"')
+        {
+            i++;
+            while (str[i] && str[i] != '"')
+                i++;
+        }
+        if (str[i])
+            i++;
+    }
     return(ft_substr(str, start ,i - start));
 }
 

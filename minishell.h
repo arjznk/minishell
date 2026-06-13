@@ -46,7 +46,7 @@ typedef struct s_token
 
 typedef struct s_cmd
 {
-    char *args;
+    char **args;
     char *infile;
     char *outfile;
     int append;
@@ -79,6 +79,7 @@ t_env	*ft_lstnew_for_export(char *value);
 // utils functions
 char    *search_and_stop(char *str, char c);
 void	print_token(t_token **token);
+void    print_cmds(t_cmd *cmds);
 char    *str_between(char *str, char c);
 int     c_strcmp(char *str, char b);
 void	print_env(t_env **env);
@@ -128,9 +129,13 @@ void    token_word(t_token **token, int *i, char *str);
 void    token_redir_out(t_token **token, int *i, char *str);
 void    token_redir_in(t_token **token, int *i, char *str);
 void    token_pipe(t_token **token, int *i);
+char    *delete_quotes(char *str);
+int check_quotes(char *str);
 
 // parsing functions
-void    check_syntax(t_token *token);
+int    check_syntax(t_token *token);
 t_cmd   *new_cmd (void);
 void    add_cmd(t_cmd **cmds, t_cmd *new);
+t_cmd   *parse_cmd(t_token *tokens);
+void   add_args(t_cmd *current, char *str);
 #endif
