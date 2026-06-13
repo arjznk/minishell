@@ -6,8 +6,8 @@ int main(int ac, char **av, char **envp)
     t_env   *env;
     int     size;
     t_path *path;
-    t_token *tokens;
-    t_cmd   *cmds;
+    // t_token *tokens;
+    // t_cmd   *cmds;
 
     (void)av;
     (void)ac;
@@ -15,7 +15,7 @@ int main(int ac, char **av, char **envp)
     path = malloc(sizeof(t_path));
     env = malloc(sizeof(t_env));
     env = NULL;
-    tokens = malloc(sizeof(t_token));
+    // tokens = malloc(sizeof(t_token));
     size = 0;
     while (envp[size])
         size++;
@@ -28,16 +28,7 @@ int main(int ac, char **av, char **envp)
 		line = readline("minishell>");
 		if(line)
 			add_history(line);
-		// execute_builtins(line, &env, path, envp);
-        if (check_quotes(line) == 0)
-        {
-            tokens = tokenisation(line);
-            if (check_syntax(tokens) == 0)
-            {
-                cmds = parse_cmd(tokens);
-                print_cmds(cmds);
-            }
-        }
+        execute_builtins(line, &env, path, envp);
         // print_token(&tokens);
     }
 }

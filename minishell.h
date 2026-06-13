@@ -105,13 +105,14 @@ void    ft_pwd();
 void    ft_cd(char *str);
 void    ft_exit_code(char *line, char *nb);
 void    ft_exit(char *str);
-void    ft_echo(char *str);
+void    ft_echo(char *str, t_env **env);
 void    echo_n(char *str);
 void    echo_quote(char *str);
+void    echo_variable(t_env **env, char *str);
 void    ft_unset(char *str, t_env **env);
 void	unset_env(char *line, t_env **env);
 void    ft_export(char *str, t_env **env);
-void    export_w_error(char **all, t_env **env, t_env *newnode);
+void    export_w_error(char **all, t_env **env, t_env *newnode, char *cmd);
 void    export_only(t_env **env);
 
 //free

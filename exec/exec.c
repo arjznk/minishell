@@ -7,7 +7,7 @@ void    execute_builtins(char *line, t_env **env, t_path *path, char **envp)
     else if(ft_strncmp(line, "exit", 4) == 0)
         ft_exit(line);
     else if(ft_strncmp(line, "echo", 4) == 0)
-        ft_echo(line);
+        ft_echo(line, env);
     else if (ft_strcmp(line, "env") == 0)
         ft_env(line, env);
     else if(ft_strncmp(line, "export", 6) == 0)
@@ -24,17 +24,31 @@ void    execute_builtins(char *line, t_env **env, t_path *path, char **envp)
 
 void    other_cmd(char *line, t_path *path, char **envp)
 {
+    t_cmd *cmds;
+    t_token *tokens;
+
+    tokens = malloc(sizeof(t_token));
     int id = fork();
 		if(id == 0)
 		{
+            if (check_quotes(line) == 0)
+                tokens = tokenisation(line);
+            if (check_syntax(tokens) == 0)
+                cmds = parse_cmd(tokens);
 			char *newline = ft_strjoin(path->access_usr, "/");
-            char *preline = search_and_stop(line, ' ');
+            // /usr/bin/
+            char *preline = search_and_stop(tokens->str, ' ');
+            // ls
 			char *valid_cmd = ft_strjoin(newline, preline);
+            // /usr/bin/ls
+
+            // ls -l | wc -l
+            // cmds = ls -l
             if(access(valid_cmd, F_OK) == 0)
             {
-                char **all;
-                all = ft_split(line, ' ');
-                execve(valid_cmd, all, envp);
+                // char **all;
+                // all = ft_split(, ' ');
+                execve(valid_cmd, cmds->args, envp);
             }    
             else
                 printf("minishell: %s: command not found\n", line);
@@ -51,7 +65,7 @@ void    cmd_absolute_path(char *str, t_env **env, t_path *path, char **envp)
     else if(ft_strncmp(line, "pwd", 3) == 0)
         ft_pwd();
     else if(ft_strncmp(line, "echo", 4) == 0)
-        ft_echo(line);
+        ft_echo(line, env);
     else if(ft_strncmp(line, "cd", 2) == 0)
         return;
     else if(ft_strncmp(line, "env", 3) == 0)
