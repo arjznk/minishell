@@ -26,6 +26,7 @@ void    other_cmd(char *line, t_path *path, char **envp)
 {
     t_cmd *cmds;
     t_token *tokens;
+    int size;
 
     tokens = malloc(sizeof(t_token));
     int id = fork();
@@ -35,23 +36,32 @@ void    other_cmd(char *line, t_path *path, char **envp)
                 tokens = tokenisation(line);
             if (check_syntax(tokens) == 0)
                 cmds = parse_cmd(tokens);
+            size = ft_lstsize(cmds);
+            printf("size de la liste = %d\n", size);
 			char *newline = ft_strjoin(path->access_usr, "/");
+            printf("newline = %s\n", newline);
             // /usr/bin/
-            char *preline = search_and_stop(tokens->str, ' ');
+            char *preline = search_and_stop(tokens->str, '|');
+            printf("preline = %s\n", preline);
             // ls
 			char *valid_cmd = ft_strjoin(newline, preline);
+            printf("valid cmd = %s\n", valid_cmd);
             // /usr/bin/ls
 
             // ls -l | wc -l
             // cmds = ls -l
-            if(access(valid_cmd, F_OK) == 0)
+            if(size >= 2)
             {
-                // char **all;
-                // all = ft_split(, ' ');
-                execve(valid_cmd, cmds->args, envp);
-            }    
-            else
-                printf("minishell: %s: command not found\n", line);
+
+            }
+                 if(access(valid_cmd, F_OK) == 0)
+                {
+                    // char **all;
+                    // all = ft_split(, ' ');
+                    execve(valid_cmd, cmds->args, envp);
+                }    
+                else
+                    printf("minishell: %s: command not found\n", line);
 		}
 		else
 			waitpid(id, NULL, 0);

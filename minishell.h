@@ -70,7 +70,7 @@ typedef struct s_path_access
 
 //list utils
 t_env   *ft_lstnew_for_env(char *value);
-int     ft_lstsize(t_env *lst);
+int     ft_lstsize(t_cmd *lst);
 t_env	*ft_lstlast(t_env *lst);
 void	ft_lstadd_front(t_env **lst, t_env *new);
 void	ft_lstadd_back(t_env **lst, t_env *new);
