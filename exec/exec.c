@@ -24,11 +24,16 @@ void    execute_builtins(char *line, t_env **env, t_path *path, char **envp)
 
 void    other_cmd(char *line, t_path *path, char **envp)
 {
+    t_token *tokens;
+
+    tokens = malloc(sizeof(t_token));
     int id = fork();
 		if(id == 0)
 		{
+            tokens = tokenisation(line);
+            check_syntax(tokens);
 			char *newline = ft_strjoin(path->access_usr, "/");
-            char *preline = search_and_stop(line, ' ');
+            char *preline = search_and_stop(tokens->str, ' ');
 			char *valid_cmd = ft_strjoin(newline, preline);
             if(access(valid_cmd, F_OK) == 0)
             {
