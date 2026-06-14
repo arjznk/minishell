@@ -7,6 +7,7 @@ int main(int ac, char **av, char **envp)
     int     size;
     t_path *path;
     // t_token *tokens;
+    // t_cmd   *cmds;
 
     (void)av;
     (void)ac;
@@ -27,9 +28,7 @@ int main(int ac, char **av, char **envp)
 		line = readline("minishell>");
 		if(line)
 			add_history(line);
-		execute_builtins(line, &env, path, envp);
-        // tokens = tokenisation(line);
+        execute_builtins(line, &env, path, envp);
         // print_token(&tokens);
-        // check_syntax(tokens);
     }
 }

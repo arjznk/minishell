@@ -3,11 +3,9 @@
 void    ft_export(char *str, t_env **env)
 {
     t_env *newnode;
-    // char *line;
     char *cmd;
 	char **all;
 
-    // line = ft_strchr(str, ' ');
     all = ft_split(str, ' ');
     cmd = search_and_stop(str, ' ');
     newnode = malloc(sizeof(t_env));
@@ -16,18 +14,30 @@ void    ft_export(char *str, t_env **env)
 	if(all[0] && all[1] == NULL)
 		export_only(env);
     else if(ft_strcmp(cmd, "export") == 0)
-        export_w_error(all, env, newnode);
+        export_w_error(all, env, newnode, cmd);
 
 }
 
-void    export_w_error(char **all, t_env **env, t_env *newnode)
+void    export_w_error(char **all, t_env **env, t_env *newnode, char *cmd)
 {
     int i;
     
     i = 1;
+    char *tmp;
+    char *temp;
     while(all[i])
     {
-        newnode = ft_lstnew_for_env(all[i]);
+        temp = search_and_stop(cmd, '=');
+        if(ft_strncmp(temp, (*env)->variable, ft_strlen((*env)->variable) == 0))
+        {
+            tmp = ft_strchr(cmd, '=');
+            newnode->value = ft_strdup(tmp);
+            newnode->variable = search_and_stop(cmd, '=');
+        }    
+        else 
+        {
+            newnode = ft_lstnew_for_env(all[i]);
+        }
         ft_lstadd_back(env, newnode);
         i++;
     }

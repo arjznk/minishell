@@ -33,14 +33,14 @@ t_env	*ft_lstlast(t_env *lst)
 	return (lst);
 }
 
-int	ft_lstsize(t_env *lst)
+int	ft_lstsize(t_cmd *lst)
 {
 	int	count;
 
 	count = 0;
 	while (lst)
 	{
-		lst = lst->next;
+		lst = lst->next_cmd;
 		count++;
 	}
 	return (count);

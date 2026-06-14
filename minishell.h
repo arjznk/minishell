@@ -46,7 +46,7 @@ typedef struct s_token
 
 typedef struct s_cmd
 {
-    char *args;
+    char **args;
     char *infile;
     char *outfile;
     int append;
@@ -70,7 +70,7 @@ typedef struct s_path_access
 
 //list utils
 t_env   *ft_lstnew_for_env(char *value);
-int     ft_lstsize(t_env *lst);
+int     ft_lstsize(t_cmd *lst);
 t_env	*ft_lstlast(t_env *lst);
 void	ft_lstadd_front(t_env **lst, t_env *new);
 void	ft_lstadd_back(t_env **lst, t_env *new);
@@ -79,6 +79,7 @@ t_env	*ft_lstnew_for_export(char *value);
 // utils functions
 char    *search_and_stop(char *str, char c);
 void	print_token(t_token **token);
+void    print_cmds(t_cmd *cmds);
 char    *str_between(char *str, char c);
 int     c_strcmp(char *str, char b);
 void	print_env(t_env **env);
@@ -104,13 +105,14 @@ void    ft_pwd();
 void    ft_cd(char *str);
 void    ft_exit_code(char *line, char *nb);
 void    ft_exit(char *str);
-void    ft_echo(char *str);
+void    ft_echo(char *str, t_env **env);
 void    echo_n(char *str);
 void    echo_quote(char *str);
+void    echo_variable(t_env **env, char *str);
 void    ft_unset(char *str, t_env **env);
 void	unset_env(char *line, t_env **env);
 void    ft_export(char *str, t_env **env);
-void    export_w_error(char **all, t_env **env, t_env *newnode);
+void    export_w_error(char **all, t_env **env, t_env *newnode, char *cmd);
 void    export_only(t_env **env);
 
 //free
@@ -128,9 +130,13 @@ void    token_word(t_token **token, int *i, char *str);
 void    token_redir_out(t_token **token, int *i, char *str);
 void    token_redir_in(t_token **token, int *i, char *str);
 void    token_pipe(t_token **token, int *i);
+char    *delete_quotes(char *str);
+int check_quotes(char *str);
 
 // parsing functions
-void    check_syntax(t_token *token);
+int    check_syntax(t_token *token);
 t_cmd   *new_cmd (void);
 void    add_cmd(t_cmd **cmds, t_cmd *new);
+t_cmd   *parse_cmd(t_token *tokens);
+void   add_args(t_cmd *current, char *str);
 #endif

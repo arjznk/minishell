@@ -22,7 +22,12 @@ void	print_env(t_env **env)
 		return ;
 	while (tmp != NULL)
 	{
-		printf("%s=%s\n", tmp->variable, tmp->value);
+		if((tmp->value == NULL) && (ft_strcmp(tmp->variable, "=") == 0))
+            printf("%s=\n", tmp->variable);
+		else if(tmp->value && tmp->variable)
+			printf("%s=%s\n", tmp->variable, tmp->value);
+		else
+			break;
 		tmp = tmp->next;
 	}
 }

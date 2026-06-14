@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void    ft_echo(char *str)
+void    ft_echo(char *str, t_env **env)
 {
     char *cmd;
 
@@ -9,6 +9,8 @@ void    ft_echo(char *str)
     {
         if(ft_strncmp(str, "echo -n", 7) == 0)
             echo_n(str);
+        else if(ft_strcmp(str, "$") == 0)
+            echo_variable(env, str);
         else
             echo_quote(str);
     }
@@ -52,3 +54,11 @@ void   echo_n(char *str)
     }
 }
 
+void    echo_variable(t_env **env, char *str)
+{
+    char *line;
+
+    line = ft_strchr_echo(str, ' ');
+    if(ft_strcmp(line, (*env)->variable) == 0)
+        printf("%s\n", (*env)->variable);
+}
