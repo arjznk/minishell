@@ -68,6 +68,16 @@ typedef struct s_path_access
     struct s_path_access *next;
 }   t_path_access;
 
+typedef struct s_exec
+{
+    t_env **env;
+    t_token **tokens;
+    t_path *path;
+    t_cmd **cmd;
+    char **envp;
+    char *line;
+} t_exec;
+
 //list utils
 t_env   *ft_lstnew_for_env(char *value);
 int     ft_lstsize(t_cmd *lst);
@@ -94,10 +104,11 @@ void    fill_list_env(char **envp, t_env **env, int size);
 void    get_only_access(t_path *path);
 
 //exec
-void    execute_builtins(char *line, t_env **env, t_path *path, char **envp);
-void    other_cmd(char *line, t_path *path, char **envp);
-void    cmd_absolute_path(char *str, t_env **env, t_path *path, char **envp);
-void	other_absolute_path(char *line, t_path *path, char **envp);
+void    execute_builtins(t_exec *exec);
+void    other_cmd(t_exec *exec);
+void    cmd_absolute_path(t_exec *exec);
+void	other_absolute_path(char *line, t_exec *exec);
+void    exec_pipe(t_exec *exec);
 
 //built-in
 void    ft_env(char *str, t_env **env);
