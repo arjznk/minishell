@@ -60,8 +60,8 @@ void    exec_pipe(t_exec *exec)
             else
                 redir_pipe(exec, tmp, fd, temp);
         }
-        close(fd[1]);
         temp = fd[0];
+        close(fd[1]);
         tmp = tmp->next_cmd;
     }
     while(waitpid(-1, NULL, 0) > 0)
@@ -82,9 +82,7 @@ void    redir_pipe(t_exec *exec, t_cmd *tmp, int fd[2], int temp)
     {
         if(temp != -1)
             dup2(temp, STDIN_FILENO);
-        else if((tmp->next_cmd) && (temp != -1))
-            dup2(temp, STDIN_FILENO);
-        else if(tmp->next_cmd == NULL && temp != -1)
+        else if(tmp->next_cmd && temp == -1)
             dup2(fd[1], STDOUT_FILENO);
     }
     else
