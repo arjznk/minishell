@@ -107,8 +107,9 @@ void    get_only_access(t_path *path);
 void    execute_builtins(t_exec *exec);
 void    other_cmd(t_exec *exec);
 void    cmd_absolute_path(t_exec *exec);
-void	other_absolute_path(char *line, t_exec *exec);
-void    exec_pipe(t_exec *exec);
+void   exec_pipe(t_exec *exec);
+void    redir_pipe(t_exec *exec, t_cmd *tmp, int fd[2], int temp);
+void    redir_pipe_absolute(t_exec *exec, t_cmd *tmp, int fd[2], int temp);
 
 //built-in
 void    ft_env(char *str, t_env **env);

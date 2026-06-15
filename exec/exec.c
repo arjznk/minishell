@@ -20,41 +20,7 @@ void    execute_builtins(t_exec *exec)
         cmd_absolute_path(exec);
 	else
         exec_pipe(exec);
-        // other_cmd(exec);
 }
-
-// void    other_cmd(t_exec *exec)
-// {
-
-//     int fd[2];
-//     pipe(fd);
-//     tokens = malloc(sizeof(t_token));
-//     int id = fork();
-// 		if(id == 0)
-// 		{
-//             dup2(fd, fd[0]);
-//             if (check_quotes(line) == 0)
-//                 tokens = tokenisation(line);
-//             if (check_syntax(tokens) == 0)
-//                 cmds = parse_cmd(tokens);
-//             size = ft_lstsize(cmds);
-// 			char *newline = ft_strjoin(path->access_usr, "/");
-//             char *preline = search_and_stop(tokens->str, '|');
-// 			char *valid_cmd = ft_strjoin(newline, preline);
-//             if(size >= 2)
-//             {
-
-//             }
-//                  if(access(valid_cmd, F_OK) == 0)
-//                 {
-//                     execve(valid_cmd, cmds->args, envp);
-//                 }    
-//                 else
-//                     printf("minishell: %s: command not found\n", line);
-// 		}
-// 		else
-// 			waitpid(id, NULL, 0);
-// }
 
 void    cmd_absolute_path(t_exec *exec)
 {
@@ -72,92 +38,85 @@ void    cmd_absolute_path(t_exec *exec)
     else if(ft_strncmp(line, "env", 3) == 0)
         ft_env(line, exec->env);
     else
-        other_absolute_path(line, exec);
+        exec_pipe(exec);
 
-}
-
-void	other_absolute_path(char *line, t_exec *exec)
-{
-    int id = fork();
-		if(id == 0)
-		{
-			char *newline = ft_strjoin(exec->path->access_usr, "/");
-            char *preline = search_and_stop(line, ' ');
-			char *valid_cmd = ft_strjoin(newline, preline);
-            if(access(valid_cmd, F_OK) == 0)
-            {
-                char **all;
-                all = ft_split(line, ' ');
-                execve(valid_cmd, all, exec->envp);
-            }    
-            else
-				printf("minishell: %s: %s\n", line, strerror(errno));
-		}
-		else
-			waitpid(id, NULL, 0);
 }
 
 void    exec_pipe(t_exec *exec)
 {
-    if ((*exec->cmd)->next_cmd->args)
+    t_cmd *tmp;
+    int temp;
+
+    tmp = (*exec->cmd);
+    temp = -1;
+    while(tmp)
     {
         int fd[2];
         pipe(fd);
-        int id = fork();
-        if(id == 0)
+        if(fork() == 0)
         {
-            char *newline = ft_strjoin(exec->path->access_usr, "/");
-            char *preline = (*exec->cmd)->args[0];
-            char *valid_cmd = ft_strjoin(newline, preline);
-            if(access(valid_cmd, F_OK) == 0)
-                {
-                    dup2(fd[1], STDOUT_FILENO);
-                    close(fd[0]);
-                    close(fd[1]);
-                    execve(valid_cmd, (*exec->cmd)->args, exec->envp);
-                }
-                else
-                    printf("minishell: %s: command not found\n", (*exec->cmd)->args[0]);
+            if(ft_strncmp(exec->line, "/usr/bin/", 9) == 0)
+                redir_pipe_absolute(exec, tmp, fd, temp);
+            else
+                redir_pipe(exec, tmp, fd, temp);
         }
-        else
-        {
-            int idf = fork();
-            if(idf == 0)
-            {
-                char *newline = ft_strjoin(exec->path->access_usr, "/");
-                char *preline = (*exec->cmd)->next_cmd->args[0];
-                char *valid_cmd = ft_strjoin(newline, preline);
-                if(access(valid_cmd, F_OK) == 0)
-                    {
-                        dup2(fd[0], STDIN_FILENO);
-                        close(fd[0]);
-                        close(fd[1]);
-                        execve(valid_cmd, (*exec->cmd)->next_cmd->args, exec->envp);
-                    }
-                    else
-                        printf("minishell: %s: command not found\n", exec->line);
-            }
-            close(fd[0]);
-            close(fd[1]);
-            waitpid(id, NULL, 0);
-            waitpid(idf, NULL, 0);
-        }
+        close(fd[1]);
+        temp = fd[0];
+        tmp = tmp->next_cmd;
+    }
+    while(waitpid(-1, NULL, 0) > 0)
+    ;
+}
+
+void    redir_pipe(t_exec *exec, t_cmd *tmp, int fd[2], int temp)
+{
+    char *newline;
+    char *preline;
+    char *valid_cmd;
+    
+    int size = ft_lstsize((*exec->cmd));
+    newline = ft_strjoin(exec->path->access_usr, "/");
+    preline = tmp->args[0];
+    valid_cmd = ft_strjoin(newline, preline);
+    if(size >= 3)
+    {
+        if(temp != -1)
+            dup2(temp, STDIN_FILENO);
+        else if((tmp->next_cmd) && (temp != -1))
+            dup2(temp, STDIN_FILENO);
+        else if(tmp->next_cmd == NULL && temp != -1)
+            dup2(fd[1], STDOUT_FILENO);
     }
     else
     {
-        int id = fork();
-        if(id == 0)
-        {
-            char *newline = ft_strjoin(exec->path->access_usr, "/");
-            char *preline = search_and_stop((*exec->tokens)->str, ' ');
-			char *valid_cmd = ft_strjoin(newline, preline);
-            if(access(valid_cmd, F_OK) == 0)
-                execve(valid_cmd, (*exec->cmd)->args, exec->envp); 
-            else
-                printf("minishell: %s: command not found\n", exec->line);
-        }
-        else
-            waitpid(id, NULL, 0);
-
+        if(temp != -1)
+            dup2(temp, STDIN_FILENO);
+        else if(tmp->next_cmd && temp == -1)
+            dup2(fd[1], STDOUT_FILENO);
     }
+    close(fd[0]);
+    close(fd[1]);
+    if(access(valid_cmd, F_OK) == 0)
+        execve(valid_cmd, tmp->args, exec->envp);
 }
+
+void    redir_pipe_absolute(t_exec *exec, t_cmd *tmp, int fd[2], int temp)
+{
+	char *valid_cmd;
+    
+    valid_cmd = tmp->args[0];
+    if(temp != -1)
+        dup2(temp, STDIN_FILENO);
+    else if(tmp->next_cmd && temp == -1)
+        dup2(fd[1], STDOUT_FILENO);
+    close(fd[0]);
+    close(fd[1]);
+    if(access(valid_cmd, F_OK) == 0)
+        execve(valid_cmd, tmp->args, exec->envp);
+}
+
+/*
+fd[0] = lecture
+fd[1] = ecriture
+*/
+
