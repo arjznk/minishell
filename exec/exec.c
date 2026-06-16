@@ -55,6 +55,7 @@ void    exec_pipe(t_exec *exec)
         pipe(fd);
         if(fork() == 0)
         {
+            set_sig_childen();
             if(ft_strncmp(exec->line, "/usr/bin/", 9) == 0)
                 redir_pipe_absolute(exec, tmp, fd, temp);
             else
@@ -65,7 +66,7 @@ void    exec_pipe(t_exec *exec)
         tmp = tmp->next_cmd;
     }
     while(waitpid(-1, NULL, 0) > 0)
-    ;
+        wait(NULL);
 }
 
 void    redir_pipe(t_exec *exec, t_cmd *tmp, int fd[2], int temp)
@@ -74,24 +75,13 @@ void    redir_pipe(t_exec *exec, t_cmd *tmp, int fd[2], int temp)
     char *preline;
     char *valid_cmd;
     
-    int size = ft_lstsize((*exec->cmd));
     newline = ft_strjoin(exec->path->access_usr, "/");
     preline = tmp->args[0];
     valid_cmd = ft_strjoin(newline, preline);
-    if(size >= 3)
-    {
-        if(temp != -1)
-            dup2(temp, STDIN_FILENO);
-        else if(tmp->next_cmd && temp == -1)
-            dup2(fd[1], STDOUT_FILENO);
-    }
-    else
-    {
-        if(temp != -1)
-            dup2(temp, STDIN_FILENO);
-        else if(tmp->next_cmd && temp == -1)
-            dup2(fd[1], STDOUT_FILENO);
-    }
+    if(temp != -1)
+        dup2(temp, STDIN_FILENO);
+    else if(tmp->next_cmd)
+        dup2(fd[1], STDOUT_FILENO);
     close(fd[0]);
     close(fd[1]);
     if(access(valid_cmd, F_OK) == 0)

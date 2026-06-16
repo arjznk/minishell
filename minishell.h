@@ -111,6 +111,10 @@ void   exec_pipe(t_exec *exec);
 void    redir_pipe(t_exec *exec, t_cmd *tmp, int fd[2], int temp);
 void    redir_pipe_absolute(t_exec *exec, t_cmd *tmp, int fd[2], int temp);
 
+//signal
+void    set_sig_childen(void);
+void    set_sig_parent(void);
+
 //built-in
 void    ft_env(char *str, t_env **env);
 void    ft_pwd();
