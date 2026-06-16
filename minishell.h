@@ -76,6 +76,7 @@ typedef struct s_exec
     t_cmd **cmd;
     char **envp;
     char *line;
+    char *valid_cmd;
 } t_exec;
 
 //list utils
@@ -105,9 +106,8 @@ void    get_only_access(t_path *path);
 
 //exec
 void    execute_builtins(t_exec *exec);
-void    other_cmd(t_exec *exec);
 void    cmd_absolute_path(t_exec *exec);
-void   exec_pipe(t_exec *exec);
+void    exec_pipe(t_exec *exec);
 void    redir_pipe(t_exec *exec, t_cmd *tmp, int fd[2], int temp);
 void    redir_pipe_absolute(t_exec *exec, t_cmd *tmp, int fd[2], int temp);
 

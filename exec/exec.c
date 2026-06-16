@@ -39,7 +39,6 @@ void    cmd_absolute_path(t_exec *exec)
         ft_env(line, exec->env);
     else
         exec_pipe(exec);
-
 }
 
 void    exec_pipe(t_exec *exec)
@@ -55,7 +54,6 @@ void    exec_pipe(t_exec *exec)
         pipe(fd);
         if(fork() == 0)
         {
-            set_sig_childen();
             if(ft_strncmp(exec->line, "/usr/bin/", 9) == 0)
                 redir_pipe_absolute(exec, tmp, fd, temp);
             else
@@ -79,13 +77,19 @@ void    redir_pipe(t_exec *exec, t_cmd *tmp, int fd[2], int temp)
     preline = tmp->args[0];
     valid_cmd = ft_strjoin(newline, preline);
     if(temp != -1)
-        dup2(temp, STDIN_FILENO);
-    else if(tmp->next_cmd)
-        dup2(fd[1], STDOUT_FILENO);
+    {
+        if(dup2(temp, STDIN_FILENO) == -1)
+            printf("minishell: %s\n", strerror(errno));
+    }    
+    if(tmp->next_cmd)
+    {
+        if(dup2(fd[1], STDOUT_FILENO) == -1)
+            printf("minishell: %s\n", strerror(errno));
+    }
     close(fd[0]);
     close(fd[1]);
-    if(access(valid_cmd, F_OK) == 0)
-        execve(valid_cmd, tmp->args, exec->envp);
+    if(access(exec->valid_cmd, F_OK) == 0)
+        execve(exec->valid_cmd, tmp->args, exec->envp);
 }
 
 void    redir_pipe_absolute(t_exec *exec, t_cmd *tmp, int fd[2], int temp)
@@ -94,9 +98,15 @@ void    redir_pipe_absolute(t_exec *exec, t_cmd *tmp, int fd[2], int temp)
     
     valid_cmd = tmp->args[0];
     if(temp != -1)
-        dup2(temp, STDIN_FILENO);
-    else if(tmp->next_cmd && temp == -1)
-        dup2(fd[1], STDOUT_FILENO);
+    {
+        if(dup2(temp, STDIN_FILENO) == -1)
+            printf("minishell: %s\n", strerror(errno));
+    }  
+    if(tmp->next_cmd)
+    {
+        if(dup2(fd[1], STDOUT_FILENO) == -1)
+            printf("minishell: %s\n", strerror(errno));
+    }
     close(fd[0]);
     close(fd[1]);
     if(access(valid_cmd, F_OK) == 0)
@@ -106,5 +116,10 @@ void    redir_pipe_absolute(t_exec *exec, t_cmd *tmp, int fd[2], int temp)
 /*
 fd[0] = lecture
 fd[1] = ecriture
+
+faire pipe avec les builtins
+faire les heredoc a part de l'exec, et localiser le heredoc dans une commande 
+et l'executer avant d'executer le reste
+
 */
 
