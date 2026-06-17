@@ -85,7 +85,6 @@ int     ft_lstsize(t_cmd *lst);
 t_env	*ft_lstlast(t_env *lst);
 void	ft_lstadd_front(t_env **lst, t_env *new);
 void	ft_lstadd_back(t_env **lst, t_env *new);
-t_env	*ft_lstnew_for_export(char *value);
 
 // utils functions
 char    *search_and_stop(char *str, char c);
@@ -105,7 +104,7 @@ void    fill_list_env(char **envp, t_env **env, int size);
 void    get_only_access(t_path *path);
 
 //exec
-void    execute_builtins(t_exec *exec);
+void    execute_builtins(t_exec *exec, t_cmd *tmp);
 void    cmd_absolute_path(t_exec *exec);
 void    exec_pipe(t_exec *exec);
 void    redir_pipe(t_exec *exec, t_cmd *tmp, int fd[2], int temp);
@@ -116,14 +115,15 @@ void    set_sig_childen(void);
 void    set_sig_parent(void);
 
 //built-in
+int     is_builtins(t_exec *exec, t_cmd *tmp);
 void    ft_env(char *str, t_env **env);
 void    ft_pwd();
 void    ft_cd(char *str);
 void    ft_exit_code(char *line, char *nb);
 void    ft_exit(char *str);
-void    ft_echo(char *str, t_env **env);
-void    echo_n(char *str);
-void    echo_quote(char *str);
+void    ft_echo(t_exec *exec);
+void    echo_n(t_exec *exec);
+void    echo_quote(t_exec *exec);
 void    echo_variable(t_env **env, char *str);
 void    ft_unset(char *str, t_env **env);
 void	unset_env(char *line, t_env **env);
@@ -155,4 +155,5 @@ t_cmd   *new_cmd (void);
 void    add_cmd(t_cmd **cmds, t_cmd *new);
 t_cmd   *parse_cmd(t_token *tokens);
 void   add_args(t_cmd *current, char *str);
+
 #endif

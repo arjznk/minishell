@@ -30,6 +30,8 @@ int main(int ac, char **av, char **envp)
     exec->cmd = &cmd;
     exec->tokens = &tokens;
     exec->envp = envp;
+    t_cmd *tmp;
+    tmp =  (*exec->cmd);
     while(1)
     {
 		line = readline("minishell>");
@@ -40,6 +42,7 @@ int main(int ac, char **av, char **envp)
             tokens = tokenisation(line);
         if(check_syntax(tokens) == 0)
             cmd = parse_cmd(tokens);
-        execute_builtins(exec);
+        exec_pipe(exec);
+        execute_builtins(exec, tmp);
     }
 }

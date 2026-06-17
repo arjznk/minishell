@@ -1,30 +1,32 @@
 #include "minishell.h"
 
-void    ft_echo(char *str, t_env **env)
+void    ft_echo(t_exec *exec)
 {
     char *cmd;
 
-    cmd = search_and_stop(str, ' ');
+    cmd = (*exec->cmd)->args[0];
+    if(ft_strncmp(cmd, "echo -n", 7) == 0)
+    {
+        echo_n(exec);
+        return;
+    }
     if(ft_strcmp(cmd, "echo") == 0)
     {
-        if(ft_strncmp(str, "echo -n", 7) == 0)
-            echo_n(str);
-        else if(ft_strcmp(str, "$") == 0)
-            echo_variable(env, str);
-        else
-            echo_quote(str);
+        // if(ft_strcmp(str, "$") == 0)
+        //     echo_variable(env, str);
+            echo_quote(exec);
     }
     else
         printf("minishell: %s: command not found\n", cmd);
 }
 
-void    echo_quote(char *str)
+void    echo_quote(t_exec *exec)
 {
     char *line;
     int i;
 
     i = 0;
-    line = ft_strchr(str, ' ');
+    line = (*exec->cmd)->args[1];
     if(line == NULL)
     {
         printf("\n");
@@ -39,13 +41,13 @@ void    echo_quote(char *str)
     printf("\n");
 }
 
-void   echo_n(char *str)
+void   echo_n(t_exec *exec)
 {
     char *line;
     int i;
 
     i = 0;
-    line = ft_strchr_echo(str, 'n');
+    line = (*exec->cmd)->args[1];
     while(line[i])
     {
         while(line[i] == '\'' || line[i] == (char)'"')

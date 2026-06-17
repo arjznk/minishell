@@ -1,25 +1,46 @@
 #include "minishell.h"
 
-void    execute_builtins(t_exec *exec)
+void    execute_builtins(t_exec *exec, t_cmd *tmp)
 {
-    if(ft_strcmp(exec->line, "pwd") == 0)
+    if(ft_strcmp(tmp->args[0], "pwd") == 0)
         ft_pwd();
-    else if(ft_strncmp(exec->line, "exit", 4) == 0)
-        ft_exit(exec->line);
-    else if(ft_strncmp(exec->line, "echo", 4) == 0)
-        ft_echo(exec->line, exec->env);
-    else if (ft_strcmp(exec->line, "env") == 0)
-        ft_env(exec->line, exec->env);
-    else if(ft_strncmp(exec->line, "export", 6) == 0)
-        ft_export(exec->line, exec->env);
-    else if(ft_strncmp(exec->line, "unset", 5) == 0)
-        ft_unset(exec->line, exec->env);
-	else if (ft_strncmp(exec->line, "cd", 2) == 0)
-        ft_cd(exec->line);
-    else if(ft_strncmp(exec->line, "/usr/bin/", 9) == 0)
+    else if(ft_strncmp(tmp->args[0], "exit", 4) == 0)
+        ft_exit(tmp->args[0]);
+    else if(ft_strncmp(tmp->args[0], "echo", 4) == 0)
+        ft_echo(exec);
+    else if (ft_strcmp(tmp->args[0], "env") == 0)
+        ft_env(tmp->args[0], exec->env);
+    else if(ft_strncmp(tmp->args[0], "export", 6) == 0)
+        ft_export(tmp->args[0], exec->env);
+    else if(ft_strncmp(tmp->args[0], "unset", 5) == 0)
+        ft_unset(tmp->args[0], exec->env);
+	else if (ft_strncmp(tmp->args[0], "cd", 2) == 0)
+        ft_cd(tmp->args[0]);
+    else if(ft_strncmp(tmp->args[0], "/usr/bin/", 9) == 0)
         cmd_absolute_path(exec);
-	else
-        exec_pipe(exec);
+}
+
+int   is_builtins(t_exec *exec, t_cmd *tmp)
+{
+    (void)exec;
+
+    if(ft_strcmp(tmp->args[0], "pwd") == 0)
+        return (0);
+    else if(ft_strncmp(tmp->args[0], "exit", 4) == 0)
+        return (0);
+    else if(ft_strncmp(tmp->args[0], "echo", 4) == 0)
+        return (0);
+    else if (ft_strcmp(tmp->args[0], "env") == 0)
+        return (0);
+    else if(ft_strncmp(tmp->args[0], "export", 6) == 0)
+       return (0);
+    else if(ft_strncmp(tmp->args[0], "unset", 5) == 0)
+        return (0);
+	else if (ft_strncmp(tmp->args[0], "cd", 2) == 0)
+        return (0);
+    else if(ft_strncmp(tmp->args[0], "/usr/bin/", 9) == 0)
+        return (0);
+    return (1);
 }
 
 void    cmd_absolute_path(t_exec *exec)
@@ -32,7 +53,7 @@ void    cmd_absolute_path(t_exec *exec)
     else if(ft_strncmp(line, "pwd", 3) == 0)
         ft_pwd();
     else if(ft_strncmp(line, "echo", 4) == 0)
-        ft_echo(line, exec->env);
+        ft_echo(exec);
     else if(ft_strncmp(line, "cd", 2) == 0)
         return;
     else if(ft_strncmp(line, "env", 3) == 0)
@@ -52,6 +73,7 @@ void    exec_pipe(t_exec *exec)
     {
         int fd[2];
         pipe(fd);
+        // *exec->cmd = tmp;
         if(fork() == 0)
         {
             if(ft_strncmp(exec->line, "/usr/bin/", 9) == 0)
@@ -76,20 +98,35 @@ void    redir_pipe(t_exec *exec, t_cmd *tmp, int fd[2], int temp)
     newline = ft_strjoin(exec->path->access_usr, "/");
     preline = tmp->args[0];
     valid_cmd = ft_strjoin(newline, preline);
+    printf("a\n");
     if(temp != -1)
     {
         if(dup2(temp, STDIN_FILENO) == -1)
             printf("minishell: %s\n", strerror(errno));
     }    
+    printf("b\n");
     if(tmp->next_cmd)
     {
         if(dup2(fd[1], STDOUT_FILENO) == -1)
             printf("minishell: %s\n", strerror(errno));
     }
+    printf("c\n");
     close(fd[0]);
     close(fd[1]);
-    if(access(exec->valid_cmd, F_OK) == 0)
-        execve(exec->valid_cmd, tmp->args, exec->envp);
+    if(is_builtins(exec, tmp) == 0)
+    {
+        printf("d\n");
+        execute_builtins(exec, tmp);
+        return; 
+    }
+    printf("e\n");
+    if(access(valid_cmd, F_OK) == 0)
+    {
+        printf("f\n");
+        execve(valid_cmd, tmp->args, exec->envp);
+        printf("g\n");
+        
+    }
 }
 
 void    redir_pipe_absolute(t_exec *exec, t_cmd *tmp, int fd[2], int temp)
