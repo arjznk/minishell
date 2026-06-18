@@ -1,16 +1,16 @@
 #include "minishell.h"
 
-void    ft_env(char *str, t_env **env)
+void    ft_env(t_exec *exec)
 {
 	char *line;
 
-	line = ft_strchr(str, ' ');
+	line = (*exec->cmd)->args[1];
 	if(line)
 	{
 		printf("env: ‘%s’: No such file or directory\n", line);
 		return;
 	}
-	print_env(env);	
+	print_env((exec->env));	
 }
 
 void	print_env(t_env **env)

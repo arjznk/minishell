@@ -85,6 +85,7 @@ int     ft_lstsize(t_cmd *lst);
 t_env	*ft_lstlast(t_env *lst);
 void	ft_lstadd_front(t_env **lst, t_env *new);
 void	ft_lstadd_back(t_env **lst, t_env *new);
+void ft_lstdelone(t_env *lst, void (*del)(void*));
 
 // utils functions
 char    *search_and_stop(char *str, char c);
@@ -104,31 +105,31 @@ void    fill_list_env(char **envp, t_env **env, int size);
 void    get_only_access(t_path *path);
 
 //exec
-void    execute_builtins(t_exec *exec, t_cmd *tmp);
+void    execute_builtins(t_exec *exec);
 void    cmd_absolute_path(t_exec *exec);
 void    exec_pipe(t_exec *exec);
-void    redir_pipe(t_exec *exec, t_cmd *tmp, int fd[2], int temp);
-void    redir_pipe_absolute(t_exec *exec, t_cmd *tmp, int fd[2], int temp);
+void    redir_pipe(t_exec *exec, int fd[2], int temp);
+void    redir_pipe_absolute(t_exec *exec, int fd[2], int temp);
 
 //signal
 void    set_sig_childen(void);
 void    set_sig_parent(void);
 
 //built-in
-int     is_builtins(t_exec *exec, t_cmd *tmp);
-void    ft_env(char *str, t_env **env);
+int     is_builtins(t_exec *exec);
+void    ft_env(t_exec *exec);
 void    ft_pwd();
-void    ft_cd(char *str);
+void    ft_cd(t_exec *exec);
 void    ft_exit_code(char *line, char *nb);
-void    ft_exit(char *str);
+void    ft_exit(t_exec *exec);
 void    ft_echo(t_exec *exec);
 void    echo_n(t_exec *exec);
 void    echo_quote(t_exec *exec);
 void    echo_variable(t_env **env, char *str);
-void    ft_unset(char *str, t_env **env);
-void	unset_env(char *line, t_env **env);
-void    ft_export(char *str, t_env **env);
-void    export_w_error(char **all, t_env **env, t_env *newnode, char *cmd);
+void    ft_unset(t_exec *exec);
+void	unset_env(t_exec *exec);
+void    ft_export(t_exec *exec);
+void    export_w_error(t_exec *exec, t_env *newnode, char *cmd);
 void    export_only(t_env **env);
 
 //free
@@ -139,7 +140,7 @@ void	free_node_path(t_path_access **list);
 
 // tokenisation functions
 t_token    *tokenisation(char *str);
-t_token *new_token(char *str, t_token_type type);
+t_token      *new_token(char *str, t_token_type type);
 char    *find_word(char *str, int i);
 void    add_token(t_token **token, t_token *new);
 void    token_word(t_token **token, int *i, char *str);

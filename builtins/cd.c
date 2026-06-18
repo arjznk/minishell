@@ -1,13 +1,15 @@
 #include "minishell.h"
 
-void    ft_cd(char *str)
+void    ft_cd(t_exec *exec)
 {
 	char *line;
 	char *cmd;
+	char *new_cmd;
 
-	line = ft_strchr(str, ' ');
-	cmd = search_and_stop(str, ' ');
-	if(ft_strcmp(cmd, "cd") == 0)
+	cmd = (*exec->cmd)->args[0];
+	line = (*exec->cmd)->args[1];
+	new_cmd = ft_strchr_echo((*exec->cmd)->args[0], 'n');
+	if(ft_strcmp(cmd, "cd") == 0 || ft_strcmp(new_cmd, "cd") == 0)
 	{
 		if(!line)
 			return;

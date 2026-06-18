@@ -30,19 +30,21 @@ int main(int ac, char **av, char **envp)
     exec->cmd = &cmd;
     exec->tokens = &tokens;
     exec->envp = envp;
-    t_cmd *tmp;
-    tmp =  (*exec->cmd);
     while(1)
     {
-		line = readline("minishell>");
+        line = readline("minishell>");
 		if(line)
-			add_history(line);
+            add_history(line);
         exec->line = line;
         if (check_quotes(exec->line) == 0)
-            tokens = tokenisation(line);
+        tokens = tokenisation(line);
         if(check_syntax(tokens) == 0)
-            cmd = parse_cmd(tokens);
-        exec_pipe(exec);
-        execute_builtins(exec, tmp);
+        cmd = parse_cmd(tokens);
+        if((*exec->cmd)->next_cmd)
+            exec_pipe(exec);
+        else if((*exec->cmd)->next_cmd == NULL && is_builtins(exec) == 1)
+            exec_pipe(exec);
+        else
+            execute_builtins(exec);
     }
 }

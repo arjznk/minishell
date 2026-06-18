@@ -1,34 +1,35 @@
 #include "minishell.h"
 
-void    ft_export(char *str, t_env **env)
+void    ft_export(t_exec *exec)
 {
     t_env *newnode;
     char *cmd;
-	char **all;
 
-    all = ft_split(str, ' ');
-    cmd = search_and_stop(str, ' ');
+    cmd = (*exec->cmd)->args[0];;
     newnode = malloc(sizeof(t_env));
     if(!newnode)
 		return ;
-	if(all[0] && all[1] == NULL)
-		export_only(env);
+	if((*exec->cmd)->args[0] && (*exec->cmd)->args[1] == NULL)
+		export_only((exec->env));
     else if(ft_strcmp(cmd, "export") == 0)
-        export_w_error(all, env, newnode, cmd);
+        export_w_error(exec, newnode, cmd);
 
 }
 
-void    export_w_error(char **all, t_env **env, t_env *newnode, char *cmd)
+void    export_w_error(t_exec *exec, t_env *newnode, char *cmd)
 {
     int i;
     
     i = 1;
     char *tmp;
     char *temp;
+    char **all;
+    
+    all = (*exec->cmd)->args;
     while(all[i])
     {
         temp = search_and_stop(cmd, '=');
-        if(ft_strncmp(temp, (*env)->variable, ft_strlen((*env)->variable) == 0))
+        if(ft_strncmp(temp, (*exec->env)->variable, ft_strlen((*exec->env)->variable) == 0))
         {
             tmp = ft_strchr(cmd, '=');
             newnode->value = ft_strdup(tmp);
@@ -38,7 +39,7 @@ void    export_w_error(char **all, t_env **env, t_env *newnode, char *cmd)
         {
             newnode = ft_lstnew_for_env(all[i]);
         }
-        ft_lstadd_back(env, newnode);
+        ft_lstadd_back((exec->env), newnode);
         i++;
     }
 }

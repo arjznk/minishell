@@ -1,36 +1,38 @@
 #include "minishell.h"
 
-void    ft_unset(char *str, t_env **env)
+void    ft_unset(t_exec *exec)
 {
     int i;
     char **all;
 
-	all = ft_split(str, ' ');
+	all = (*exec->cmd)->args;
 	i = 0;
     if (!all)
 		return;
 	while(all[i])
 	{
-		unset_env(all[i], env);
+		unset_env(exec);
 		i++;
 	}
 }
 
-void	unset_env(char *line, t_env **env)
+void	unset_env(t_exec *exec)
 {
 	t_env *tmp;
 	t_env *prev;
 	t_env *to_free;
+	char *key;
 
-	tmp = *env;
+	tmp = (*exec->env);
 	prev = NULL;
+	key = search_and_stop((*exec->cmd)->args[1], '=');
 	while(tmp)
 	{
-		if(ft_strncmp(tmp->variable, line, ft_strlen(line)) == 0)
+		if(ft_strncmp(tmp->variable, key, ft_strlen(key)) == 0)
 		{
 			to_free = tmp;
 			if(!prev)
-				*env = tmp->next;
+				tmp = tmp->next;
 			else
 				prev->next = tmp->next;
 			free(to_free->variable);
