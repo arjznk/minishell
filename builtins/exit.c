@@ -50,13 +50,4 @@ void    ft_exit_code(char *line, char *nb)
         }    
     }
 }
-// code :
-/*
-0 = succes
-1 = erreur generique, command qui echou sans raison precise
-2 = mauvaise utilisation (mauvais arg, fichier introuvable)
-126 = commande trouvee mais non executable
-127 = commande introuvable
-128 +N = processus tue par le signal N
-130 = interrompu par ctrl C (signal 2)
-*/
+

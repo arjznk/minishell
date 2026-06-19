@@ -77,6 +77,7 @@ typedef struct s_exec
     char **envp;
     char *line;
     char *valid_cmd;
+    int status;
 } t_exec;
 
 //list utils
@@ -111,6 +112,10 @@ void    exec_pipe(t_exec *exec);
 void    redir_pipe(t_exec *exec, int fd[2], int temp);
 void    redir_pipe_absolute(t_exec *exec, int fd[2], int temp);
 
+//expand
+void    expand_var(t_exec *exec);
+void    exit_code(t_exec *exec);
+
 //signal
 void    set_sig_childen(void);
 void    set_sig_parent(void);
@@ -124,13 +129,11 @@ void    ft_exit_code(char *line, char *nb);
 void    ft_exit(t_exec *exec);
 void    ft_echo(t_exec *exec);
 void    echo_n(t_exec *exec);
-void    echo_quote(t_exec *exec);
-void    echo_variable(t_env **env, char *str);
+void    echo(t_exec *exec);
 void    ft_unset(t_exec *exec);
-void	unset_env(t_exec *exec);
 void    ft_export(t_exec *exec);
-void    export_w_error(t_exec *exec, t_env *newnode, char *cmd);
-void    export_only(t_env **env);
+void    export_w_error(t_exec *exec, t_env *newnode);
+void    export_only(t_exec *exec);
 
 //free
 void 	free_all(char *line, t_path *path, t_env **env);

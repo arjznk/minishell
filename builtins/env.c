@@ -8,9 +8,11 @@ void    ft_env(t_exec *exec)
 	if(line)
 	{
 		printf("env: ‘%s’: No such file or directory\n", line);
+		exec->status = 127;
 		return;
 	}
-	print_env((exec->env));	
+	print_env((exec->env));
+	exec->status = 0;
 }
 
 void	print_env(t_env **env)

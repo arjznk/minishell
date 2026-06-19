@@ -1,22 +1,6 @@
 #include "minishell.h"
 
-void    ft_unset(t_exec *exec)
-{
-    int i;
-    char **all;
-
-	all = (*exec->cmd)->args;
-	i = 0;
-    if (!all)
-		return;
-	while(all[i])
-	{
-		unset_env(exec);
-		i++;
-	}
-}
-
-void	unset_env(t_exec *exec)
+void	ft_unset(t_exec *exec)
 {
 	t_env *tmp;
 	t_env *prev;

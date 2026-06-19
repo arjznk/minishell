@@ -2,25 +2,31 @@
 
 void    ft_echo(t_exec *exec)
 {
-    char *cmd;
+    char *cmd1;
+    char *cmd2;
+    char *tmp;
+    char *final_cmd;
 
-    cmd = (*exec->cmd)->args[0];
-    if(ft_strncmp(cmd, "echo -n", 7) == 0)
-    {
+    cmd1 = (*exec->cmd)->args[0];
+    tmp = " ";
+    cmd2 =  ft_strjoin(cmd1, tmp);
+    final_cmd =  ft_strjoin(cmd2, (*exec->cmd)->args[1]);
+    if(ft_strncmp(final_cmd, "echo -n", 7) == 0)
         echo_n(exec);
-        return;
-    }
-    if(ft_strcmp(cmd, "echo") == 0)
-    {
-        // if(ft_strcmp(str, "$") == 0)
-        //     echo_variable(env, str);
-            echo_quote(exec);
-    }
+    else if(ft_strcmp((*exec->cmd)->args[1], "$?") == 0)
+        exit_code(exec);
+    else if(ft_strncmp((*exec->cmd)->args[1], "$", 1) == 0)
+        expand_var(exec);
+    else if(ft_strcmp(cmd1, "echo") == 0)
+        echo(exec);
     else
-        printf("minishell: %s: command not found\n", cmd);
+    {
+        printf("minishell: %s: command not found\n", cmd1);
+        exec->status = 127;
+    }
 }
 
-void    echo_quote(t_exec *exec)
+void    echo(t_exec *exec)
 {
     char *line;
     int i;
@@ -47,7 +53,7 @@ void   echo_n(t_exec *exec)
     int i;
 
     i = 0;
-    line = (*exec->cmd)->args[1];
+    line = (*exec->cmd)->args[2];
     while(line[i])
     {
         while(line[i] == '\'' || line[i] == (char)'"')
@@ -56,11 +62,5 @@ void   echo_n(t_exec *exec)
     }
 }
 
-void    echo_variable(t_env **env, char *str)
-{
-    char *line;
 
-    line = ft_strchr_echo(str, ' ');
-    if(ft_strcmp(line, (*env)->variable) == 0)
-        printf("%s\n", (*env)->variable);
-}
+

@@ -10,46 +10,47 @@ void    ft_export(t_exec *exec)
     if(!newnode)
 		return ;
 	if((*exec->cmd)->args[0] && (*exec->cmd)->args[1] == NULL)
-		export_only((exec->env));
+        export_only((exec));
     else if(ft_strcmp(cmd, "export") == 0)
-        export_w_error(exec, newnode, cmd);
+        export_w_error(exec, newnode);
 
 }
 
-void    export_w_error(t_exec *exec, t_env *newnode, char *cmd)
+void    export_w_error(t_exec *exec, t_env *newnode)
 {
-    int i;
-    
-    i = 1;
+    t_env *tp;
     char *tmp;
     char *temp;
-    char **all;
+    int found;
     
-    all = (*exec->cmd)->args;
-    while(all[i])
+    tp = (*exec->env);
+    found = 0;
+    temp = search_and_stop((*exec->cmd)->args[1], '=');
+    while(tp)
     {
-        temp = search_and_stop(cmd, '=');
-        if(ft_strncmp(temp, (*exec->env)->variable, ft_strlen((*exec->env)->variable) == 0))
+        if(ft_strcmp(temp, tp->variable) == 0)
         {
-            tmp = ft_strchr(cmd, '=');
-            newnode->value = ft_strdup(tmp);
-            newnode->variable = search_and_stop(cmd, '=');
-        }    
-        else 
-        {
-            newnode = ft_lstnew_for_env(all[i]);
+            tmp = ft_strchr((*exec->cmd)->args[1], '=');
+            free(tp->value);
+            tp->value = ft_strdup(tmp);
+            tp->variable = temp;
+            found = 1;
         }
+        tp = tp->next;
+    }
+    if(!found)
+    {
+        newnode = ft_lstnew_for_env((*exec->cmd)->args[1]);
         ft_lstadd_back((exec->env), newnode);
-        i++;
     }
 }
 
-void    export_only(t_env **env)
+void    export_only(t_exec *exec)
 {
 	t_env *tmp;
 	
-    sort_str(env);
-    tmp = *env;
+    sort_str((exec->env));
+    tmp = (*exec->env);
     while(tmp)
     {
         if(tmp->value == NULL)
@@ -61,12 +62,4 @@ void    export_only(t_env **env)
     }
 }
 
-/*
-si :
-export test -> export seulement la variabe mais si on fait env, ne s'affiche pas
-si export test= -> export la variable + dans le env s'affiche ; test=, et dans export -> test=""
-si export=bjr -> export la variable + dans le env s'affiche ; test=bjr, et dans export -> test="bjr"
-
-faire un dup du env et le mettre dans un tab pour l'export
-*/
  

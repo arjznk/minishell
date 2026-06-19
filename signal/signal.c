@@ -1,7 +1,6 @@
 #include "minishell.h"
 
 void    set_sig_childen(void)
-
 {
     struct sigaction sa;
 

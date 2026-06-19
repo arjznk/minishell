@@ -17,11 +17,9 @@ void    ft_cd(t_exec *exec)
 			printf("minishell: cd: %s: %s\n", line, strerror(errno));
 	}
 	else
+	{
 		printf("minishell: %s: command not found\n", cmd);
+		exec->status = 127;
+	}
 }
 
-/*
-si creer dossier, ensuite entrer dans le dossier, le supp et faire un cd .. 
-se baser sur le $OLDPWD pour se reperer
-
-*/
