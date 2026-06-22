@@ -3,15 +3,14 @@
 void    ft_echo(t_exec *exec)
 {
     char *cmd1;
-    char *cmd2;
-    char *tmp;
-    char *final_cmd;
 
     cmd1 = (*exec->cmd)->args[0];
-    tmp = " ";
-    cmd2 =  ft_strjoin(cmd1, tmp);
-    final_cmd =  ft_strjoin(cmd2, (*exec->cmd)->args[1]);
-    if(ft_strncmp(final_cmd, "echo -n", 7) == 0)
+    if(cmd1 && (*exec->cmd)->args[1] ==  NULL)
+    {
+        printf("\n");
+        return;
+    }
+    if(check_n_valid((*exec->cmd)->args[1]) == 1)
         echo_n(exec);
     else if(ft_strcmp((*exec->cmd)->args[1], "$?") == 0)
         exit_code(exec);
@@ -28,39 +27,60 @@ void    ft_echo(t_exec *exec)
 
 void    echo(t_exec *exec)
 {
-    char *line;
+    char **line;
     int i;
 
-    i = 0;
-    line = (*exec->cmd)->args[1];
-    if(line == NULL)
-    {
-        printf("\n");
-        return;
-    }
+    i = 1;
+    line = (*exec->cmd)->args;
     while(line[i])
     {
-        while(line[i] == '\'' || line[i] == (char)'"')
-            i++;
-        write(1, &line[i++], 1);
+
+        printf("%s", line[i]);
+        if(line[i + 1])
+            printf(" ");
+        i++;
     }
     printf("\n");
 }
 
 void   echo_n(t_exec *exec)
 {
-    char *line;
     int i;
+    char **line;
 
-    i = 0;
-    line = (*exec->cmd)->args[2];
+    i = 1;
+    line = (*exec->cmd)->args;
     while(line[i])
     {
-        while(line[i] == '\'' || line[i] == (char)'"')
+        if(check_n_valid(line[i]) == 1)
             i++;
-        write(1, &line[i++], 1);
+        else
+        {
+            printf("%s", line[i]);
+            if(line[i + 1])
+                printf(" ");
+            i++;
+        }
     }
 }
 
-
+int check_n_valid(char *line)
+{
+    int i;
+    
+    i= 0;
+    if(line[0] != '-')
+        return (0);
+    else
+    {
+        i = 1;
+        while(line[i])
+        {
+            if(line[i] != 'n')
+                return (0);
+            i++;
+        }
+    }
+    return(1);
+}
 

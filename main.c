@@ -1,5 +1,5 @@
- 
 #include "minishell.h"
+
 
 int main(int ac, char **av, char **envp)
 {
@@ -42,7 +42,7 @@ int main(int ac, char **av, char **envp)
         if(check_syntax(tokens) == 0)
             cmd = parse_cmd(tokens);
         if(cmd == NULL || cmd->args == NULL || cmd->args[0] == NULL)
-             continue;
+            continue;
         if((*exec->cmd)->next_cmd)
             exec_pipe(exec);
         else if((*exec->cmd)->next_cmd == NULL && is_builtins(exec) == 1)
@@ -51,3 +51,6 @@ int main(int ac, char **av, char **envp)
             execute_builtins(exec);
     }
 }
+
+
+

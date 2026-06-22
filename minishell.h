@@ -86,7 +86,6 @@ int     ft_lstsize(t_cmd *lst);
 t_env	*ft_lstlast(t_env *lst);
 void	ft_lstadd_front(t_env **lst, t_env *new);
 void	ft_lstadd_back(t_env **lst, t_env *new);
-void ft_lstdelone(t_env *lst, void (*del)(void*));
 
 // utils functions
 char    *search_and_stop(char *str, char c);
@@ -109,8 +108,10 @@ void    get_only_access(t_path *path);
 void    execute_builtins(t_exec *exec);
 void    cmd_absolute_path(t_exec *exec);
 void    exec_pipe(t_exec *exec);
-void    redir_pipe(t_exec *exec, int fd[2], int temp);
-void    redir_pipe_absolute(t_exec *exec, int fd[2], int temp);
+void    redir_pipe(t_exec *exec, int fd[2], int temp, t_cmd *tmp);
+void    redir_pipe_absolute(t_exec *exec, int fd[2], int temp, t_cmd *tmp);
+void    cmd_error(t_exec *exec);
+void    close_files(int fd[2]);
 
 //expand
 void    expand_var(t_exec *exec);
@@ -130,6 +131,7 @@ void    ft_exit(t_exec *exec);
 void    ft_echo(t_exec *exec);
 void    echo_n(t_exec *exec);
 void    echo(t_exec *exec);
+int     check_n_valid(char *line);
 void    ft_unset(t_exec *exec);
 void    ft_export(t_exec *exec);
 void    export_w_error(t_exec *exec, t_env *newnode);
