@@ -18,11 +18,12 @@ void    ft_echo(t_exec *exec)
         expand_var(exec);
     else if(ft_strcmp(cmd1, "echo") == 0)
         echo(exec);
-    else
-    {
-        printf("minishell: %s: command not found\n", cmd1);
-        exec->status = 127;
-    }
+	else
+	{
+		printf("minishell: %s: command not found\n", cmd1);
+		exec->status = 127;
+	}
+		exec->status = 0;
 }
 
 void    echo(t_exec *exec)
@@ -83,4 +84,3 @@ int check_n_valid(char *line)
     }
     return(1);
 }
-
