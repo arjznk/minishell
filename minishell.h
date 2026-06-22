@@ -112,6 +112,8 @@ void    redir_pipe(t_exec *exec, int fd[2], int temp, t_cmd *tmp);
 void    redir_pipe_absolute(t_exec *exec, int fd[2], int temp, t_cmd *tmp);
 void    cmd_error(t_exec *exec);
 void    close_files(int fd[2]);
+void    heredocs(t_exec *exec);
+int     found_heredocs(t_exec *exec);
 
 //expand
 void    expand_var(t_exec *exec);

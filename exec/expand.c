@@ -21,7 +21,7 @@ void    expand_var(t_exec *exec)
 void    exit_code(t_exec *exec)
 {
     if(ft_strcmp((*exec->cmd)->args[1], "$?") == 0)
-        printf("exec->status = %d\n", exec->status);
+        printf("%d\n", exec->status);
 }
 
 /*
