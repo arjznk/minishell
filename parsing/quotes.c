@@ -40,3 +40,25 @@ int check_quotes(char *str)
     }
     return 0;
 }
+
+void    *expand_and_remove_quotes(char *str)
+{
+    int i;
+    int s_quotes;
+    int d_quotes;
+
+    i = 0;
+    d_quotes = 0;
+    s_quotes = 0;
+
+    while (str[i])
+    {
+        if (str[i] == '\'' && d_quotes == 0)
+            s_quotes = !s_quotes;
+        else if (str[i] == '"' && s_quotes == 0)
+            d_quotes = !d_quotes;
+        else if (str[i] == '$' && s_quotes == 0)
+            printf("s=%d d=%d\n", s_quotes, d_quotes);
+        i++;
+    }
+}

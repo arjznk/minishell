@@ -163,5 +163,6 @@ t_cmd   *new_cmd (void);
 void    add_cmd(t_cmd **cmds, t_cmd *new);
 t_cmd   *parse_cmd(t_token *tokens);
 void   add_args(t_cmd *current, char *str);
+void    *expand_and_remove_quotes(char *str);
 
 #endif
