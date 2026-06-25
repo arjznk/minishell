@@ -39,6 +39,7 @@ int main(int ac, char **av, char **envp)
         exec->line = line;
         if (check_quotes(exec->line) == 0)
             tokens = tokenisation(line);
+        expand_and_remove_quotes(line);
         if(check_syntax(tokens) == 0)
             cmd = parse_cmd(tokens);
         if(cmd == NULL || cmd->args == NULL || cmd->args[0] == NULL)

@@ -28,4 +28,3 @@ int    check_syntax(t_token *token)
     }
     return 0;
 }
-

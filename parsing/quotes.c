@@ -41,7 +41,7 @@ int check_quotes(char *str)
     return 0;
 }
 
-void    *expand_and_remove_quotes(char *str)
+char    *expand_and_remove_quotes(char *str)
 {
     int i;
     int s_quotes;
@@ -50,6 +50,7 @@ void    *expand_and_remove_quotes(char *str)
     i = 0;
     d_quotes = 0;
     s_quotes = 0;
+    char *result;
 
     while (str[i])
     {
@@ -58,7 +59,13 @@ void    *expand_and_remove_quotes(char *str)
         else if (str[i] == '"' && s_quotes == 0)
             d_quotes = !d_quotes;
         else if (str[i] == '$' && s_quotes == 0)
-            printf("s=%d d=%d\n", s_quotes, d_quotes);
+        {
+            expand_var(t_exec);
+        }
+        else
+            result = str[i];
         i++;
     }
+    return(result);
 }
+
