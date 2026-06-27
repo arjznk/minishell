@@ -13,8 +13,18 @@ void    exec_pipe(t_exec *exec)
     {
         int fd[2];
         pipe(fd);
-        if(found_heredocs(exec) == 1)
-            heredocs(exec);
+        *exec->cmd = tmp;
+        if(is_builtins(exec) == 0)
+        {
+            if(tmp->next_cmd)
+                dup2(fd[1], STDOUT_FILENO);
+            else
+                dup2(temp, STDIN_FILENO);
+            temp = fd[0];
+            execute_builtins(exec);
+        }
+        // if(found_heredocs(exec) == 1)
+        //     heredocs(exec);
         if(fork() == 0)
         {
             if(ft_strncmp(exec->line, "/usr/bin/", 9) == 0)
@@ -44,15 +54,10 @@ void    redir_pipe(t_exec *exec, int fd[2], int temp, t_cmd *tmp)
         cmd_error(exec);
     }
     if(temp != -1)
-        (dup2(temp, STDIN_FILENO));
+        dup2(temp, STDIN_FILENO);
     if(tmp->next_cmd)
-        (dup2(fd[1], STDOUT_FILENO));
+        dup2(fd[1], STDOUT_FILENO);
     close_files(fd);
-    if(is_builtins(exec) == 0)
-    {
-        execute_builtins(exec);
-        exit(exec->status);
-    }
     if(access(valid_cmd, F_OK) == 0)
         execve(valid_cmd, tmp->args, exec->envp);
     else

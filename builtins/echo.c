@@ -4,6 +4,7 @@ void    ft_echo(t_exec *exec)
 {
     char *cmd1;
 
+    write(2, "rentre ici\n", 11);
     cmd1 = (*exec->cmd)->args[0];
     if(cmd1 && (*exec->cmd)->args[1] ==  NULL)
     {
