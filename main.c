@@ -45,8 +45,6 @@ int main(int ac, char **av, char **envp)
             continue;
         if((*exec->cmd)->next_cmd)
             exec_pipe(exec);
-        else if(found_heredocs(exec) == 1)
-            heredocs(exec);
         else if((*exec->cmd)->next_cmd == NULL && is_builtins(exec) == 1)
             exec_pipe(exec);
         else

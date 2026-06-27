@@ -13,6 +13,8 @@ void    exec_pipe(t_exec *exec)
     {
         int fd[2];
         pipe(fd);
+        if(found_heredocs(exec) == 1)
+            heredocs(exec);
         if(fork() == 0)
         {
             if(ft_strncmp(exec->line, "/usr/bin/", 9) == 0)
