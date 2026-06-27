@@ -18,14 +18,15 @@ void    exec_pipe(t_exec *exec)
         {
             if(tmp->next_cmd)
                 dup2(fd[1], STDOUT_FILENO);
-            else
+            if(temp != -1)
                 dup2(temp, STDIN_FILENO);
-            temp = fd[0];
             execute_builtins(exec);
+            temp = fd[0];
+            close(fd[1]);
         }
-        // if(found_heredocs(exec) == 1)
-        //     heredocs(exec);
-        if(fork() == 0)
+        if(found_heredocs(exec) == 1)
+            heredocs(exec);
+        else if(fork() == 0)
         {
             if(ft_strncmp(exec->line, "/usr/bin/", 9) == 0)
                 redir_pipe_absolute(exec, fd, temp, tmp);
