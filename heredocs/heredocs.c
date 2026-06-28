@@ -19,6 +19,7 @@ void    heredocs(t_exec *exec)
                 dup2(fd[0], STDIN_FILENO);
                 close(fd[0]);
                 close(fd[1]);
+                free(line);
                 break;
             }
             else
@@ -27,7 +28,6 @@ void    heredocs(t_exec *exec)
                 write(fd[1], "\n", 1);
             }
         }
-        free(line);
     }
 }
 

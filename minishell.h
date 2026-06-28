@@ -74,10 +74,14 @@ typedef struct s_exec
     t_token **tokens;
     t_path *path;
     t_cmd **cmd;
+    t_cmd   *tmp;
     char **envp;
     char *line;
     char *valid_cmd;
     int status;
+    int saved_stdout;
+    int fd[2];
+    int old_fd;
 } t_exec;
 
 //list utils
@@ -106,14 +110,18 @@ void    get_only_access(t_path *path);
 
 //exec
 void    execute_builtins(t_exec *exec);
-void    cmd_absolute_path(t_exec *exec);
+void    exec_absolute_path(t_exec *exec);
+void    is_absolute_path(t_exec *exec);
 void    exec_pipe(t_exec *exec);
-void    redir_pipe(t_exec *exec, int fd[2], int temp, t_cmd *tmp);
-void    redir_pipe_absolute(t_exec *exec, int fd[2], int temp, t_cmd *tmp);
+void    redir_pipe(t_exec *exec);
+void    redir_pipe_absolute(t_exec *exec);
 void    cmd_error(t_exec *exec);
 void    close_files(int fd[2]);
 void    heredocs(t_exec *exec);
 int     found_heredocs(t_exec *exec);
+void    builtins_pipe(t_exec *exec);
+void    fork_pipe_heredocs(t_exec *exec);
+int     absolute_path(t_exec *exec);
 
 //expand
 void    expand_var(t_exec *exec);
