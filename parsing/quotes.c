@@ -41,16 +41,17 @@ int check_quotes(char *str)
     return 0;
 }
 
-char    *expand_and_remove_quotes(char *str)
+char    *expand_and_remove_quotes(char *str, t_exec *exec)
 {
     int i;
     int s_quotes;
     int d_quotes;
+    char *result;
 
     i = 0;
     d_quotes = 0;
     s_quotes = 0;
-    char *result;
+    result = ft_strdup("");
 
     while (str[i])
     {
@@ -59,13 +60,22 @@ char    *expand_and_remove_quotes(char *str)
         else if (str[i] == '"' && s_quotes == 0)
             d_quotes = !d_quotes;
         else if (str[i] == '$' && s_quotes == 0)
-        {
-            expand_var(t_exec);
-        }
+            result = expand_var2(str, &i, result, exec);
         else
-            result = str[i];
+            result = join_char(result, str[i]);
         i++;
     }
     return(result);
 }
 
+char    *join_char(char *result, char c)
+{
+    char    tmp[2];
+    char    *new_result;
+
+    tmp[0] = c;
+    tmp[1] = '\0';
+    new_result = ft_strjoin(result, tmp);
+    free(result);
+    return (new_result);
+}

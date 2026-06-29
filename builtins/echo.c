@@ -3,6 +3,9 @@
 void    ft_echo(t_exec *exec)
 {
     char *cmd1;
+    int i;
+
+    i = 1;
 
     if(ft_strncmp((*exec->cmd)->args[0], "/usr/bin/", 9) == 0)
         cmd1 = ft_strchr_echo((*exec->cmd)->args[0], 'n');
@@ -18,7 +21,7 @@ void    ft_echo(t_exec *exec)
     else if(ft_strcmp((*exec->cmd)->args[1], "$?") == 0)
         exit_code(exec);
     else if(ft_strncmp((*exec->cmd)->args[1], "$", 1) == 0)
-        expand_var(exec);
+        printf("%s\n", (*exec->cmd)->args[i]);
     else if(ft_strcmp(cmd1, "echo") == 0)
         echo(exec);
 	else

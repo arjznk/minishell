@@ -16,7 +16,7 @@ void    get_and_cut_path(char **envp, t_path *path)
 {
     int i = 0;
     char *compar = "PATH";
-
+  
     while(envp[i] != NULL && ft_strncmp(compar, envp[i], 4) != 0 )
         i++;
     path->path_env = envp[i];

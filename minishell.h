@@ -107,7 +107,9 @@ char	*search_and_return(char *str, char c);
 void    get_and_cut_path(char **envp, t_path *path);
 void    fill_list_env(char **envp, t_env **env, int size);
 void    get_only_access(t_path *path);
-
+char    *expand_var2(char *str, int *i, char *result, t_exec *exec);
+char    *get_env_value(char *var_name, t_env *env);
+char    *get_var_name(char *str, int *i);
 //exec
 void    execute_builtins(t_exec *exec);
 void    exec_absolute_path(t_exec *exec);
@@ -124,7 +126,7 @@ void    fork_pipe_heredocs(t_exec *exec);
 int     absolute_path(t_exec *exec);
 
 //expand
-void    expand_var(t_exec *exec);
+// void    expand_var(t_exec *exec);
 void    exit_code(t_exec *exec);
 
 //signal
@@ -171,6 +173,6 @@ t_cmd   *new_cmd (void);
 void    add_cmd(t_cmd **cmds, t_cmd *new);
 t_cmd   *parse_cmd(t_token *tokens);
 void   add_args(t_cmd *current, char *str);
-char    *expand_and_remove_quotes(char *str);
-
+char    *expand_and_remove_quotes(char *str, t_exec *exec);
+char    *join_char(char *result, char c);
 #endif
