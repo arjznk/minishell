@@ -4,7 +4,10 @@ void    ft_echo(t_exec *exec)
 {
     char *cmd1;
 
-    cmd1 = (*exec->cmd)->args[0];
+    if(ft_strncmp((*exec->cmd)->args[0], "/usr/bin/", 9) == 0)
+        cmd1 = ft_strchr_echo((*exec->cmd)->args[0], 'n');
+    else
+        cmd1 = (*exec->cmd)->args[0];
     if(cmd1 && (*exec->cmd)->args[1] ==  NULL)
     {
         printf("\n");
