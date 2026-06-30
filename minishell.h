@@ -164,7 +164,7 @@ void    token_word(t_token **token, int *i, char *str);
 void    token_redir_out(t_token **token, int *i, char *str);
 void    token_redir_in(t_token **token, int *i, char *str);
 void    token_pipe(t_token **token, int *i);
-char    *delete_quotes(char *str);
+// char    *delete_quotes(char *str);
 int check_quotes(char *str);
 
 // parsing functions

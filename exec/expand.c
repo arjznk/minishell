@@ -53,6 +53,17 @@ char    *expand_var2(char *str, int *i, char *result, t_exec *exec)
     char    *value;
     char    *new_result;
 
+    if (str[*i + 1] == '?')
+    {
+        value = ft_itoa(exec->status);
+        new_result = ft_strjoin(result, value);
+        free(result);
+        free(value);
+        (*i)++;
+        return (new_result);
+    }
+    if (!str[*i + 1] || str[*i + 1] == ' ')
+        return (join_char(result, '$'));
     var_name = get_var_name(str, i);
     value = get_env_value(var_name, *(exec->env));
     new_result = ft_strjoin(result, value);
