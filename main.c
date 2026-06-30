@@ -46,9 +46,9 @@ int main(int ac, char **av, char **envp)
         {
             if (tmp->type == T_WORD)
             {
-                printf("BEFORE=[%s]\n", tmp->str);
+                // printf("BEFORE=[%s]\n", tmp->str);
                 tmp->str = expand_and_remove_quotes(tmp->str, exec);
-                printf("AFTER=[%s]\n", tmp->str);
+                // printf("AFTER=[%s]\n", tmp->str);
             }
             tmp = tmp->next_token;
         }

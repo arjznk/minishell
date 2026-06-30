@@ -18,7 +18,7 @@ void    ft_echo(t_exec *exec)
     }
     if(check_n_valid((*exec->cmd)->args[1]) == 1)
         echo_n(exec);
-    else if(ft_strcmp((*exec->cmd)->args[1], "$?") == 0)
+    if(ft_strcmp((*exec->cmd)->args[1], "$?") == 0)
         exit_code(exec);
     else if(ft_strncmp((*exec->cmd)->args[1], "$", 1) == 0)
         printf("%s\n", (*exec->cmd)->args[i]);

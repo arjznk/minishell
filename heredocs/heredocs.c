@@ -5,8 +5,6 @@ void    heredocs(t_exec *exec)
     char *line;
     if((*exec->cmd)->heredoc)
     {
-        int fd[2];
-        pipe(fd);
         while(1)
         {
             line = readline(">");
@@ -16,30 +14,26 @@ void    heredocs(t_exec *exec)
                 continue;
             if(ft_strcmp(line, (*exec->cmd)->heredoc) == 0)
             {
-                dup2(fd[0], STDIN_FILENO);
-                close(fd[0]);
-                close(fd[1]);
+                if((*exec->cmd)->next_cmd)
+                    dup2(exec->fd[1], STDOUT_FILENO);
+                else if(exec->fd[0] != -1)
+                    dup2(exec->fd[0], STDIN_FILENO);
                 free(line);
                 break;
             }
             else
             {
-                write(fd[1], line, ft_strlen(line));
-                write(fd[1], "\n", 1);
+                write(exec->fd[1], line, ft_strlen(line));
+                write(exec->fd[1], "\n", 1);
             }
         }
+        close(exec->fd[1]);
     }
 }
-
-/*
-quand plusieurs pipes si pas la derniere, entrer dans le heredoc
-rediriger la sortie vers la pipe suivante 
-parent execute heredoc 
-*/
 
 int found_heredocs(t_exec *exec)
 {
     if((*exec->cmd)->heredoc)
-        return (1);
-    return (0);
+        return (0);
+    return (1);
 }

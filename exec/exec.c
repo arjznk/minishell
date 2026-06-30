@@ -102,16 +102,10 @@ void    builtins_pipe(t_exec *exec)
 
 void    fork_pipe_heredocs(t_exec *exec)
 {
+    if(found_heredocs(exec) == 0)
+        heredocs(exec);
     if(fork() == 0)
-    {
-        if(found_heredocs(exec) == 1)
-        {
-            heredocs(exec);
-            redir_pipe(exec);
-        }
-        else
-            redir_pipe(exec);
-    }
+        redir_pipe(exec);
 }
 
 int    absolute_path(t_exec *exec)
