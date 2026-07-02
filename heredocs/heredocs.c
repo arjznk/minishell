@@ -11,23 +11,17 @@ void    heredocs(t_exec *exec)
             if(line)
                 add_history(line);
             else
-                continue;
+                break;
             if(ft_strcmp(line, (*exec->cmd)->heredoc) == 0)
             {
-                if((*exec->cmd)->next_cmd)
-                    dup2(exec->fd[1], STDOUT_FILENO);
-                else if(exec->fd[0] != -1)
-                    dup2(exec->fd[0], STDIN_FILENO);
                 free(line);
                 break;
             }
-            else
-            {
-                write(exec->fd[1], line, ft_strlen(line));
-                write(exec->fd[1], "\n", 1);
-            }
+            write(exec->heredoc_fd[1], line, ft_strlen(line));
+            write(exec->heredoc_fd[1], "\n", 1);
+            free(line);
         }
-        close(exec->fd[1]);
+        close(exec->heredoc_fd[1]);
     }
 }
 

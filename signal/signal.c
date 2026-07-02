@@ -18,3 +18,8 @@ void    set_sig_parent(void)
     sigaction(SIGINT, &sa, NULL);
 
 }
+
+/*
+si signal : exec->status = 130;
+
+*/

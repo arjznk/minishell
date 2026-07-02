@@ -14,7 +14,10 @@ void    ft_cd(t_exec *exec)
 		if(!line)
 			return;
 		if(chdir(line) == -1)
+		{
 			printf("minishell: cd: %s: %s\n", line, strerror(errno));
+			exec->status = 1;
+		}
 	}
 	else
 	{

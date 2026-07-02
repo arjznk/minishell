@@ -82,6 +82,7 @@ typedef struct s_exec
     int saved_stdout;
     int fd[2];
     int old_fd;
+    int heredoc_fd[2];
 } t_exec;
 
 //list utils
@@ -124,6 +125,7 @@ int     found_heredocs(t_exec *exec);
 void    builtins_pipe(t_exec *exec);
 void    fork_pipe_heredocs(t_exec *exec);
 int     absolute_path(t_exec *exec);
+void    dup_for_pipe(t_exec *exec);
 
 //expand
 // void    expand_var(t_exec *exec);

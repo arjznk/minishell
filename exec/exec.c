@@ -41,11 +41,7 @@ void    redir_pipe(t_exec *exec)
         (dup2(exec->old_fd, STDIN_FILENO));
         cmd_error(exec);
     }
-    if(exec->old_fd != -1)
-        dup2(exec->old_fd, STDIN_FILENO);
-    if(exec->tmp->next_cmd)
-        dup2(exec->fd[1], STDOUT_FILENO);
-    close_files(exec->fd);
+    dup_for_pipe(exec);
     if(access(valid_cmd, F_OK) == 0)
         execve(valid_cmd, exec->tmp->args, exec->envp);
     else
@@ -145,4 +141,18 @@ void    exec_absolute_path(t_exec *exec)
     is_absolute_path(exec);
     dup2(exec->saved_stdout, STDOUT_FILENO);
     close(exec->saved_stdout); 
+}
+
+void    dup_for_pipe(t_exec *exec)
+{
+    if((*exec->cmd)->heredoc)
+    {
+        dup2(exec->heredoc_fd[0], STDIN_FILENO);
+        close(exec->heredoc_fd[0]);
+    }   
+    else if(exec->old_fd != -1)
+        dup2(exec->old_fd, STDIN_FILENO);
+    if(exec->tmp->next_cmd)
+        dup2(exec->fd[1], STDOUT_FILENO);
+    close_files(exec->fd);
 }
