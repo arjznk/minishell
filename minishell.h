@@ -75,6 +75,7 @@ typedef struct s_exec
     t_path *path;
     t_cmd **cmd;
     t_cmd   *tmp;
+    t_token *tmp_token;
     char **envp;
     char *line;
     char *valid_cmd;
@@ -127,6 +128,7 @@ void    builtins_pipe(t_exec *exec);
 void    fork_pipe_heredocs(t_exec *exec);
 int     absolute_path(t_exec *exec);
 void    dup_for_pipe(t_exec *exec);
+void    init_all(t_exec *exec);
 
 //expand
 // void    expand_var(t_exec *exec);
@@ -148,10 +150,14 @@ void    echo_n(t_exec *exec);
 void    echo(t_exec *exec);
 int     check_n_valid(char *line);
 void    ft_unset(t_exec *exec);
+void	free_unset(t_exec *exec, t_env *prev, t_env *tmp);
+int	    unset_error(t_exec *exec);
 void    ft_export(t_exec *exec);
 void    export_w_error(t_exec *exec, t_env *newnode);
 void    export_only(t_exec *exec);
-int    export_error(t_exec *exec);
+int     export_error(t_exec *exec);
+void    exist_var(t_exec *exec, int i, t_env *tp, char *temp);
+void    add_to_env(t_exec *exec, t_env *newnode, int i);
 
 //free
 void 	free_all(char *line, t_path *path, t_env **env);
@@ -179,4 +185,5 @@ t_cmd   *parse_cmd(t_token *tokens);
 void   add_args(t_cmd *current, char *str);
 char    *expand_and_remove_quotes(char *str, t_exec *exec);
 char    *join_char(char *result, char c);
+
 #endif

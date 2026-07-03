@@ -40,7 +40,6 @@ void    echo(t_exec *exec)
         return;
     while(line[i])
     {
-
         printf("%s", line[i]);
         if(line[i + 1])
             printf(" ");
