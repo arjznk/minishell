@@ -53,7 +53,7 @@ int main(int ac, char **av, char **envp)
             tmp = tmp->next_token;
         }
         cmd = NULL;
-        if(check_syntax(tokens) == 0)
+        if(check_syntax(tokens, exec) == 0)
             cmd = parse_cmd(tokens);
         if(cmd == NULL || cmd->args == NULL || cmd->args[0] == NULL)
             continue;

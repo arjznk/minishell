@@ -5,13 +5,10 @@ void    heredocs(t_exec *exec)
     char *line;
     if((*exec->cmd)->heredoc)
     {
+        pipe(exec->heredoc_fd);
         while(1)
         {
             line = readline(">");
-            if(line)
-                add_history(line);
-            else
-                break;
             if(ft_strcmp(line, (*exec->cmd)->heredoc) == 0)
             {
                 free(line);

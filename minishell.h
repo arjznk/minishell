@@ -111,6 +111,7 @@ void    get_only_access(t_path *path);
 char    *expand_var2(char *str, int *i, char *result, t_exec *exec);
 char    *get_env_value(char *var_name, t_env *env);
 char    *get_var_name(char *str, int *i);
+
 //exec
 void    execute_builtins(t_exec *exec);
 void    exec_absolute_path(t_exec *exec);
@@ -150,6 +151,7 @@ void    ft_unset(t_exec *exec);
 void    ft_export(t_exec *exec);
 void    export_w_error(t_exec *exec, t_env *newnode);
 void    export_only(t_exec *exec);
+int    export_error(t_exec *exec);
 
 //free
 void 	free_all(char *line, t_path *path, t_env **env);
@@ -170,7 +172,7 @@ void    token_pipe(t_token **token, int *i);
 int check_quotes(char *str);
 
 // parsing functions
-int    check_syntax(t_token *token);
+int    check_syntax(t_token *token, t_exec *exec);
 t_cmd   *new_cmd (void);
 void    add_cmd(t_cmd **cmds, t_cmd *new);
 t_cmd   *parse_cmd(t_token *tokens);

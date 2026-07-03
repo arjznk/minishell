@@ -148,9 +148,10 @@ void    dup_for_pipe(t_exec *exec)
     if((*exec->cmd)->heredoc)
     {
         dup2(exec->heredoc_fd[0], STDIN_FILENO);
+        exec->old_fd = exec->heredoc_fd[0];
         close(exec->heredoc_fd[0]);
-    }   
-    else if(exec->old_fd != -1)
+    }
+    if(exec->old_fd != -1)
         dup2(exec->old_fd, STDIN_FILENO);
     if(exec->tmp->next_cmd)
         dup2(exec->fd[1], STDOUT_FILENO);
