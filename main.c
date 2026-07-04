@@ -56,7 +56,7 @@ int main(int ac, char **av, char **envp)
         if(check_directory(exec) == 1)
                 continue;
         exec_pipe(exec);
-        redirections(exec);
+        // redirections(exec);
     }
 }
 

@@ -2,9 +2,29 @@
 
 void    redirections(t_exec *exec)
 {
-    if(found_redir(exec) == 0)
+    char *valid_cmd;
+
+    valid_cmd = exec->tmp->args[0];
+    int fd;
+
+    if((fd = open((*exec->cmd)->outfile, O_CREAT | O_WRONLY | T_APPEND, 0644)) != -1)
     {
-        if(ft_strcmp((*exec->cmd)->args[1], ))
+        if(access(valid_cmd, F_OK) == 0)
+            dup2(fd, STDOUT_FILENO);
+        if(fork() == 0)
+        {
+            if(access(valid_cmd, F_OK) == 0)
+                execve(valid_cmd, exec->tmp->args, exec->envp);
+            else
+                cmd_error(exec);
+        }
+
+    }   
+    else
+    {
+        perror((*exec->cmd)->outfile);
+        exec->status = 127;
+        return;
     }
 }
 

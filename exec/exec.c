@@ -60,6 +60,8 @@ void    builtins_pipe(t_exec *exec)
 
 void    fork_pipe_heredocs(t_exec *exec)
 {
+    if(found_redir(exec) == 0)
+        redirections(exec);
     if(found_heredocs(exec) == 0)
         heredocs(exec);
     if(fork() == 0)
