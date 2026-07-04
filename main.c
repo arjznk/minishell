@@ -40,12 +40,12 @@ int main(int ac, char **av, char **envp)
             add_history(line);
         exec->line = line;
         if (check_quotes(exec->line) == 0)
-            tokens = tokenisation(line);
+        tokens = tokenisation(line);
         tmp = tokens;
         while (tmp)
         {
             if (tmp->type == T_WORD)
-                tmp->str = expand_and_remove_quotes(tmp->str, exec);
+            tmp->str = expand_and_remove_quotes(tmp->str, exec);
             tmp = tmp->next_token;
         }
         cmd = NULL;
@@ -53,12 +53,9 @@ int main(int ac, char **av, char **envp)
             cmd = parse_cmd(tokens);
         if(cmd == NULL || cmd->args == NULL || cmd->args[0] == NULL)
             continue;
-        if((*exec->cmd)->next_cmd)
-            exec_pipe(exec);
-        else if((*exec->cmd)->next_cmd == NULL && is_builtins(exec) == 1)
-            exec_pipe(exec);
-        else
-            execute_builtins(exec);
+        if(check_directory(exec) == 1)
+            continue;
+        exec_pipe(exec);
     }
 }
 

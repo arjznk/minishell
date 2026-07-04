@@ -28,3 +28,4 @@ int    check_syntax(t_token *token, t_exec *exec)
     }
     return 0;
 }
+

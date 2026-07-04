@@ -143,6 +143,7 @@ int     is_builtins(t_exec *exec);
 void    ft_env(t_exec *exec);
 void    ft_pwd();
 void    ft_cd(t_exec *exec);
+int	    check_directory(t_exec *exec);
 void    ft_exit_code(char *line, char *nb);
 void    ft_exit(t_exec *exec);
 void    ft_echo(t_exec *exec);

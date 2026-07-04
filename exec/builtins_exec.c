@@ -2,6 +2,8 @@
 
 void    execute_builtins(t_exec *exec)
 {
+    if((*exec->cmd)->heredoc)
+        heredocs(exec);
     if(ft_strcmp((*exec->cmd)->args[0], "pwd") == 0)
         ft_pwd();
     else if(ft_strcmp((*exec->cmd)->args[0], "exit") == 0)
@@ -41,5 +43,4 @@ int   is_builtins(t_exec *exec)
         return 0;
     return (1);
 }
-
 
