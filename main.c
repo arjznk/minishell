@@ -54,8 +54,9 @@ int main(int ac, char **av, char **envp)
         if(cmd == NULL || cmd->args == NULL || cmd->args[0] == NULL)
             continue;
         if(check_directory(exec) == 1)
-            continue;
+                continue;
         exec_pipe(exec);
+        redirections(exec);
     }
 }
 
