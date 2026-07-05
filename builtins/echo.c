@@ -26,7 +26,7 @@ void    ft_echo(t_exec *exec)
 		printf("minishell: %s: command not found\n", cmd1);
 		exec->status = 127;
 	}
-		exec->status = 0;
+	exec->status = 0;
 }
 
 void    echo(t_exec *exec)

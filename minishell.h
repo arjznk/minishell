@@ -75,7 +75,7 @@ typedef struct s_exec
     t_path *path;
     t_cmd **cmd;
     t_cmd   *tmp;
-    t_token *tmp_token;
+    t_token  *tmp_tokens;
     char **envp;
     char *line;
     char *valid_cmd;
@@ -84,6 +84,7 @@ typedef struct s_exec
     int fd[2];
     int old_fd;
     int heredoc_fd[2];
+	int	redir_fd;
 } t_exec;
 
 //list utils
@@ -113,6 +114,7 @@ char    *expand_var2(char *str, int *i, char *result, t_exec *exec);
 char    *get_env_value(char *var_name, t_env *env);
 char    *get_var_name(char *str, int *i);
 void    add_to_env(t_exec *exec, t_env *newnode, int i);
+void	path_function(t_exec *exec, int size);
 
 //heredoc
 void    heredocs(t_exec *exec);
@@ -121,6 +123,10 @@ int     found_heredocs(t_exec *exec);
 //redirections
 void    redirections(t_exec *exec);
 int     found_redir(t_exec *exec);
+
+//main
+t_exec *init_all(char **envp);
+void	loop_shell(t_exec *exec);
 
 //exec
 void    execute_builtins(t_exec *exec);
@@ -132,10 +138,9 @@ void    redir_pipe_absolute(t_exec *exec);
 void    cmd_error(t_exec *exec);
 void    close_files(int fd[2]);
 void    builtins_pipe(t_exec *exec);
-void    fork_pipe_heredocs(t_exec *exec);
+void    fork_pipe(t_exec *exec);
 int     absolute_path(t_exec *exec);
 void    dup_for_pipe(t_exec *exec);
-void    init_all(t_exec *exec);
 void    exit_code(t_exec *exec);
 
 //expand

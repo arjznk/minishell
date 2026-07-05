@@ -2,30 +2,24 @@
 
 void    redirections(t_exec *exec)
 {
-    char *valid_cmd;
-
-    valid_cmd = exec->tmp->args[0];
-    int fd;
-
-    if((fd = open((*exec->cmd)->outfile, O_CREAT | O_WRONLY | T_APPEND, 0644)) != -1)
-    {
-        if(access(valid_cmd, F_OK) == 0)
-            dup2(fd, STDOUT_FILENO);
-        if(fork() == 0)
-        {
-            if(access(valid_cmd, F_OK) == 0)
-                execve(valid_cmd, exec->tmp->args, exec->envp);
-            else
-                cmd_error(exec);
-        }
-
-    }   
-    else
-    {
-        perror((*exec->cmd)->outfile);
-        exec->status = 127;
-        return;
-    }
+	if((*exec->cmd)->outfile && (*exec->cmd)->append == 1)
+	{
+		if ((exec->redir_fd = open((*exec->cmd)->outfile, O_CREAT | O_WRONLY | O_APPEND, 0644)) == -1)
+		{
+			printf("minishell: %s: %s\n", (*exec->cmd)->outfile, strerror(errno));
+			exec->status = 127;
+			return;
+		}
+	}
+	else if((*exec->cmd)->outfile && (*exec->cmd)->append == 0)
+	{
+		if ((exec->redir_fd = open((*exec->cmd)->outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644)) == -1)
+		{
+			printf("minishell: %s: %s\n", (*exec->cmd)->outfile, strerror(errno));
+			exec->status = 127;
+			return;
+		}
+	}
 }
 
 int     found_redir(t_exec *exec)

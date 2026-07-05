@@ -14,7 +14,7 @@ void    exec_pipe(t_exec *exec)
         else if(is_builtins(exec) == 0)
             builtins_pipe(exec);
         else
-            fork_pipe_heredocs(exec);
+            fork_pipe(exec);
         exec->old_fd = exec->fd[0];
         close(exec->fd[1]);
         exec->tmp = exec->tmp->next_cmd; 
@@ -37,10 +37,7 @@ void    redir_pipe(t_exec *exec)
     else
         valid_cmd = exec->tmp->args[0];
     if(access(valid_cmd, F_OK) != 0)
-    {
-        (dup2(exec->old_fd, STDIN_FILENO));
         cmd_error(exec);
-    }
     dup_for_pipe(exec);
     if(access(valid_cmd, F_OK) == 0)
         execve(valid_cmd, exec->tmp->args, exec->envp);
@@ -50,7 +47,13 @@ void    redir_pipe(t_exec *exec)
 
 void    builtins_pipe(t_exec *exec)
 {
-    exec->saved_stdout = dup(STDOUT_FILENO);
+	if((*exec->cmd)->outfile)
+        redirections(exec);
+	if((*exec->cmd)->heredoc)
+        heredocs(exec);
+	exec->saved_stdout = dup(STDOUT_FILENO);
+	if(found_redir(exec) == 0)
+    	dup2(exec->redir_fd, STDOUT_FILENO);
     if(exec->tmp->next_cmd)
         dup2(exec->fd[1], STDOUT_FILENO);
     execute_builtins(exec);
@@ -58,7 +61,7 @@ void    builtins_pipe(t_exec *exec)
     close(exec->saved_stdout); 
 }
 
-void    fork_pipe_heredocs(t_exec *exec)
+void    fork_pipe(t_exec *exec)
 {
     if(found_redir(exec) == 0)
         redirections(exec);
@@ -76,6 +79,8 @@ void    dup_for_pipe(t_exec *exec)
         exec->old_fd = exec->heredoc_fd[0];
         close(exec->heredoc_fd[0]);
     }
+	if(found_redir(exec) == 0)
+    	dup2(exec->redir_fd, STDOUT_FILENO);
     if(exec->old_fd != -1)
         dup2(exec->old_fd, STDIN_FILENO);
     if(exec->tmp->next_cmd)
