@@ -40,12 +40,12 @@ void    echo(t_exec *exec)
         return;
     while(line[i])
     {
-        printf("%s", line[i]);
+        write(STDOUT_FILENO, line[i], ft_strlen(line[i]));
         if(line[i + 1])
-            printf(" ");
+            write(STDOUT_FILENO, " ", 1);
         i++;
     }
-    printf("\n");
+    write(STDOUT_FILENO, "\n", 1);
 }
 
 void   echo_n(t_exec *exec)

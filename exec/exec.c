@@ -41,30 +41,47 @@ void    redir_pipe(t_exec *exec)
     dup_for_pipe(exec);
     if(access(valid_cmd, F_OK) == 0)
         execve(valid_cmd, exec->tmp->args, exec->envp);
-    else
-        cmd_error(exec);
 }
 
 void    builtins_pipe(t_exec *exec)
 {
-	if((*exec->cmd)->outfile)
-        redirections(exec);
-	if((*exec->cmd)->heredoc)
-        heredocs(exec);
 	exec->saved_stdout = dup(STDOUT_FILENO);
-	if(found_redir(exec) == 0)
-    	dup2(exec->redir_fd, STDOUT_FILENO);
-    if(exec->tmp->next_cmd)
+    exec->saved_stdin = dup(STDIN_FILENO);
+    if((*exec->cmd)->heredoc)
+        heredocs(exec);
+    else if(found_outfile(exec) == 0)
+    {
+        if(redirections(exec) == 1)
+        {
+            close_saved_files(exec);
+            return;
+        }
+        dup2(exec->redir_fd, STDOUT_FILENO);
+    }
+    else if(found_infile(exec) == 0)
+    {
+        if(redirections(exec) == 1)
+        {
+            close_saved_files(exec);
+            return;
+        }
+        dup2(exec->redir_fd, STDIN_FILENO);
+    }
+    else if(exec->tmp->next_cmd)
         dup2(exec->fd[1], STDOUT_FILENO);
-    execute_builtins(exec);
-    dup2(exec->saved_stdout, STDOUT_FILENO);
-    close(exec->saved_stdout); 
+    dup_and_close(exec);
 }
 
 void    fork_pipe(t_exec *exec)
 {
-    if(found_redir(exec) == 0)
-        redirections(exec);
+    if(found_outfile(exec) == 0 || found_infile(exec) == 0)
+    {
+        if (redirections(exec) == 1)
+        {
+            close_saved_files(exec);
+            return;
+        }
+    }
     if(found_heredocs(exec) == 0)
         heredocs(exec);
     if(fork() == 0)
@@ -79,11 +96,35 @@ void    dup_for_pipe(t_exec *exec)
         exec->old_fd = exec->heredoc_fd[0];
         close(exec->heredoc_fd[0]);
     }
-	if(found_redir(exec) == 0)
-    	dup2(exec->redir_fd, STDOUT_FILENO);
-    if(exec->old_fd != -1)
+    else if(found_outfile(exec) == 0)
+    {
+        if(redirections(exec) == 1)
+            return;
+        dup2(exec->redir_fd, STDOUT_FILENO);
+    }
+    else if(found_infile(exec) == 0)
+    {
+        if(redirections(exec) == 1)
+            return;
+        dup2(exec->redir_fd, STDIN_FILENO);
+    }
+    else if(exec->old_fd != -1)
         dup2(exec->old_fd, STDIN_FILENO);
-    if(exec->tmp->next_cmd)
+    else if(exec->tmp->next_cmd)
         dup2(exec->fd[1], STDOUT_FILENO);
     close_files(exec->fd);
+}
+
+void    close_saved_files(t_exec *exec)
+{
+    close(exec->saved_stdin);
+    close(exec->saved_stdout);
+}
+
+void    dup_and_close(t_exec *exec)
+{
+    execute_builtins(exec);
+    dup2(exec->saved_stdout, STDOUT_FILENO);
+    dup2(exec->saved_stdin, STDIN_FILENO);
+    close_saved_files(exec);
 }

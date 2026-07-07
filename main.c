@@ -10,11 +10,11 @@ t_exec *init_all(char **envp)
     int     size;
 
 	cmd = NULL;
+    env = NULL;
     path = malloc(sizeof(t_path));
-    env = malloc(sizeof(t_env));
     exec = malloc(sizeof(t_exec));
     tokens = malloc(sizeof(t_token));
-	if(!path || !env || !exec || !tokens)
+	if(!path || !exec || !tokens)
 		return (NULL);
 	size = 0;
 	while (envp[size])
@@ -48,6 +48,8 @@ void	loop_shell(t_exec *exec)
         }
         if(check_syntax((*exec->tokens), exec) == 0)
 			(*exec->cmd) = parse_cmd((*exec->tokens));
+        else
+            continue;
         if((*exec->cmd) == NULL || (*exec->cmd)->args == NULL || (*exec->cmd)->args[0] == NULL)
             continue;
         if(check_directory(exec) == 1)
