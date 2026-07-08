@@ -27,14 +27,14 @@ int    export_error(t_exec *exec)
     i = 0;
     while((*exec->cmd)->args[1][i])
     {
-        if(c_strcmp((*exec->cmd)->args[1], '_') == 0)
+        if(c_strcmp((*exec->cmd)->args[1], '_') == 0 || c_strcmp((*exec->cmd)->args[1], '=') == 0 )
             i++;
-        else if((ft_isalpha(((*exec->cmd)->args[1][i]) == 1)) || (ft_isalpha((*exec->cmd)->args[1][i]) == 1 && (*exec->cmd)->args[1][i+1] == 0))
+        if((ft_isalpha(((*exec->cmd)->args[1][i]) == 1)) || (ft_isalpha((*exec->cmd)->args[1][i]) == 1 && (*exec->cmd)->args[1][i+1] == 0))
         {
             export_return(exec);
             return (1);
         }
-        else if(c_strcmp((*exec->cmd)->args[1], '!') == 0)
+        if(c_strcmp((*exec->cmd)->args[1], '!') == 0)
         {
             printf("minishell: %s: event not found\n", (*exec->cmd)->args[1]);
             exec->status = 1;
