@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 20:34:11 by rijebbar          #+#    #+#             */
-/*   Updated: 2025/11/13 20:54:45 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/08 14:18:34 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 int	ft_isalpha(int c)
 {
 	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
-		return (0);
-	return (1);
+		return (1);
+	return (0);
 }
 
 // int main(void)

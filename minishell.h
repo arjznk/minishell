@@ -106,6 +106,9 @@ char	*ft_strchr_echo(const char *s, int c);
 int     c_strrcmp(char *str, char b);
 void    sort_str(t_env **env);
 char	*search_and_return(char *str, char c);
+int     valid_alpha(char *str);
+int    is_valid(t_exec *exec);
+int     compar_char(int a, int b);
 
 //env   
 void    get_and_cut_path(char **envp, t_path *path);

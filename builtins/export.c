@@ -25,18 +25,14 @@ int    export_error(t_exec *exec)
     int i;
 
     i = 0;
-    while((*exec->cmd)->args[1][i])
+    char *var = search_and_stop((*exec->cmd)->args[1], '=');
+    while((var[i]))
     {
-        if(c_strcmp((*exec->cmd)->args[1], '_') == 0 || c_strcmp((*exec->cmd)->args[1], '=') == 0 )
+        if(compar_char(var[i], '_') == 0)
             i++;
-        if((ft_isalpha(((*exec->cmd)->args[1][i]) == 1)) || (ft_isalpha((*exec->cmd)->args[1][i]) == 1 && (*exec->cmd)->args[1][i+1] == 0))
+        if(ft_isalpha(var[i]) == 0 || ft_isdigit(var) == 0)
         {
-            export_return(exec);
-            return (1);
-        }
-        if(c_strcmp((*exec->cmd)->args[1], '!') == 0)
-        {
-            printf("minishell: %s: event not found\n", (*exec->cmd)->args[1]);
+            printf("minishell: export: `%s': not a valid identifier\n", (*exec->cmd)->args[1]);
             exec->status = 1;
             return (1);
         }

@@ -54,6 +54,13 @@ char	*search_and_return(char *str, char c)
 	return(dest);
 }
 
+int    compar_char(int a, int b)
+{
+    if (a == b)
+        return (0);
+    return (1);
+}
+
 void    sort_str(t_env **env)
 {
     t_env *tmp;
