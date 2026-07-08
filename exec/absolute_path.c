@@ -46,7 +46,7 @@ void    redir_pipe_absolute(t_exec *exec)
             dup2(exec->old_fd, STDIN_FILENO);
         if(exec->tmp->next_cmd)
             dup2(exec->fd[1], STDOUT_FILENO);
-        close_files(exec->fd);
+        close_files(exec);
         if(access(valid_cmd, F_OK) == 0)
             execve(valid_cmd, exec->tmp->args, exec->envp);
         else

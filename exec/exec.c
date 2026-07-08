@@ -16,7 +16,7 @@ void    exec_pipe(t_exec *exec)
         else
             fork_pipe(exec);
         exec->old_fd = exec->fd[0];
-        close(exec->fd[1]);
+        close_files(exec);
         exec->tmp = exec->tmp->next_cmd; 
     }
     while(waitpid(-1, &exec->status, 0) > 0)
@@ -78,7 +78,7 @@ void    fork_pipe(t_exec *exec)
     {
         if (redirections(exec) == 1)
         {
-            close_saved_files(exec);
+            close_files(exec);
             return;
         }
     }
@@ -86,6 +86,7 @@ void    fork_pipe(t_exec *exec)
         heredocs(exec);
     if(fork() == 0)
         redir_pipe(exec);
+    close_heredoc_files(exec);
 }
 
 void    dup_for_pipe(t_exec *exec)
@@ -112,7 +113,7 @@ void    dup_for_pipe(t_exec *exec)
         dup2(exec->old_fd, STDIN_FILENO);
     else if(exec->tmp->next_cmd)
         dup2(exec->fd[1], STDOUT_FILENO);
-    close_files(exec->fd);
+    close_files(exec);
 }
 
 void    close_saved_files(t_exec *exec)

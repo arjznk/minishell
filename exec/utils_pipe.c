@@ -7,10 +7,10 @@ void    cmd_error(t_exec *exec)
     exit(127);
 }
 
-void    close_files(int fd[2])
+void    close_files(t_exec *exec)
 {
-    close(fd[0]);
-    close(fd[1]);
+    close(exec->fd[0]);
+    close(exec->fd[1]);
 }
 
 int	check_directory(t_exec *exec)

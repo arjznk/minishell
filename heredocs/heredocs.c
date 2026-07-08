@@ -28,3 +28,8 @@ int found_heredocs(t_exec *exec)
         return (0);
     return (1);
 }
+
+void    close_heredoc_files(t_exec *exec)
+{
+    close(exec->heredoc_fd[0]);
+}

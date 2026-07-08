@@ -1,13 +1,10 @@
 #include "minishell.h"
 
-void free_all(char *line, t_path *path, t_env **env)
+void free_all(t_exec *exec)
 {
-	// (void)path;
-   free_node_env(env);
-//    free_node_path(path);
-	free(path);
-   free(line);
-   exit(0);
+//    free_node_env(exec->env);
+   free(exec->path);
+   free(exec->line);
 }
 
 void	free_tab(long *tab)

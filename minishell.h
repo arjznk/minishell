@@ -123,6 +123,7 @@ void	path_function(t_exec *exec, int size);
 //heredoc
 void    heredocs(t_exec *exec);
 int     found_heredocs(t_exec *exec);
+void    close_heredoc_files(t_exec *exec);
 
 //redirections
 int    redirections(t_exec *exec);
@@ -142,7 +143,7 @@ void    exec_pipe(t_exec *exec);
 void    redir_pipe(t_exec *exec);
 void    redir_pipe_absolute(t_exec *exec);
 void    cmd_error(t_exec *exec);
-void    close_files(int fd[2]);
+void    close_files(t_exec *exec);
 void    close_saved_files(t_exec *exec);
 void    dup_and_close(t_exec *exec);
 void    builtins_pipe(t_exec *exec);
@@ -164,7 +165,7 @@ void    ft_env(t_exec *exec);
 void    ft_pwd();
 void    ft_cd(t_exec *exec);
 int	    check_directory(t_exec *exec);
-void    ft_exit_code(char *line, char *nb);
+void    ft_exit_code(char *line, char *nb, t_exec *exec);
 void    ft_exit(t_exec *exec);
 void    ft_echo(t_exec *exec);
 void    echo_n(t_exec *exec);
@@ -180,7 +181,7 @@ void   export_return(t_exec *exec);
 void    exist_var(t_exec *exec, int i, t_env *tp, char *temp);
 
 //free
-void 	free_all(char *line, t_path *path, t_env **env);
+void free_all(t_exec *exec);
 void	free_tab(long *tab);
 void	free_node_env(t_env **list);
 void	free_node_path(t_path_access **list);
