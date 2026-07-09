@@ -42,9 +42,9 @@ void	loop_shell(t_exec *exec)
 		exec->tmp_tokens = (*exec->tokens);
         while (exec->tmp_tokens)
         {
-            if (tmp->type == T_WORD)
-                tmp->str = expand_and_remove_quotes(tmp->str, exec);
-            tmp = tmp->next_token;
+            if (exec->tmp_tokens->type == T_WORD)
+            exec->tmp_tokens->str = expand_and_remove_quotes(exec->tmp_tokens->str, exec);
+            exec->tmp_tokens = exec->tmp_tokens->next_token;
         }
         if(check_syntax((*exec->tokens), exec) == 0)
 			(*exec->cmd) = parse_cmd((*exec->tokens));
