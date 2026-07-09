@@ -32,6 +32,16 @@ void    get_only_access(t_path *path)
         i++;
     path->access_usr = path->path_access[i];
 }
-// recup et stock l'env -> moi
-// areej -> tokenisation
-// une fois env stock -> relier avec les commandes pour l'exec
+
+void    add_to_env(t_exec *exec, t_env *newnode, int i)
+{
+    newnode = ft_lstnew_for_env((*exec->cmd)->args[i]);
+    ft_lstadd_back((exec->env), newnode);
+}
+
+void	path_function(t_exec *exec, int size)
+{
+	fill_list_env(exec->envp, exec->env, size);
+    get_and_cut_path(exec->envp, exec->path);
+    get_only_access(exec->path);
+}

@@ -75,13 +75,17 @@ typedef struct s_exec
     t_path *path;
     t_cmd **cmd;
     t_cmd   *tmp;
+    t_token  *tmp_tokens;
     char **envp;
     char *line;
     char *valid_cmd;
     int status;
     int saved_stdout;
+    int saved_stdin;
     int fd[2];
     int old_fd;
+    int heredoc_fd[2];
+	int	redir_fd;
 } t_exec;
 
 //list utils
@@ -102,6 +106,9 @@ char	*ft_strchr_echo(const char *s, int c);
 int     c_strrcmp(char *str, char b);
 void    sort_str(t_env **env);
 char	*search_and_return(char *str, char c);
+int     valid_alpha(char *str);
+int    is_valid(t_exec *exec);
+int     compar_char(int a, int b);
 
 //env   
 void    get_and_cut_path(char **envp, t_path *path);
@@ -110,6 +117,24 @@ void    get_only_access(t_path *path);
 char    *expand_var2(char *str, int *i, char *result, t_exec *exec);
 char    *get_env_value(char *var_name, t_env *env);
 char    *get_var_name(char *str, int *i);
+void    add_to_env(t_exec *exec, t_env *newnode, int i);
+void	path_function(t_exec *exec, int size);
+
+//heredoc
+void    heredocs(t_exec *exec);
+int     found_heredocs(t_exec *exec);
+void    close_heredoc_files(t_exec *exec);
+
+//redirections
+int    redirections(t_exec *exec);
+int     found_outfile(t_exec *exec);
+int		found_infile(t_exec *exec);
+void	redir_error(t_exec *exec);
+
+//main
+t_exec *init_all(char **envp);
+void	loop_shell(t_exec *exec);
+
 //exec
 void    execute_builtins(t_exec *exec);
 void    exec_absolute_path(t_exec *exec);
@@ -118,16 +143,17 @@ void    exec_pipe(t_exec *exec);
 void    redir_pipe(t_exec *exec);
 void    redir_pipe_absolute(t_exec *exec);
 void    cmd_error(t_exec *exec);
-void    close_files(int fd[2]);
-void    heredocs(t_exec *exec);
-int     found_heredocs(t_exec *exec);
+void    close_files(t_exec *exec);
+void    close_saved_files(t_exec *exec);
+void    dup_and_close(t_exec *exec);
 void    builtins_pipe(t_exec *exec);
-void    fork_pipe_heredocs(t_exec *exec);
+void    fork_pipe(t_exec *exec);
 int     absolute_path(t_exec *exec);
+void    dup_for_pipe(t_exec *exec);
+void    exit_code(t_exec *exec);
 
 //expand
 // void    expand_var(t_exec *exec);
-void    exit_code(t_exec *exec);
 
 //signal
 void    set_sig_childen(void);
@@ -138,19 +164,24 @@ int     is_builtins(t_exec *exec);
 void    ft_env(t_exec *exec);
 void    ft_pwd();
 void    ft_cd(t_exec *exec);
-void    ft_exit_code(char *line, char *nb);
+int	    check_directory(t_exec *exec);
+void    ft_exit_code(char *line, char *nb, t_exec *exec);
 void    ft_exit(t_exec *exec);
 void    ft_echo(t_exec *exec);
 void    echo_n(t_exec *exec);
 void    echo(t_exec *exec);
 int     check_n_valid(char *line);
 void    ft_unset(t_exec *exec);
+void	free_unset(t_exec *exec, t_env *prev, t_env *tmp);
 void    ft_export(t_exec *exec);
 void    export_w_error(t_exec *exec, t_env *newnode);
 void    export_only(t_exec *exec);
+int     export_error(t_exec *exec);
+void   export_return(t_exec *exec);
+void    exist_var(t_exec *exec, int i, t_env *tp, char *temp);
 
 //free
-void 	free_all(char *line, t_path *path, t_env **env);
+void free_all(t_exec *exec);
 void	free_tab(long *tab);
 void	free_node_env(t_env **list);
 void	free_node_path(t_path_access **list);
@@ -168,11 +199,12 @@ void    token_pipe(t_token **token, int *i);
 int check_quotes(char *str);
 
 // parsing functions
-int    check_syntax(t_token *token);
+int    check_syntax(t_token *token, t_exec *exec);
 t_cmd   *new_cmd (void);
 void    add_cmd(t_cmd **cmds, t_cmd *new);
 t_cmd   *parse_cmd(t_token *tokens);
 void   add_args(t_cmd *current, char *str);
 char    *expand_and_remove_quotes(char *str, t_exec *exec);
 char    *join_char(char *result, char c);
+
 #endif

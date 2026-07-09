@@ -3,9 +3,6 @@
 void    ft_echo(t_exec *exec)
 {
     char *cmd1;
-    int i;
-
-    i = 1;
 
     if(ft_strncmp((*exec->cmd)->args[0], "/usr/bin/", 9) == 0)
         cmd1 = ft_strchr_echo((*exec->cmd)->args[0], 'n');
@@ -18,10 +15,10 @@ void    ft_echo(t_exec *exec)
     }
     if(check_n_valid((*exec->cmd)->args[1]) == 1)
         echo_n(exec);
-    else if(ft_strcmp((*exec->cmd)->args[1], "$?") == 0)
+    if(ft_strcmp((*exec->cmd)->args[1], "$?") == 0)
         exit_code(exec);
     else if(ft_strncmp((*exec->cmd)->args[1], "$", 1) == 0)
-        printf("%s\n", (*exec->cmd)->args[i]);
+        printf("%s\n", (*exec->cmd)->args[1]);
     else if(ft_strcmp(cmd1, "echo") == 0)
         echo(exec);
 	else
@@ -29,7 +26,7 @@ void    ft_echo(t_exec *exec)
 		printf("minishell: %s: command not found\n", cmd1);
 		exec->status = 127;
 	}
-		exec->status = 0;
+	exec->status = 0;
 }
 
 void    echo(t_exec *exec)
@@ -39,15 +36,16 @@ void    echo(t_exec *exec)
 
     i = 1;
     line = (*exec->cmd)->args;
+    if(ft_strcmp((*exec->cmd)->args[0], "echo") == 0 && ft_strcmp((*exec->cmd)->args[1], "-n") == 0)
+        return;
     while(line[i])
     {
-
-        printf("%s", line[i]);
+        write(STDOUT_FILENO, line[i], ft_strlen(line[i]));
         if(line[i + 1])
-            printf(" ");
+            write(STDOUT_FILENO, " ", 1);
         i++;
     }
-    printf("\n");
+    write(STDOUT_FILENO, "\n", 1);
 }
 
 void   echo_n(t_exec *exec)

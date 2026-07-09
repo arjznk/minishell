@@ -71,7 +71,3 @@ char    *expand_var2(char *str, int *i, char *result, t_exec *exec)
     free(var_name);
     return (new_result);
 }
-/*
-expand de base avec variable ex : $USER fonctionne
-mais avec quote non  
-*/
