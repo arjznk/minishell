@@ -11,6 +11,11 @@ void    close_files(t_exec *exec)
 {
     close(exec->fd[0]);
     close(exec->fd[1]);
+    if((*exec->cmd)->heredoc)
+    {
+        close(exec->heredoc_fd[0]);
+        close(exec->heredoc_fd[1]);
+    }
 }
 
 int	check_directory(t_exec *exec)

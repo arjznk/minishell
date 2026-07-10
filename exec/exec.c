@@ -16,7 +16,7 @@ void    exec_pipe(t_exec *exec)
         else
             fork_pipe(exec);
         exec->old_fd = exec->fd[0];
-        close_files(exec);
+        close(exec->fd[1]); 
         exec->tmp = exec->tmp->next_cmd; 
     }
     while(waitpid(-1, &exec->status, 0) > 0)
@@ -37,7 +37,10 @@ void    redir_pipe(t_exec *exec)
     else
         valid_cmd = exec->tmp->args[0];
     if(access(valid_cmd, F_OK) != 0)
+    {
         cmd_error(exec);
+        return;
+    }
     dup_for_pipe(exec);
     if(access(valid_cmd, F_OK) == 0)
         execve(valid_cmd, exec->tmp->args, exec->envp);
@@ -86,7 +89,6 @@ void    fork_pipe(t_exec *exec)
         heredocs(exec);
     if(fork() == 0)
         redir_pipe(exec);
-    close_heredoc_files(exec);
 }
 
 void    dup_for_pipe(t_exec *exec)
@@ -95,7 +97,7 @@ void    dup_for_pipe(t_exec *exec)
     {
         dup2(exec->heredoc_fd[0], STDIN_FILENO);
         exec->old_fd = exec->heredoc_fd[0];
-        close(exec->heredoc_fd[0]);
+        // close(exec->heredoc_fd[0]);
     }
     else if(found_outfile(exec) == 0)
     {
@@ -109,11 +111,10 @@ void    dup_for_pipe(t_exec *exec)
             return;
         dup2(exec->redir_fd, STDIN_FILENO);
     }
-    else if(exec->old_fd != -1)
+    if(exec->old_fd != -1)
         dup2(exec->old_fd, STDIN_FILENO);
-    else if(exec->tmp->next_cmd)
+    if(exec->tmp->next_cmd)
         dup2(exec->fd[1], STDOUT_FILENO);
-    close_files(exec);
 }
 
 void    close_saved_files(t_exec *exec)

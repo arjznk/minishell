@@ -41,6 +41,7 @@ void    redir_pipe_absolute(t_exec *exec)
         {
             (dup2(exec->old_fd, STDIN_FILENO));
             cmd_error(exec);
+            return;
         }
         if(exec->old_fd != -1)
             dup2(exec->old_fd, STDIN_FILENO);
@@ -49,8 +50,6 @@ void    redir_pipe_absolute(t_exec *exec)
         close_files(exec);
         if(access(valid_cmd, F_OK) == 0)
             execve(valid_cmd, exec->tmp->args, exec->envp);
-        else
-            cmd_error(exec);
     }
 }
 
