@@ -24,15 +24,16 @@ t_exec *init_all(char **envp)
 	exec->cmd = &cmd;
 	exec->tokens = &tokens;
 	exec->envp = envp;
-	path_function(exec, size);
+    exec->size_envp = size;
 	return(exec);
 }
 void	loop_shell(t_exec *exec)
 {
-	char    *line;
-
+    char    *line;
+    
 	while(1)
     {
+        path_function(exec, exec->size_envp);
         line = readline("minishell>");
 		if(line)
             add_history(line);
@@ -43,7 +44,7 @@ void	loop_shell(t_exec *exec)
         while (exec->tmp_tokens)
         {
             if (exec->tmp_tokens->type == T_WORD)
-            exec->tmp_tokens->str = expand_and_remove_quotes(exec->tmp_tokens->str, exec);
+                exec->tmp_tokens->str = expand_and_remove_quotes(exec->tmp_tokens->str, exec);
             exec->tmp_tokens = exec->tmp_tokens->next_token;
         }
         if(check_syntax((*exec->tokens), exec) == 0)

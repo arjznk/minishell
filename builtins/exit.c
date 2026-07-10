@@ -14,6 +14,7 @@ void    ft_exit(t_exec *exec)
             printf("exit\n");
             close_files(exec);
             close_saved_files(exec);
+            free_all(exec);
             exit(0);
         }
         else if(cmd && ft_isdigit(nb) == 1)
@@ -21,6 +22,7 @@ void    ft_exit(t_exec *exec)
             printf("exit\nminishell: exit: %s: numeric argument required\n", nb);
             close_files(exec);
             close_saved_files(exec);
+            free_all(exec);
             exit(2);
         }
         else
@@ -49,6 +51,7 @@ void    ft_exit_code(char *line, char *nb, t_exec *exec)
             printf("exit\n");
             close_files(exec);
             close_saved_files(exec);
+            free_all(exec);
             exit(nbr % 256);
         }
         else
@@ -56,6 +59,7 @@ void    ft_exit_code(char *line, char *nb, t_exec *exec)
             printf("exit\n");
             close_files(exec);
             close_saved_files(exec);
+            free_all(exec);
             exit(nbr);
         }    
     }

@@ -2,19 +2,25 @@
 
 void free_all(t_exec *exec)
 {
-//    free_node_env(exec->env);
-   free(exec->path);
-   free(exec->line);
+	if(exec->env)
+		free_node_env(exec->env);
+	if(exec->path)
+	{
+		free_tab(exec->path->path_access);
+		free(exec->path);
+	}
+	if(exec->line)
+		free(exec->line);
 }
 
-void	free_tab(long *tab)
+void	free_tab(char **tab)
 {
 	int	i;
 
 	i = 0;
 	while (tab[i])
 	{
-		free((void *)tab[i]);
+		free(tab[i]);
 		i++;
 	}
 	free(tab);
@@ -29,22 +35,11 @@ void	free_node_env(t_env **list)
 	while (*list)
 	{
 		tmp = (*list)->next;
+		free((*list)->variable);
+		free((*list)->value);
 		free(*list);
-	    (*list)->next = tmp;
+	    *list = tmp;
 	}
 	*list = NULL;
 }
-void	free_node_path(t_path_access **list)
-{
-	t_path_access	*tmp;
 
-	if (!list)
-		return ;
-	while (*list)
-	{
-		tmp = (*list)->next;
-		free(*list);
-	    (*list)->next = tmp;
-	}
-	*list = NULL;
-}

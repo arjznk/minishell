@@ -62,12 +62,6 @@ typedef struct s_path
     char *access_usr;
 }   t_path;
 
-typedef struct s_path_access
-{
-    char *acces;
-    struct s_path_access *next;
-}   t_path_access;
-
 typedef struct s_exec
 {
     t_env **env;
@@ -86,6 +80,7 @@ typedef struct s_exec
     int old_fd;
     int heredoc_fd[2];
 	int	redir_fd;
+    int size_envp;
 } t_exec;
 
 //list utils
@@ -106,8 +101,6 @@ char	*ft_strchr_echo(const char *s, int c);
 int     c_strrcmp(char *str, char b);
 void    sort_str(t_env **env);
 char	*search_and_return(char *str, char c);
-int     valid_alpha(char *str);
-int    is_valid(t_exec *exec);
 int     compar_char(int a, int b);
 
 //env   
@@ -182,9 +175,8 @@ void    exist_var(t_exec *exec, int i, t_env *tp, char *temp);
 
 //free
 void free_all(t_exec *exec);
-void	free_tab(long *tab);
 void	free_node_env(t_env **list);
-void	free_node_path(t_path_access **list);
+void	free_tab(char **tab);
 
 // tokenisation functions
 t_token    *tokenisation(char *str);
