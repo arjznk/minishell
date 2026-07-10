@@ -1,39 +1,37 @@
 #include "minishell.h"
 
-t_exec *init_all(char **envp)
-{
-	t_path *path;
-    static t_token *tokens;
-    static t_cmd   *cmd;
-    t_exec  *exec;
-	t_env	*env;
-    int     size;
+// t_exec *init_all(char **envp)
+// {
+// 	t_path *path;
+//     static t_token *tokens;
+//     static t_cmd   *cmd;
+//     static t_exec  *exec;
+// 	t_env	*env;
+//     int     size;
 
-	cmd = NULL;
-    env = NULL;
-    path = malloc(sizeof(t_path));
-    exec = malloc(sizeof(t_exec));
-    tokens = malloc(sizeof(t_token));
-	if(!path || !exec || !tokens)
-		return (NULL);
-	size = 0;
-	while (envp[size])
-		size++;
-	exec->env = &env;
-	exec->path = path;
-	exec->cmd = &cmd;
-	exec->tokens = &tokens;
-	exec->envp = envp;
-    exec->size_envp = size;
-	return(exec);
-}
+// 	cmd = NULL;
+//     env = NULL;
+//     path = malloc(sizeof(t_path));
+//     tokens = malloc(sizeof(t_token));
+// 	if(!path || !exec || !tokens)
+// 		return (NULL);
+// 	size = 0;
+// 	while (envp[size])
+// 		size++;
+// 	exec->env = &env;
+// 	exec->path = path;
+// 	exec->cmd = &cmd;
+// 	exec->tokens = &tokens;
+// 	exec->envp = envp;
+//     path_function(exec, size);
+// 	return(exec);
+// }
 void	loop_shell(t_exec *exec)
 {
     char    *line;
     
 	while(1)
     {
-        path_function(exec, exec->size_envp);
         line = readline("minishell>");
 		if(line)
             add_history(line);
@@ -61,12 +59,31 @@ void	loop_shell(t_exec *exec)
 
 int main(int ac, char **av, char **envp)
 {
-	t_exec *exec;
-
     (void)av;
     (void)ac;
-    
-    exec = init_all(envp);
+    t_path *path;
+    static t_exec  *exec;
+    static t_token *tokens;
+    static t_cmd   *cmd;
+	t_env	*env;
+    int     size;
+
+	cmd = NULL;
+    env = NULL;
+    exec = malloc(sizeof(t_exec));
+    path = malloc(sizeof(t_path));
+    tokens = malloc(sizeof(t_token));
+	if(!path || !exec || !tokens)
+		return (1);
+	size = 0;
+	while (envp[size])
+		size++;
+	exec->env = &env;
+	exec->path = path;
+	exec->cmd = &cmd;
+	exec->tokens = &tokens;
+	exec->envp = envp;
+    path_function(exec, size);
 	loop_shell(exec);
 }
 

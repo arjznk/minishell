@@ -2,8 +2,11 @@
 
 void fill_list_env(char **envp, t_env **env, int size)
 {
-    int i = 0;
+    int i;
     t_env *newnode;
+    
+    i= 0;
+    
     while(i < size)
     {
         newnode = ft_lstnew_for_env(envp[i]);

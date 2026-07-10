@@ -122,16 +122,3 @@ void    dup_for_pipe(t_exec *exec)
         dup2(exec->fd[1], STDOUT_FILENO);
 }
 
-void    close_saved_files(t_exec *exec)
-{
-    close(exec->saved_stdin);
-    close(exec->saved_stdout);
-}
-
-void    dup_and_close(t_exec *exec)
-{
-    execute_builtins(exec);
-    dup2(exec->saved_stdout, STDOUT_FILENO);
-    dup2(exec->saved_stdin, STDIN_FILENO);
-    close_saved_files(exec);
-}
