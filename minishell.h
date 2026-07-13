@@ -201,4 +201,7 @@ void   add_args(t_cmd *current, char *str);
 char    *expand_and_remove_quotes(char *str, t_exec *exec);
 char    *join_char(char *result, char c);
 
+// Signaux
+void    init_signals(void);
+void    handle_sigint(int sig);
 #endif

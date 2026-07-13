@@ -30,9 +30,15 @@ void	loop_shell(t_exec *exec)
 {
     char    *line;
     
+    init_signals();
 	while(1)
     {
-        line = readline("minishell>");
+        line = readline("minishell> ");
+        if (!line)
+        {
+            printf("exit\n");
+            break;
+        }
 		if(line)
             add_history(line);
         exec->line = line;
