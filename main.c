@@ -37,6 +37,7 @@ void	loop_shell(t_exec *exec)
         if (!line)
         {
             printf("exit\n");
+            free_all(exec);
             break;
         }
 		if(line)
@@ -54,11 +55,20 @@ void	loop_shell(t_exec *exec)
         if(check_syntax((*exec->tokens), exec) == 0)
 			(*exec->cmd) = parse_cmd((*exec->tokens));
         else
+        {
+            free_cmd_tokens(exec);
             continue;
+        }
         if((*exec->cmd) == NULL || (*exec->cmd)->args == NULL || (*exec->cmd)->args[0] == NULL)
+        {
+            free_cmd_tokens(exec);
             continue;
+        }
         if(check_directory(exec) == 1)
-                continue;
+        {
+            free_cmd_tokens(exec);
+            continue;
+        }
         exec_pipe(exec);
     }
 }

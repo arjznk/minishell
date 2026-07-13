@@ -179,6 +179,7 @@ void	free_node_env(t_env **list);
 void	free_tab(char **tab);
 void	free_node_token(t_token **list);
 void	free_node_cmd(t_cmd **list);
+void	free_cmd_tokens(t_exec *exec);
 
 // tokenisation functions
 t_token    *tokenisation(char *str);

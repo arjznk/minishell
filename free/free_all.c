@@ -14,6 +14,16 @@ void free_all(t_exec *exec)
 		free_node_token(exec->tokens);
 }
 
+void	free_cmd_tokens(t_exec *exec)
+{
+	if(exec->line)
+		free(exec->line);
+	if(exec->tokens || (*exec->tokens))
+		free_node_token(exec->tokens);
+	if(exec->cmd || (*exec->cmd))
+		free_node_cmd(exec->cmd);
+}
+
 void	free_tab(char **tab)
 {
 	int	i; 

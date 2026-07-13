@@ -25,7 +25,6 @@ void    ft_cd(t_exec *exec)
 		exec->status = 127;
 	}
 }
-
 int	check_directory(t_exec *exec)
 {
     struct stat st;
@@ -42,7 +41,7 @@ int	check_directory(t_exec *exec)
         {
             printf("minishell: %s : is a directory\n", (*exec->cmd)->args[0]);
             exec->status = 126;
-            return(1);
+            return (1);
         }
     }
     return(0);
