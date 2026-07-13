@@ -2,21 +2,20 @@
 
 void	ft_unset(t_exec *exec)
 {
-	t_env *tmp;
-	t_env *prev;
-	char *key;
-	int i;
+	t_env	*tmp;
+	t_env	*prev;
+	char	*key;
+	int		i;
 
 	i = 1;
-	while((*exec->cmd)->args[i])
+	while ((*exec->cmd)->args[i])
 	{
 		tmp = (*exec->env);
 		prev = NULL;
 		key = search_and_stop((*exec->cmd)->args[i], '=');
-		while(tmp)
+		while (tmp)
 		{
-			
-			if(ft_strcmp(tmp->variable, key) == 0)
+			if (ft_strcmp(tmp->variable, key) == 0)
 				free_unset(exec, prev, tmp);
 			prev = tmp;
 			tmp = tmp->next;
@@ -27,10 +26,10 @@ void	ft_unset(t_exec *exec)
 
 void	free_unset(t_exec *exec, t_env *prev, t_env *tmp)
 {
-	t_env *to_free;
+	t_env	*to_free;
 
 	to_free = tmp;
-	if(!prev)
+	if (!prev)
 		(*exec->env) = tmp->next;
 	else
 		prev->next = tmp->next;
