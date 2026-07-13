@@ -52,7 +52,6 @@ char    *expand_and_remove_quotes(char *str, t_exec *exec)
     d_quotes = 0;
     s_quotes = 0;
     result = ft_strdup("");
-
     while (str[i])
     {
         if (str[i] == '\'' && d_quotes == 0)

@@ -87,6 +87,7 @@ void   add_args(t_cmd *current, char *str)
     char    **args;
     int i;
     int j;
+    char **old;
 
     i = 0;
     j = 0;
@@ -104,6 +105,9 @@ void   add_args(t_cmd *current, char *str)
     }
     args[i] = ft_strdup(str);
     args[i + 1] = NULL;
+    old = current->args;
     current->args = args;
+    if(old)
+        free(old);
 }
 

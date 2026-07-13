@@ -8,7 +8,6 @@ void    exec_pipe(t_exec *exec)
     while(exec->tmp)
     {
         pipe(exec->fd);
-        *exec->cmd = exec->tmp;
         if(absolute_path(exec) == 0)
             exec_absolute_path(exec);
         else if(is_builtins(exec) == 0)

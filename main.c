@@ -1,38 +1,40 @@
-#include "minishell.h"
+    #include "minishell.h"
+    
+    // t_exec *init_all(char **envp)
+    // {
+    // 	t_path *path;
+    //     static t_token *tokens;
+    //     static t_cmd   *cmd;
+    //     static t_exec  *exec;
+    // 	t_env	*env;
+    //     int     size;
 
-// t_exec *init_all(char **envp)
-// {
-// 	t_path *path;
-//     static t_token *tokens;
-//     static t_cmd   *cmd;
-//     static t_exec  *exec;
-// 	t_env	*env;
-//     int     size;
-
-// 	cmd = NULL;
-//     env = NULL;
-//     path = malloc(sizeof(t_path));
-//     tokens = malloc(sizeof(t_token));
-// 	if(!path || !exec || !tokens)
-// 		return (NULL);
-// 	size = 0;
-// 	while (envp[size])
-// 		size++;
-// 	exec->env = &env;
-// 	exec->path = path;
-// 	exec->cmd = &cmd;
-// 	exec->tokens = &tokens;
-// 	exec->envp = envp;
-//     path_function(exec, size);
-// 	return(exec);
-// }
+    // 	cmd = NULL;
+    //     env = NULL;
+    //     path = malloc(sizeof(t_path));
+    //     tokens = malloc(sizeof(t_token));
+    // 	if(!path || !exec || !tokens)
+    // 		return (NULL);
+    // 	size = 0;
+    // 	while (envp[size])
+    // 		size++;
+    // 	exec->env = &env;
+    // 	exec->path = path;
+    // 	exec->cmd = &cmd;
+    // 	exec->tokens = &tokens;
+    // 	exec->envp = envp;
+    //     path_function(exec, size);
+    // 	return(exec);
+    // }
+    
 void	loop_shell(t_exec *exec)
 {
     char    *line;
     
     init_signals();
-	while(1)
+    while(1)
     {
+        path_function(exec, exec->size);
         line = readline("minishell> ");
         if (!line)
         {
@@ -40,25 +42,31 @@ void	loop_shell(t_exec *exec)
             free_all(exec);
             break;
         }
-		if(line)
+        if(line)
             add_history(line);
         exec->line = line;
-		if(check_quotes(exec->line) == 0)
-			(*exec->tokens) = tokenisation(line);
-		exec->tmp_tokens = (*exec->tokens);
+        if(check_quotes(exec->line) == 0)
+            (*exec->tokens) = tokenisation(line);
+        exec->tmp_tokens = (*exec->tokens);
         while (exec->tmp_tokens)
         {
             if (exec->tmp_tokens->type == T_WORD)
-                exec->tmp_tokens->str = expand_and_remove_quotes(exec->tmp_tokens->str, exec);
+            {
+                char *tmp;
+                tmp = exec->tmp_tokens->str;
+                exec->tmp_tokens->str = expand_and_remove_quotes(tmp, exec);
+                free(tmp);
+            }
             exec->tmp_tokens = exec->tmp_tokens->next_token;
         }
         if(check_syntax((*exec->tokens), exec) == 0)
-			(*exec->cmd) = parse_cmd((*exec->tokens));
+            (*exec->cmd) = parse_cmd((*exec->tokens));
         else
         {
             free_cmd_tokens(exec);
             continue;
         }
+        free_node_token(exec->tokens);
         if((*exec->cmd) == NULL || (*exec->cmd)->args == NULL || (*exec->cmd)->args[0] == NULL)
         {
             free_cmd_tokens(exec);
@@ -70,6 +78,9 @@ void	loop_shell(t_exec *exec)
             continue;
         }
         exec_pipe(exec);
+        free_tab(exec->path->path_access);
+        free_node_env(exec->env);
+        free_cmd_tokens(exec);
     }
 }
 
@@ -81,26 +92,26 @@ int main(int ac, char **av, char **envp)
     static t_exec  *exec;
     static t_token *tokens;
     static t_cmd   *cmd;
-	t_env	*env;
+    t_env	*env;
     int     size;
-
-	cmd = NULL;
+    
+    cmd = NULL;
     env = NULL;
+    tokens = NULL;
     exec = malloc(sizeof(t_exec));
     path = malloc(sizeof(t_path));
-    tokens = malloc(sizeof(t_token));
-	if(!path || !exec || !tokens)
-		return (1);
-	size = 0;
-	while (envp[size])
-		size++;
-	exec->env = &env;
-	exec->path = path;
-	exec->cmd = &cmd;
-	exec->tokens = &tokens;
-	exec->envp = envp;
-    path_function(exec, size);
-	loop_shell(exec);
+    if(!path || !exec)
+        return (1);
+    size = 0;
+    while (envp[size])
+        size++;
+    exec->env = &env;
+    exec->path = path;
+    exec->cmd = &cmd;
+    exec->tokens = &tokens;
+    exec->envp = envp;
+    exec->size = size;
+    loop_shell(exec);
 }
 
 

@@ -80,6 +80,7 @@ typedef struct s_exec
     int old_fd;
     int heredoc_fd[2];
 	int	redir_fd;
+    int size;
 } t_exec;
 
 //list utils

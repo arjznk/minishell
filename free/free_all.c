@@ -2,25 +2,24 @@
 
 void free_all(t_exec *exec)
 {
-	if(exec->env)
-		free_node_env(exec->env);
-	if(exec->path)
-		free_tab(exec->path->path_access);
 	if(exec->line)
 		free(exec->line);
-	if(exec->cmd)
-		free_node_cmd(exec->cmd);
-	if(exec->tokens)
-		free_node_token(exec->tokens);
+	if(exec->path)
+	{
+		free_tab(exec->path->path_access);
+		free(exec->path);
+	}
+	if(exec->env)
+		free_node_env(exec->env);
+	free_cmd_tokens(exec);
+	free(exec);
 }
 
 void	free_cmd_tokens(t_exec *exec)
 {
-	if(exec->line)
-		free(exec->line);
-	if(exec->tokens || (*exec->tokens))
+	if(exec->tokens && (*exec->tokens))
 		free_node_token(exec->tokens);
-	if(exec->cmd || (*exec->cmd))
+	if(exec->cmd && (*exec->cmd))
 		free_node_cmd(exec->cmd);
 }
 
