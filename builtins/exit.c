@@ -12,15 +12,13 @@ void    ft_exit(t_exec *exec)
         if(cmd && !nb)
         {
             printf("exit\n");
-            close_files(exec);
-            close_saved_files(exec);
+            exit_return(exec);
             exit(0);
         }
         else if(cmd && ft_isdigit(nb) == 1)
         {
             printf("exit\nminishell: exit: %s: numeric argument required\n", nb);
-            close_files(exec);
-            close_saved_files(exec);
+            exit_return(exec);
             exit(2);
         }
         else
@@ -40,24 +38,27 @@ void    ft_exit_code(char *line, char *nb, t_exec *exec)
         if(nbr > INT_MAX || nbr < INT_MIN)
         {
             printf("exit\nminishell: exit: %ld: numeric argument required\n", nbr);
-            close_files(exec);
-            close_saved_files(exec);
+            exit_return(exec);
             exit(2);
         }
         if(nbr > 255)
         {
             printf("exit\n");
-            close_files(exec);
-            close_saved_files(exec);
+            exit_return(exec);
             exit(nbr % 256);
         }
         else
         {
             printf("exit\n");
-            close_files(exec);
-            close_saved_files(exec);
+            exit_return(exec);
             exit(nbr);
         }    
     }
 }
 
+void    exit_return(t_exec *exec)
+{
+    close_files(exec);
+    close_saved_files(exec);
+    free_all(exec);
+}
