@@ -5,16 +5,13 @@ void free_all(t_exec *exec)
 	if(exec->env)
 		free_node_env(exec->env);
 	if(exec->path)
-	{
 		free_tab(exec->path->path_access);
-		// free(exec->path)
-	}
 	if(exec->line)
 		free(exec->line);
-	if(exec->tokens)
-		free_node_token(exec->tokens);
 	if(exec->cmd)
 		free_node_cmd(exec->cmd);
+	if(exec->tokens)
+		free_node_token(exec->tokens);
 }
 
 void	free_tab(char **tab)
