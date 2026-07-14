@@ -6,7 +6,7 @@ void free_all(t_exec *exec)
 		free(exec->line);
 	if(exec->path)
 	{
-		free_tab(exec->path->path_access);
+		free_tab(exec->path->path_acces);
 		free(exec->path);
 	}
 	if(exec->env)
@@ -83,6 +83,22 @@ void	free_node_cmd(t_cmd **list)
 		free((*list)->infile);
 		free((*list)->outfile);
 		free((*list)->heredoc);
+		free(*list);
+	    *list = tmp;
+	}
+	*list = NULL;
+}
+
+void	free_node_path(t_path_acces **list)
+{
+	t_path_acces	*tmp;
+
+	if (!list)
+		return ;
+	while (*list)
+	{
+		tmp = (*list)->next;
+		free((*list)->acces);
 		free(*list);
 	    *list = tmp;
 	}

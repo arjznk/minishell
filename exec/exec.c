@@ -8,9 +8,7 @@ void    exec_pipe(t_exec *exec)
     while(exec->tmp)
     {
         pipe(exec->fd);
-        if(absolute_path(exec) == 0)
-            exec_absolute_path(exec);
-        else if(is_builtins(exec) == 0)
+        if(is_builtins(exec) == 0)
             builtins_pipe(exec);
         else
             fork_pipe(exec);
@@ -30,27 +28,58 @@ void    exec_pipe(t_exec *exec)
 
 void    redir_pipe(t_exec *exec)
 {
-    char *newline;
-    char *valid_cmd;
-    
+    t_path_acces *tmp;
+
     *exec->cmd = exec->tmp;
-    if(ft_strncmp(exec->tmp->args[0], "/usr/bin/", 9) != 0)
+    tmp = (*exec->acces_path);
+    if(!tmp)
     {
-        newline = ft_strjoin(exec->path->access_usr, "/");
-        valid_cmd = ft_strjoin(newline, exec->tmp->args[0]);
-    }
-    else
-        valid_cmd = exec->tmp->args[0];
-    if(access(valid_cmd, F_OK) != 0)
-    {
-        cmd_error(exec);
+        printf("minishell: %s: no such file or directory\n", (*exec->cmd)->args[0]);
         return;
     }
     dup_for_pipe(exec);
-    if(access(valid_cmd, F_OK) == 0)
-        execve(valid_cmd, exec->tmp->args, exec->envp);
+    exec_cmd(exec, tmp);
 }
 
+void    exec_cmd(t_exec *exec, t_path_acces *tmp)
+{
+    if(ft_strchr(exec->tmp->args[0], '/'))
+    {
+        if(access(exec->tmp->args[0], F_OK) == 0)
+            execve(exec->tmp->args[0], exec->tmp->args, exec->envp);
+        else
+        {
+            cmd_error(exec);
+            return;
+        }
+    }
+    else
+        cmd_only(exec, tmp);
+
+}
+
+void    cmd_only(t_exec *exec, t_path_acces *tmp)
+{
+    char *line;
+
+    while(tmp->acces)
+    {
+        line = ft_strjoin(tmp->acces, "/");
+        line = ft_strjoin(line, exec->tmp->args[0]);
+        if(access(line, F_OK) == 0)
+            execve(line, exec->tmp->args, exec->envp);
+        else if(tmp->next == NULL)
+        {
+            if(access(line, F_OK) != 0)
+            {
+                cmd_error(exec);
+                return;
+            }
+        }
+        else
+            tmp = tmp->next;
+    }
+}
 void    builtins_pipe(t_exec *exec)
 {
 	exec->saved_stdout = dup(STDOUT_FILENO);

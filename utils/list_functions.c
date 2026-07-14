@@ -64,3 +64,30 @@ void	ft_lstadd_back(t_env **lst, t_env *new)
 		newnode = newnode->next;
 	newnode->next = new;
 }
+
+t_path_acces	*ft_lstnew_for_path(char *value)
+{
+	t_path_acces	*lstnew;
+
+	lstnew = malloc(sizeof(t_env));
+	if (!lstnew)
+		return (NULL);
+	lstnew->acces = ft_strdup(value);
+	lstnew->next = NULL;
+	return (lstnew);
+}
+
+void	ft_lstadd_back_path(t_path_acces **lst, t_path_acces *new)
+{
+	t_path_acces	*newnode;
+
+	newnode = *lst;
+	if (newnode == NULL)
+	{
+		*lst = new;
+		return ;
+	}
+	while (newnode->next != NULL)
+		newnode = newnode->next;
+	newnode->next = new;
+}

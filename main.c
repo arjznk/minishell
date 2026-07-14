@@ -1,40 +1,17 @@
     #include "minishell.h"
     
-    // t_exec *init_all(char **envp)
-    // {
-    // 	t_path *path;
-    //     static t_token *tokens;
-    //     static t_cmd   *cmd;
-    //     static t_exec  *exec;
-    // 	t_env	*env;
-    //     int     size;
 
-    // 	cmd = NULL;
-    //     env = NULL;
-    //     path = malloc(sizeof(t_path));
-    //     tokens = malloc(sizeof(t_token));
-    // 	if(!path || !exec || !tokens)
-    // 		return (NULL);
-    // 	size = 0;
-    // 	while (envp[size])
-    // 		size++;
-    // 	exec->env = &env;
-    // 	exec->path = path;
-    // 	exec->cmd = &cmd;
-    // 	exec->tokens = &tokens;
-    // 	exec->envp = envp;
-    //     path_function(exec, size);
-    // 	return(exec);
-    // }
-    
 void	loop_shell(t_exec *exec)
 {
     char    *line;
-    
-    init_signals();
+     // << eof segfault < eof
+
+
+    // init_signals();
+    path_function(exec, exec->size);
     while(1)
     {
-        path_function(exec, exec->size);
+        
         line = readline("minishell> ");
         if (!line)
         {
@@ -63,24 +40,21 @@ void	loop_shell(t_exec *exec)
             (*exec->cmd) = parse_cmd((*exec->tokens));
         else
         {
-            free_cmd_tokens(exec);
+            // free_cmd_tokens(exec);
             continue;
         }
         free_node_token(exec->tokens);
         if((*exec->cmd) == NULL || (*exec->cmd)->args == NULL || (*exec->cmd)->args[0] == NULL)
         {
-            free_cmd_tokens(exec);
+            // free_cmd_tokens(exec);
             continue;
         }
         if(check_directory(exec) == 1)
         {
-            free_cmd_tokens(exec);
+            // free_cmd_tokens(exec);
             continue;
         }
         exec_pipe(exec);
-        free_tab(exec->path->path_access);
-        free_node_env(exec->env);
-        free_cmd_tokens(exec);
     }
 }
 
@@ -92,15 +66,17 @@ int main(int ac, char **av, char **envp)
     static t_exec  *exec;
     static t_token *tokens;
     static t_cmd   *cmd;
+    static t_path_acces *acces_path;
     t_env	*env;
     int     size;
     
     cmd = NULL;
     env = NULL;
     tokens = NULL;
+    acces_path = NULL;
     exec = malloc(sizeof(t_exec));
     path = malloc(sizeof(t_path));
-    if(!path || !exec)
+    if(!path || !exec || !envp)
         return (1);
     size = 0;
     while (envp[size])
@@ -111,6 +87,7 @@ int main(int ac, char **av, char **envp)
     exec->tokens = &tokens;
     exec->envp = envp;
     exec->size = size;
+    exec->acces_path = &acces_path;
     loop_shell(exec);
 }
 
