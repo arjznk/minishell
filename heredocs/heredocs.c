@@ -25,7 +25,10 @@ void    heredocs(t_exec *exec)
 int found_heredocs(t_exec *exec)
 {
     if((*exec->cmd)->heredoc)
+    {
+        printf("found\n");
         return (0);
+    }
     return (1);
 }
 

@@ -8,7 +8,6 @@ void	loop_shell(t_exec *exec)
 
 
     // init_signals();
-    path_function(exec, exec->size);
     while(1)
     {
         
@@ -55,6 +54,7 @@ void	loop_shell(t_exec *exec)
             continue;
         }
         exec_pipe(exec);
+        // free_parsing(exec);
     }
 }
 
@@ -86,10 +86,7 @@ int main(int ac, char **av, char **envp)
     exec->cmd = &cmd;
     exec->tokens = &tokens;
     exec->envp = envp;
-    exec->size = size;
     exec->acces_path = &acces_path;
+    path_function(exec, size);
     loop_shell(exec);
 }
-
-
-

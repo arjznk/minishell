@@ -103,3 +103,36 @@ void	free_node_path(t_path_acces **list)
 	}
 	*list = NULL;
 }
+
+void	free_parsing(t_exec *exec)
+{
+	if(exec->tokens)
+		free_node_token(exec->tokens);
+	if(exec->tmp_tokens)
+		free_tmp_token(exec->tmp_tokens);
+	// if(exec->cmd && (*exec->cmd))
+	// 	free_node_cmd(exec->cmd);
+	
+	exec->tokens = NULL;
+	// exec->cmd = NULL;
+	exec->tmp_tokens = NULL;
+
+	
+}
+
+void	free_tmp_token(t_token *list)
+{
+	t_token	*tmp;
+
+	if (!list)
+		return ;
+	while (list)
+	{
+		tmp = list->next_token;
+		free(list->str);
+		free(list);
+	    list = tmp;
+	}
+	list = NULL;
+
+}

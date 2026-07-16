@@ -87,7 +87,6 @@ typedef struct s_exec
     int old_fd;
     int heredoc_fd[2];
 	int	redir_fd;
-    int size;
     char *home;
 } t_exec;
 
@@ -192,6 +191,8 @@ void	free_node_token(t_token **list);
 void	free_node_cmd(t_cmd **list);
 void	free_cmd_tokens(t_exec *exec);
 void	free_node_path(t_path_acces **list);
+void	free_parsing(t_exec *exec);
+void	free_tmp_token(t_token *list);
 
 // tokenisation functions
 t_token    *tokenisation(char *str);
