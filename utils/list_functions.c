@@ -1,7 +1,7 @@
 
 #include "minishell.h"
 
-t_env	*ft_lstnew_for_env(char *value)
+t_env	*ft_lstnew_for_env(char *value, t_exec *exec)
 {
 	t_env	*lstnew;
 	char *tmp;
@@ -14,6 +14,8 @@ t_env	*ft_lstnew_for_env(char *value)
 		tmp = ft_strchr(value, '=');
 		lstnew->value = ft_strdup(tmp);
 		lstnew->variable = search_and_stop(value, '=');
+		if(ft_strcmp(lstnew->variable, "HOME") == 0)
+            exec->home = lstnew->value;
 	}
 	else
 	{

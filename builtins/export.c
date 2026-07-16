@@ -74,11 +74,13 @@ void    exist_var(t_exec *exec, int i, t_env *tp, char *temp)
 {
     char *tmp;
 
-    tmp = ft_strchr((*exec->cmd)->args[i], '=');
-    free(tp->value);
+    tmp = ft_strchr((*exec->cmd)->args[i], '='); 
     if(tmp != NULL)
+    {
+        free(tp->value);
         tp->value = ft_strdup(tmp);
-    tp->variable = temp;
+    }
+    free(temp);
 }
 
 void    export_only(t_exec *exec)

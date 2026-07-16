@@ -88,10 +88,11 @@ typedef struct s_exec
     int heredoc_fd[2];
 	int	redir_fd;
     int size;
+    char *home;
 } t_exec;
 
 //list utils
-t_env   *ft_lstnew_for_env(char *value);
+t_env   *ft_lstnew_for_env(char *value, t_exec *exec);
 int     ft_lstsize(t_cmd *lst);
 t_env	*ft_lstlast(t_env *lst);
 void	ft_lstadd_front(t_env **lst, t_env *new);
@@ -114,7 +115,7 @@ int     compar_char(int a, int b);
 
 //env   
 void    get_and_cut_path(char **envp, t_path *path);
-void    fill_list_env(char **envp, t_env **env, int size);
+void    fill_list_env(char **envp, t_env **env, int size, t_exec *exec);
 void    get_only_acces(t_path *path);
 char    *expand_var2(char *str, int *i, char *result, t_exec *exec);
 char    *get_env_value(char *var_name, t_env *env);
@@ -140,7 +141,7 @@ void	loop_shell(t_exec *exec);
 //exec
 void    execute_builtins(t_exec *exec);
 void    exec_pipe(t_exec *exec);
-void    redir_pipe(t_exec *exec);
+int     redir_pipe(t_exec *exec);
 void    cmd_error(t_exec *exec);
 void    close_files(t_exec *exec);
 void    close_saved_files(t_exec *exec);
@@ -164,6 +165,7 @@ int     is_builtins(t_exec *exec);
 void    ft_env(t_exec *exec);
 void    ft_pwd();
 void    ft_cd(t_exec *exec);
+int	    check_only_cd(t_exec *exec);
 int	    check_directory(t_exec *exec);
 void    ft_exit_code(char *line, char *nb, t_exec *exec);
 void    ft_exit(t_exec *exec);
@@ -179,11 +181,11 @@ void    ft_export(t_exec *exec);
 void    export_w_error(t_exec *exec, t_env *newnode);
 void    export_only(t_exec *exec);
 int     export_error(t_exec *exec);
-void   export_return(t_exec *exec);
+void    export_return(t_exec *exec);
 void    exist_var(t_exec *exec, int i, t_env *tp, char *temp);
 
 //free
-void free_all(t_exec *exec);
+void    free_all(t_exec *exec);
 void	free_node_env(t_env **list);
 void	free_tab(char **tab);
 void	free_node_token(t_token **list);

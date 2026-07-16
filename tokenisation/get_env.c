@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void fill_list_env(char **envp, t_env **env, int size)
+void fill_list_env(char **envp, t_env **env, int size, t_exec *exec)
 {
     int i;
     t_env *newnode;
@@ -10,7 +10,7 @@ void fill_list_env(char **envp, t_env **env, int size)
         return;
     while(i < size)
     {
-        newnode = ft_lstnew_for_env(envp[i]);
+        newnode = ft_lstnew_for_env(envp[i], exec);
         ft_lstadd_back(env, newnode);
         i++;
     }
@@ -47,13 +47,13 @@ void    fill_path_acces(t_path_acces **acces, t_exec *exec)
 
 void    add_to_env(t_exec *exec, t_env *newnode, int i)
 {
-    newnode = ft_lstnew_for_env((*exec->cmd)->args[i]);
+    newnode = ft_lstnew_for_env((*exec->cmd)->args[i], exec);
     ft_lstadd_back((exec->env), newnode);
 }
 
 void	path_function(t_exec *exec, int size)
 {
-    fill_list_env(exec->envp, exec->env, size);
+    fill_list_env(exec->envp, exec->env, size, exec);
     get_and_cut_path(exec->envp, exec->path);
     fill_path_acces(exec->acces_path, exec);
 }

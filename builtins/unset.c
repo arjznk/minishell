@@ -15,10 +15,9 @@ void	ft_unset(t_exec *exec)
 		key = search_and_stop((*exec->cmd)->args[i], '=');
 		while(tmp)
 		{
-			if(ft_strcmp(tmp->variable, "PATH") == 0)
+			if(ft_strcmp(key, "PATH") == 0)
 			{
 				free_path(exec);
-				free_unset(exec, prev, tmp);
 				return;
 			}
 			if(ft_strcmp(tmp->variable, key) == 0)

@@ -69,7 +69,6 @@ void	free_node_token(t_token **list)
 	*list = NULL;
 }
 
-
 void	free_node_cmd(t_cmd **list)
 {
 	t_cmd	*tmp;

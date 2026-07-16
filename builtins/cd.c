@@ -12,7 +12,10 @@ void    ft_cd(t_exec *exec)
 	if(ft_strcmp(cmd, "cd") == 0 || ft_strcmp(new_cmd, "cd") == 0)
 	{
 		if(!line)
+		{
+			chdir(exec->home);
 			return;
+		}
 		if(chdir(line) == -1)
 		{
 			printf("minishell: cd: %s: %s\n", line, strerror(errno));
@@ -47,3 +50,12 @@ int	check_directory(t_exec *exec)
     return(0);
 }
 
+// int	check_only_cd(t_exec *exec)
+// {
+// 	if(!(*exec->cmd)->args[1])
+// 	{
+// 		chdir(exec->home);
+// 		return (1);
+// 	}
+// 	return (0);
+// }

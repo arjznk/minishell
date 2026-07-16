@@ -4,17 +4,17 @@ void    ft_echo(t_exec *exec)
 {
     char *cmd1;
 
-    if(ft_strncmp((*exec->cmd)->args[0], "/usr/bin/", 9) == 0)
-        cmd1 = ft_strchr_echo((*exec->cmd)->args[0], 'n');
-    else
-        cmd1 = (*exec->cmd)->args[0];
+    cmd1 = (*exec->cmd)->args[0];
     if(cmd1 && (*exec->cmd)->args[1] ==  NULL)
     {
         printf("\n");
         return;
     }
     if(check_n_valid((*exec->cmd)->args[1]) == 1)
+    {
         echo_n(exec);
+        return;
+    }
     if(ft_strcmp((*exec->cmd)->args[1], "$?") == 0)
         exit_code(exec);
     else if(ft_strncmp((*exec->cmd)->args[1], "$", 1) == 0)

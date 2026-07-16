@@ -8,6 +8,7 @@ void    exec_pipe(t_exec *exec)
     while(exec->tmp)
     {
         pipe(exec->fd);
+        *exec->cmd = exec->tmp;
         if(is_builtins(exec) == 0)
             builtins_pipe(exec);
         else
@@ -26,19 +27,17 @@ void    exec_pipe(t_exec *exec)
         exec->status = WEXITSTATUS(exec->status);
 }
 
-void    redir_pipe(t_exec *exec)
+int    redir_pipe(t_exec *exec)
 {
     t_path_acces *tmp;
 
     *exec->cmd = exec->tmp;
     tmp = (*exec->acces_path);
     if(!tmp)
-    {
-        printf("minishell: %s: no such file or directory\n", (*exec->cmd)->args[0]);
-        return;
-    }
+        return (1);
     dup_for_pipe(exec);
     exec_cmd(exec, tmp);
+    return (0);
 }
 
 void    exec_cmd(t_exec *exec, t_path_acces *tmp)
@@ -55,7 +54,6 @@ void    exec_cmd(t_exec *exec, t_path_acces *tmp)
     }
     else
         cmd_only(exec, tmp);
-
 }
 
 void    cmd_only(t_exec *exec, t_path_acces *tmp)
@@ -122,7 +120,15 @@ void    fork_pipe(t_exec *exec)
     if(found_heredocs(exec) == 0)
         heredocs(exec);
     if(fork() == 0)
-        redir_pipe(exec);
+    {
+        if (redir_pipe(exec) == 1)
+        {
+            printf("minishell: %s: no such file or directory\n", (*exec->cmd)->args[0]);
+            exec->status = 127;
+            close_files(exec);
+            exit(127);
+        }
+    }
 }
 
 void    dup_for_pipe(t_exec *exec)
