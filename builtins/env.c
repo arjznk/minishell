@@ -4,8 +4,8 @@ void	ft_env(t_exec *exec)
 {
 	char	*line;
 
-	line = (*exec->cmd)->args[1];
-	if (line)
+	line = exec->tmp->args[1];
+	if(line)
 	{
 		printf("env: ‘%s’: No such file or directory\n", line);
 		exec->status = 127;

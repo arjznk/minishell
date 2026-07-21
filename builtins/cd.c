@@ -6,14 +6,17 @@ void	ft_cd(t_exec *exec)
 	char	*cmd;
 	char	*new_cmd;
 
-	cmd = (*exec->cmd)->args[0];
-	line = (*exec->cmd)->args[1];
-	new_cmd = ft_strchr_echo((*exec->cmd)->args[0], 'n');
-	if (ft_strcmp(cmd, "cd") == 0 || ft_strcmp(new_cmd, "cd") == 0)
+	cmd = exec->tmp->args[0];
+	line = exec->tmp->args[1];
+	new_cmd = ft_strchr_echo(exec->tmp->args[0], 'n');
+	if(ft_strcmp(cmd, "cd") == 0 || ft_strcmp(new_cmd, "cd") == 0)
 	{
-		if (!line)
-			return ;
-		if (chdir(line) == -1)
+		if(!line)
+		{
+			chdir(exec->home);
+			return;
+		}
+		if(chdir(line) == -1)
 		{
 			printf("minishell: cd: %s: %s\n", line, strerror(errno));
 			exec->status = 1;
@@ -46,3 +49,13 @@ int	check_directory(t_exec *exec)
     }
     return(0);
 }
+
+// int	check_only_cd(t_exec *exec)
+// {
+// 	if(!exec->tmp->args[1])
+// 	{
+// 		chdir(exec->home);
+// 		return (1);
+// 	}
+// 	return (0);
+// }

@@ -84,24 +84,29 @@ t_cmd	*parse_cmd(t_token *tokens)
 
 void	add_args(t_cmd *current, char *str)
 {
-	char	**args;
-	int		i;
-	int		j;
+    char    **args;
+    int i;
+    int j;
+    char **old;
 
-	i = 0;
-	j = 0;
-	if (current->args)
-	{
-		while (current->args[i])
-			i++;
-	}
-	args = malloc(sizeof(char *) * (i + 2));
-	while (j < i)
-	{
-		args[j] = current->args[j];
-		j++;
-	}
-	args[i] = ft_strdup(str);
-	args[i + 1] = NULL;
-	current->args = args;
+    i = 0;
+    j = 0;
+
+    if (current->args)
+    {
+        while (current->args[i])
+            i++;
+    }
+    args = malloc(sizeof(char *) * (i + 2));
+    while (j < i)
+    {
+        args[j] = current->args[j];
+        j++;
+    }
+    args[i] = ft_strdup(str);
+    args[i + 1] = NULL;
+    old = current->args;
+    current->args = args;
+    if(old)
+        free(old);
 }
