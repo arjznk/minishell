@@ -173,12 +173,13 @@ int					export_error(t_exec *exec);
 void				export_return(t_exec *exec);
 void				exist_var(t_exec *exec, int i, t_env *tp, char *temp);
 
-// free
-void				free_all(t_exec *exec);
-void				free_node_env(t_env **list);
-void				free_tab(char **tab);
-void				free_node_token(t_token **list);
-void				free_node_cmd(t_cmd **list);
+//free
+void free_all(t_exec *exec);
+void	free_node_env(t_env **list);
+void	free_tab(char **tab);
+void	free_node_token(t_token **list);
+void	free_node_cmd(t_cmd **list);
+void	free_cmd_tokens(t_exec *exec);
 
 // tokenisation functions
 t_token				*tokenisation(char *str);

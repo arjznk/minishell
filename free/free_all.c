@@ -4,17 +4,24 @@ void	free_all(t_exec *exec)
 {
 	if (exec->env)
 		free_node_env(exec->env);
-	if (exec->path)
-	{
+	if(exec->path)
 		free_tab(exec->path->path_access);
-		// free(exec->path)
-	}
-	if (exec->line)
+	if(exec->line)
 		free(exec->line);
-	if (exec->cmd)
-			free_node_cmd(exec->cmd);
-	if (exec->tokens)
+	if(exec->cmd)
+		free_node_cmd(exec->cmd);
+	if(exec->tokens)
 		free_node_token(exec->tokens);
+}
+
+void	free_cmd_tokens(t_exec *exec)
+{
+	if(exec->line)
+		free(exec->line);
+	if(exec->tokens && (*exec->tokens))
+		free_node_token(exec->tokens);
+	if(exec->cmd || (*exec->cmd))
+		free_node_cmd(exec->cmd);
 }
 
 void	free_tab(char **tab)
@@ -47,60 +54,28 @@ void	free_node_env(t_env **list)
 	*list = NULL;
 }
 
-// void	free_node_token(t_token **list)
-// {
-// 	t_token	*tmp;
-
-// 	if (!list)
-// 		return ;
-// 	while (*list)
-// 	{
-// 		tmp = (*list)->next_token;
-// 		free((*list)->str);
-// 		free(*list);
-// 		*list = tmp;
-// 	}
-// 	*list = NULL;
-// }
-
-// void	free_node_cmd(t_cmd **list)
-// {
-// 	t_cmd	*tmp;
-
-// 	if (!list)
-// 		return ;
-// 	while (*list)
-// 	{
-// 		tmp = (*list)->next_cmd;
-// 		free_tab((*list)->args);
-// 		free((*list)->infile);
-// 		free((*list)->outfile);
-// 		free((*list)->heredoc);
-// 		free(*list);
-// 		*list = tmp;
-// 	}
-// 	*list = NULL;
-// }
-
-void free_tokens(t_token *tokens)
+void	free_node_token(t_token *token)
 {
-    t_token *tmp;
+	t_token	*next;
 
-    while (tokens)
-    {
-        tmp = tokens->next;
-        free(tokens->str);
-        free(tokens);
-        tokens = tmp;
-    }
+	while (token)
+	{
+		next = token->next_token;
+		free(token->str);
+		free(token);
+		token = next;
+	}
 }
 
-void free_args(char **args)
+void	free_node_cmd(t_cmd *cmd)
 {
-    int i;
+	t_cmd	*next;
 
-    i = 0;
-    while (args && args[i])
-        free(args[i++]);
-    free(args);
+	while (cmd)
+	{
+		next = cmd->next_cmd;
+		free_args(cmd->args);
+		free(cmd);
+		cmd = next;
+	}
 }

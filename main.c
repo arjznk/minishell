@@ -28,21 +28,22 @@
 // }
 void	loop_shell(t_exec *exec)
 {
-	char	*line;
-
-	init_signals();
-	while (1)
-	{
-		line = readline("minishell> ");
-		if (!line)
-		{
-			printf("exit\n");
-			break ;
-		}
-		if (line)
-			add_history(line);
-		exec->line = line;
-		if (check_quotes(exec->line) == 0)
+    char    *line;
+    
+    init_signals();
+	while(1)
+    {
+        line = readline("minishell> ");
+        if (!line)
+        {
+            printf("exit\n");
+            free_all(exec);
+            break;
+        }
+		if(line)
+            add_history(line);
+        exec->line = line;
+		if(check_quotes(exec->line) == 0)
 			(*exec->tokens) = tokenisation(line);
 		exec->tmp_tokens = (*exec->tokens);
 		while (exec->tmp_tokens)
@@ -54,15 +55,23 @@ void	loop_shell(t_exec *exec)
 		}
 		if (check_syntax((*exec->tokens), exec) == 0)
 			(*exec->cmd) = parse_cmd((*exec->tokens));
-		else
-			continue ;
-		if ((*exec->cmd) == NULL || (*exec->cmd)->args == NULL
-			|| (*exec->cmd)->args[0] == NULL)
-			continue ;
-		if (check_directory(exec) == 1)
-			continue ;
-		exec_pipe(exec);
-	}
+        else
+        {
+            free_cmd_tokens(exec);
+            continue;
+        }
+        if((*exec->cmd) == NULL || (*exec->cmd)->args == NULL || (*exec->cmd)->args[0] == NULL)
+        {
+            free_cmd_tokens(exec);
+            continue;
+        }
+        if(check_directory(exec) == 1)
+        {
+            free_cmd_tokens(exec);
+            continue;
+        }
+        exec_pipe(exec);
+    }
 }
 
 int	main(int ac, char **av, char **envp)
