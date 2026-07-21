@@ -219,4 +219,7 @@ char				*join_char(char *result, char c);
 // Signaux
 void				init_signals(void);
 void				handle_sigint(int sig);
+
+//error
+void	syntax_error(char *token, t_exec *exec);
 #endif
