@@ -3,13 +3,13 @@
 void    heredocs(t_exec *exec)
 {
     char *line;
-    if((*exec->cmd)->heredoc)
+    if(exec->tmp->heredoc)
     {
         pipe(exec->heredoc_fd);
         while(1)
         {
             line = readline(">");
-            if(ft_strcmp(line, (*exec->cmd)->heredoc) == 0)
+            if(ft_strcmp(line, exec->tmp->heredoc) == 0)
             {
                 free(line);
                 break;
@@ -24,7 +24,12 @@ void    heredocs(t_exec *exec)
 
 int found_heredocs(t_exec *exec)
 {
-    if((*exec->cmd)->heredoc)
+    if(exec->tmp->heredoc)
         return (0);
     return (1);
+}
+
+void    close_heredoc_files(t_exec *exec)
+{
+    close(exec->heredoc_fd[0]);
 }

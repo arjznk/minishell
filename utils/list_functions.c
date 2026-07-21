@@ -1,7 +1,7 @@
 
 #include "minishell.h"
 
-t_env	*ft_lstnew_for_env(char *value)
+t_env	*ft_lstnew_for_env(char *value, t_exec *exec)
 {
 	t_env	*lstnew;
 	char *tmp;
@@ -14,6 +14,8 @@ t_env	*ft_lstnew_for_env(char *value)
 		tmp = ft_strchr(value, '=');
 		lstnew->value = ft_strdup(tmp);
 		lstnew->variable = search_and_stop(value, '=');
+		if(ft_strcmp(lstnew->variable, "HOME") == 0)
+            exec->home = lstnew->value;
 	}
 	else
 	{
@@ -53,6 +55,33 @@ void	ft_lstadd_front(t_env **lst, t_env *new)
 void	ft_lstadd_back(t_env **lst, t_env *new)
 {
 	t_env	*newnode;
+
+	newnode = *lst;
+	if (newnode == NULL)
+	{
+		*lst = new;
+		return ;
+	}
+	while (newnode->next != NULL)
+		newnode = newnode->next;
+	newnode->next = new;
+}
+
+t_path_acces	*ft_lstnew_for_path(char *value)
+{
+	t_path_acces	*lstnew;
+
+	lstnew = malloc(sizeof(t_env));
+	if (!lstnew)
+		return (NULL);
+	lstnew->acces = ft_strdup(value);
+	lstnew->next = NULL;
+	return (lstnew);
+}
+
+void	ft_lstadd_back_path(t_path_acces **lst, t_path_acces *new)
+{
+	t_path_acces	*newnode;
 
 	newnode = *lst;
 	if (newnode == NULL)

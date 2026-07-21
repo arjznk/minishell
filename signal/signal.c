@@ -1,25 +1,16 @@
 #include "minishell.h"
 
-void    set_sig_childen(void)
+void    handle_sigint(int sig)
 {
-    struct sigaction sa;
-
-    bzero(&sa, sizeof(sa));
-    sa.sa_handler = SIG_DFL;
-    sigaction(SIGINT, &sa, NULL);
+    (void)sig;
+    printf("\n");
+    rl_on_new_line();
+    rl_replace_line("", 0);
+    rl_redisplay();
 }
 
-void    set_sig_parent(void)
+void    init_signals(void)
 {
-    struct sigaction sa;
-
-    bzero(&sa,sizeof(sa));
-    sa.sa_handler = SIG_IGN;
-    sigaction(SIGINT, &sa, NULL);
-
+    signal(SIGINT, handle_sigint);
+    signal(SIGQUIT, SIG_IGN);
 }
-
-/*
-si signal : exec->status = 130;
-
-*/

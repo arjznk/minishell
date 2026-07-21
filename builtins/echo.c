@@ -4,21 +4,21 @@ void    ft_echo(t_exec *exec)
 {
     char *cmd1;
 
-    if(ft_strncmp((*exec->cmd)->args[0], "/usr/bin/", 9) == 0)
-        cmd1 = ft_strchr_echo((*exec->cmd)->args[0], 'n');
-    else
-        cmd1 = (*exec->cmd)->args[0];
-    if(cmd1 && (*exec->cmd)->args[1] ==  NULL)
+    cmd1 = exec->tmp->args[0];
+    if(cmd1 && exec->tmp->args[1] ==  NULL)
     {
         printf("\n");
         return;
     }
-    if(check_n_valid((*exec->cmd)->args[1]) == 1)
+    if(check_n_valid(exec->tmp->args[1]) == 1)
+    {
         echo_n(exec);
-    if(ft_strcmp((*exec->cmd)->args[1], "$?") == 0)
+        return;
+    }
+    if(ft_strcmp(exec->tmp->args[1], "$?") == 0)
         exit_code(exec);
-    else if(ft_strncmp((*exec->cmd)->args[1], "$", 1) == 0)
-        printf("%s\n", (*exec->cmd)->args[1]);
+    else if(ft_strncmp(exec->tmp->args[1], "$", 1) == 0)
+        printf("%s\n", exec->tmp->args[1]);
     else if(ft_strcmp(cmd1, "echo") == 0)
         echo(exec);
 	else
@@ -35,17 +35,17 @@ void    echo(t_exec *exec)
     int i;
 
     i = 1;
-    line = (*exec->cmd)->args;
-    if(ft_strcmp((*exec->cmd)->args[0], "echo") == 0 && ft_strcmp((*exec->cmd)->args[1], "-n") == 0)
+    line = exec->tmp->args;
+    if(ft_strcmp(exec->tmp->args[0], "echo") == 0 && ft_strcmp(exec->tmp->args[1], "-n") == 0)
         return;
     while(line[i])
     {
-        printf("%s", line[i]);
+        write(STDOUT_FILENO, line[i], ft_strlen(line[i]));
         if(line[i + 1])
-            printf(" ");
+            write(STDOUT_FILENO, " ", 1);
         i++;
     }
-    printf("\n");
+    write(STDOUT_FILENO, "\n", 1);
 }
 
 void   echo_n(t_exec *exec)
@@ -54,7 +54,7 @@ void   echo_n(t_exec *exec)
     char **line;
 
     i = 1;
-    line = (*exec->cmd)->args;
+    line = exec->tmp->args;
     while(line[i])
     {
         if(check_n_valid(line[i]) == 1)

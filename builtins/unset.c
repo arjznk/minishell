@@ -8,14 +8,18 @@ void	ft_unset(t_exec *exec)
 	int i;
 
 	i = 1;
-	while((*exec->cmd)->args[i])
+	while(exec->tmp->args[i])
 	{
 		tmp = (*exec->env);
 		prev = NULL;
-		key = search_and_stop((*exec->cmd)->args[i], '=');
+		key = search_and_stop(exec->tmp->args[i], '=');
 		while(tmp)
 		{
-			
+			if(ft_strcmp(key, "PATH") == 0)
+			{
+				free_path(exec);
+				return;
+			}
 			if(ft_strcmp(tmp->variable, key) == 0)
 				free_unset(exec, prev, tmp);
 			prev = tmp;
@@ -23,6 +27,13 @@ void	ft_unset(t_exec *exec)
 		}
 		i++;
 	}
+}
+
+void	free_path(t_exec *exec)
+{
+	free_node_path(exec->acces_path);
+	free_tab(exec->path->path_acces);
+	
 }
 
 void	free_unset(t_exec *exec, t_env *prev, t_env *tmp)

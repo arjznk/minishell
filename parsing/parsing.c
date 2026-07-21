@@ -5,7 +5,7 @@ int    check_syntax(t_token *token, t_exec *exec)
     t_token *tmp;
 
     if (!token)
-        return 0;
+        return (1);
     tmp = token;
     if (tmp->type == T_PIPE)
     {
@@ -26,6 +26,6 @@ int    check_syntax(t_token *token, t_exec *exec)
         }
         tmp = tmp->next_token;
     }
-    return 0;
+    return (0);
 }
 

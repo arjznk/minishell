@@ -2,35 +2,38 @@
 
 void    cmd_error(t_exec *exec)
 {
-    printf("minishell: %s: command not found\n", (*exec->cmd)->args[0]);
+    printf("minishell: %s: command not found\n", exec->tmp->args[0]);
     exec->status = 127;
+    close_files(exec);
+    if(exec->old_fd != -1)
+        close(exec->old_fd);
+    free_all(exec);
     exit(127);
 }
 
-void    close_files(int fd[2])
+void    close_files(t_exec *exec)
 {
-    close(fd[0]);
-    close(fd[1]);
+    close(exec->fd[0]);
+    close(exec->fd[1]);
+    if(exec->tmp->heredoc)
+    {
+        close(exec->heredoc_fd[0]);
+        close(exec->heredoc_fd[1]);
+    }
+}
+void    close_saved_files(t_exec *exec)
+{
+    close(exec->saved_stdin);
+    close(exec->saved_stdout);
 }
 
-int	check_directory(t_exec *exec)
-{
-    struct stat st;
 
-    if(c_strcmp((*exec->cmd)->args[0], '/') == 0)
-    {
-        if(stat((*exec->cmd)->args[0], &st) == -1)
-        {
-            printf("minishell: %s : %s\n", (*exec->cmd)->args[0], strerror(errno));
-            exec->status = 127;
-            return(1);
-        }
-        if(S_ISDIR(st.st_mode))
-        {
-            printf("minishell: %s : is a directory\n", (*exec->cmd)->args[0]);
-            exec->status = 126;
-            return(1);
-        }
-    }
-    return(0);
+void    dup_and_close(t_exec *exec)
+{
+    execute_builtins(exec);
+    dup2(exec->saved_stdout, STDOUT_FILENO);
+    dup2(exec->saved_stdin, STDIN_FILENO);
+    close_saved_files(exec);
+    if(exec->tmp->infile || exec->tmp->outfile)
+        close(exec->redir_fd);
 }
