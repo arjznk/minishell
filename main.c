@@ -39,7 +39,12 @@ void	loop_shell(t_exec *exec)
             continue;
         }
         free_node_token(exec->tokens);
-        if((*exec->cmd) == NULL || (*exec->cmd)->args == NULL || (*exec->cmd)->args[0] == NULL)
+        *exec->tokens = NULL;
+
+        exec->tmp = *exec->cmd;
+        if (exec->tmp && exec->tmp->heredoc)
+            heredocs(exec);
+        if(!(*exec->cmd)->args || !(*exec->cmd)->args[0])
         {
             free_parsing(exec);
             continue;

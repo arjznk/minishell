@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void	free_all(t_exec *exec)
+void free_all(t_exec *exec)
 {
 	if(exec->line)
 		free(exec->line);
@@ -27,8 +27,10 @@ void	free_cmd_tokens(t_exec *exec)
 
 void	free_tab(char **tab)
 {
-	int	i;
+	int	i; 
 
+	if (!tab)
+		return;
 	i = 0;
 	while (tab[i])
 	{
@@ -50,21 +52,23 @@ void	free_node_env(t_env **list)
 		free((*list)->variable);
 		free((*list)->value);
 		free(*list);
-		*list = tmp;
+	    *list = tmp;
 	}
 	*list = NULL;
 }
 
-void	free_node_token(t_token *token)
+void	free_node_token(t_token **list)
 {
-	t_token	*next;
+	t_token	*tmp;
 
-	while (token)
+	if (!list)
+		return ;
+	while (*list)
 	{
-		next = token->next_token;
-		free(token->str);
-		free(token);
-		token = next;
+		tmp = (*list)->next_token;
+		free((*list)->str);
+		free(*list);
+	    *list = tmp;
 	}
 	*list = NULL;
 }
@@ -78,7 +82,8 @@ void	free_node_cmd(t_cmd **list)
 	while (*list)
 	{
 		tmp = (*list)->next_cmd;
-		free_tab((*list)->args);
+		if ((*list)->args)
+			free_tab((*list)->args);
 		free((*list)->infile);
 		free((*list)->outfile);
 		free((*list)->heredoc);
@@ -132,5 +137,4 @@ void	free_tmp_token(t_token *list)
 	    list = tmp;
 	}
 	list = NULL;
-
 }

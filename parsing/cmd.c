@@ -74,6 +74,7 @@ t_cmd	*parse_cmd(t_token *tokens)
 		}
 		else if (tmp->type == T_HEREDOC)
 		{
+			free(current->heredoc);
 			current->heredoc = ft_strdup(tmp->next_token->str);
 			tmp = tmp->next_token;
 		}
