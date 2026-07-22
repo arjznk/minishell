@@ -3,8 +3,8 @@
 void	loop_shell(t_exec *exec)
 {
     char    *line;
-     // << eof segfault < eof
 
+	init_signals();
     while(1)
     {
         line = readline("minishell> ");
@@ -44,11 +44,6 @@ void	loop_shell(t_exec *exec)
         exec->tmp = *exec->cmd;
         if (exec->tmp && exec->tmp->heredoc)
             heredocs(exec);
-        if(!(*exec->cmd)->args || !(*exec->cmd)->args[0])
-        {
-            free_parsing(exec);
-            continue;
-        }
         if(check_directory(exec) == 1)
         {
             free_parsing(exec);

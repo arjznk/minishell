@@ -32,6 +32,10 @@ int	check_directory(t_exec *exec)
 {
 	struct stat	st;
 
+	if(!((*exec->cmd)->args))
+		return (0);
+	if(dot_error(exec) == 1)
+		return (1);
     if(c_strcmp((*exec->cmd)->args[0], '/') == 0)
     {
         if(stat((*exec->cmd)->args[0], &st) == -1)

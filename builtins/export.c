@@ -2,22 +2,18 @@
 
 void	ft_export(t_exec *exec)
 {
-	t_env	*newnode;
 	char	*cmd;
 
     cmd = exec->tmp->args[0];
-    newnode = malloc(sizeof(t_env));
-    if(!newnode)
-		return ;
-    if(exec->tmp->args[0] && exec->tmp->args[1] == NULL)
-        export_only((exec));
-    else if(export_error(exec) != 0 && exec->tmp->args[1])
-            return;
-    else if(ft_strcmp(cmd, "export") == 0)
-    {
-        export_w_error(exec, newnode);
-        exec->status = 0;
-    }
+	if(exec->tmp->args[0] && exec->tmp->args[1] == NULL)
+		export_only((exec));
+	else if(export_error(exec) != 0 && exec->tmp->args[1])
+		return;
+	else if(ft_strcmp(cmd, "export") == 0)
+	{
+		export_w_error(exec);
+		exec->status = 0;
+	}
 }
 
 int	export_error(t_exec *exec)
@@ -39,10 +35,11 @@ int	export_error(t_exec *exec)
         }
         i++;
     }
+	free(var);
     return(0);  
 }
 
-void	export_w_error(t_exec *exec, t_env *newnode)
+void	export_w_error(t_exec *exec)
 {
     t_env *tp;
     char *temp;
@@ -66,7 +63,7 @@ void	export_w_error(t_exec *exec, t_env *newnode)
             tp = tp->next;
         }
         if(!found)
-            add_to_env(exec, newnode, i);
+            add_to_env(exec, i, temp);
         i++;
     }
 }
@@ -74,14 +71,13 @@ void	export_w_error(t_exec *exec, t_env *newnode)
 void	exist_var(t_exec *exec, int i, t_env *tp, char *temp)
 {
 	char	*tmp;
-
+	(void)temp;
     tmp = ft_strchr(exec->tmp->args[i], '='); 
     if(tmp != NULL)
     {
         free(tp->value);
         tp->value = ft_strdup(tmp);
     }
-    free(temp);
 }
 
 void	export_only(t_exec *exec)

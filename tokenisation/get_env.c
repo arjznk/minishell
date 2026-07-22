@@ -45,8 +45,13 @@ void    fill_path_acces(t_path_acces **acces, t_exec *exec)
     }
 }
 
-void	add_to_env(t_exec *exec, t_env *newnode, int i)
+void	add_to_env(t_exec *exec,  int i, char *temp)
 {
+	t_env *newnode;
+
+	
+	if(temp)
+		free(temp);
     newnode = ft_lstnew_for_env((*exec->cmd)->args[i], exec);
     ft_lstadd_back((exec->env), newnode);
 }

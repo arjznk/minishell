@@ -120,7 +120,7 @@ void    get_only_acces(t_path *path);
 char    *expand_var2(char *str, int *i, char *result, t_exec *exec);
 char    *get_env_value(char *var_name, t_env *env);
 char    *get_var_name(char *str, int *i);
-void    add_to_env(t_exec *exec, t_env *newnode, int i);
+void    add_to_env(t_exec *exec, int i, char *temp);
 void	path_function(t_exec *exec, int size);
 void    fill_path_acces(t_path_acces **acces, t_exec *exec);
 
@@ -134,6 +134,8 @@ int					redirections(t_exec *exec);
 int					found_outfile(t_exec *exec);
 int					found_infile(t_exec *exec);
 void				redir_error(t_exec *exec);
+int					redir_outfile(t_exec *exec);
+int					redir_infile(t_exec *exec);
 
 //main
 void	loop_shell(t_exec *exec);
@@ -165,7 +167,6 @@ int     is_builtins(t_exec *exec);
 void    ft_env(t_exec *exec);
 void    ft_pwd();
 void    ft_cd(t_exec *exec);
-int	    check_only_cd(t_exec *exec);
 int	    check_directory(t_exec *exec);
 void    ft_exit_code(char *line, char *nb, t_exec *exec);
 void    ft_exit(t_exec *exec);
@@ -177,8 +178,9 @@ int     check_n_valid(char *line);
 void    ft_unset(t_exec *exec);
 void	free_unset(t_exec *exec, t_env *prev, t_env *tmp);
 void	free_path(t_exec *exec);
+void	unset_var(t_exec *exec, char *key);
 void    ft_export(t_exec *exec);
-void    export_w_error(t_exec *exec, t_env *newnode);
+void    export_w_error(t_exec *exec);
 void    export_only(t_exec *exec);
 int     export_error(t_exec *exec);
 void    export_return(t_exec *exec);
@@ -222,4 +224,6 @@ void				handle_sigint(int sig);
 
 //error
 void	syntax_error(char *token, t_exec *exec);
+int		count_dots(t_exec *exec);
+int		dot_error(t_exec *exec);
 #endif

@@ -50,7 +50,7 @@ char	*search_and_stop(char *str, char c)
 	char	*dest;
 
 	i = 0;
-	dest = malloc(sizeof(char) * ft_strlen(str));
+	dest = malloc(sizeof(char) * ft_strlen(str) + 1);
 	if (!dest)
 		return (NULL);
 	while (str[i] && str[i] != c)
