@@ -16,7 +16,7 @@ void fill_list_env(char **envp, t_env **env, int size, t_exec *exec)
     }
 }
 
-void    get_and_cut_path(char **envp, t_path *path)
+void	get_and_cut_path(char **envp, t_path *path)
 {
     int i = 0;
     char *compar = "PATH";
@@ -45,8 +45,12 @@ void    fill_path_acces(t_path_acces **acces, t_exec *exec)
     }
 }
 
-void    add_to_env(t_exec *exec, t_env *newnode, int i)
+void	add_to_env(t_exec *exec,  int i, char *temp)
 {
+	t_env *newnode;
+
+	if(temp)
+		free(temp);
     newnode = ft_lstnew_for_env((*exec->cmd)->args[i], exec);
     ft_lstadd_back((exec->env), newnode);
 }

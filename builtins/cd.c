@@ -1,14 +1,14 @@
 #include "minishell.h"
 
-void    ft_cd(t_exec *exec)
+void	ft_cd(t_exec *exec)
 {
-	char *line;
-	char *cmd;
-	char *new_cmd;
+	char	*line;
+	char	*cmd;
+	char	*new_cmd;
 
-	cmd = (*exec->cmd)->args[0];
-	line = (*exec->cmd)->args[1];
-	new_cmd = ft_strchr_echo((*exec->cmd)->args[0], 'n');
+	cmd = exec->tmp->args[0];
+	line = exec->tmp->args[1];
+	new_cmd = ft_strchr_echo(exec->tmp->args[0], 'n');
 	if(ft_strcmp(cmd, "cd") == 0 || ft_strcmp(new_cmd, "cd") == 0)
 	{
 		if(!line)
@@ -30,8 +30,12 @@ void    ft_cd(t_exec *exec)
 }
 int	check_directory(t_exec *exec)
 {
-    struct stat st;
+	struct stat	st;
 
+	if(!((*exec->cmd)->args))
+		return (0);
+	if(dot_error(exec) == 1)
+		return (1);
     if(c_strcmp((*exec->cmd)->args[0], '/') == 0)
     {
         if(stat((*exec->cmd)->args[0], &st) == -1)
@@ -50,12 +54,3 @@ int	check_directory(t_exec *exec)
     return(0);
 }
 
-// int	check_only_cd(t_exec *exec)
-// {
-// 	if(!(*exec->cmd)->args[1])
-// 	{
-// 		chdir(exec->home);
-// 		return (1);
-// 	}
-// 	return (0);
-// }

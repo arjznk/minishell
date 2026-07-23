@@ -4,12 +4,12 @@
 t_env	*ft_lstnew_for_env(char *value, t_exec *exec)
 {
 	t_env	*lstnew;
-	char *tmp;
+	char	*tmp;
 
 	lstnew = malloc(sizeof(t_env));
 	if (!lstnew)
 		return (NULL);
-	if(ft_strchr(value, '=') != NULL)
+	if (ft_strchr(value, '=') != NULL)
 	{
 		tmp = ft_strchr(value, '=');
 		lstnew->value = ft_strdup(tmp);
@@ -20,7 +20,7 @@ t_env	*ft_lstnew_for_env(char *value, t_exec *exec)
 	else
 	{
 		lstnew->variable = ft_strdup(value);
-		lstnew->value = NULL; 
+		lstnew->value = NULL;
 	}
 	lstnew->next = NULL;
 	return (lstnew);

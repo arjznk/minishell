@@ -1,17 +1,12 @@
 #include "minishell.h"
-    
 
 void	loop_shell(t_exec *exec)
 {
     char    *line;
-     // << eof segfault < eof
 
-
-    // init_signals();
-    path_function(exec, exec->size);
+	init_signals();
     while(1)
     {
-        
         line = readline("minishell> ");
         if (!line)
         {
@@ -40,25 +35,21 @@ void	loop_shell(t_exec *exec)
             (*exec->cmd) = parse_cmd((*exec->tokens));
         else
         {
-            // free_cmd_tokens(exec);
+            free_parsing(exec);
             continue;
         }
-        free_node_token(exec->tokens);
-        if((*exec->cmd) == NULL || (*exec->cmd)->args == NULL || (*exec->cmd)->args[0] == NULL)
-        {
-            // free_cmd_tokens(exec);
-            continue;
-        }
+        exec->tmp = *exec->cmd;
         if(check_directory(exec) == 1)
         {
-            // free_cmd_tokens(exec);
+            free_parsing(exec);
             continue;
         }
         exec_pipe(exec);
+        free_parsing(exec);
     }
 }
 
-int main(int ac, char **av, char **envp)
+int	main(int ac, char **av, char **envp)
 {
     (void)av;
     (void)ac;
@@ -86,10 +77,8 @@ int main(int ac, char **av, char **envp)
     exec->cmd = &cmd;
     exec->tokens = &tokens;
     exec->envp = envp;
-    exec->size = size;
     exec->acces_path = &acces_path;
+    path_function(exec, size);
     loop_shell(exec);
 }
-
-
 

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void    execute_builtins(t_exec *exec)
+void	execute_builtins(t_exec *exec)
 {
     if(ft_strcmp(exec->tmp->args[0], "pwd") == 0)
         ft_pwd();
@@ -23,8 +23,10 @@ void    execute_builtins(t_exec *exec)
     }
 }
 
-int   is_builtins(t_exec *exec)
+int	is_builtins(t_exec *exec)
 {
+	if(!(exec->tmp->args))
+		return (1);
     if(ft_strcmp(exec->tmp->args[0], "pwd") == 0)
         return (0);
     else if(ft_strcmp(exec->tmp->args[0], "exit") == 0)
@@ -41,4 +43,3 @@ int   is_builtins(t_exec *exec)
         return 0;
     return (1);
 }
-

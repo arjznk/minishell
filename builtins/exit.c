@@ -1,12 +1,12 @@
 #include "minishell.h"
 
-void    ft_exit(t_exec *exec)
+void	ft_exit(t_exec *exec)
 {
-    char *nb;
-    char *cmd;
+	char	*nb;
+	char	*cmd;
 
-    nb = (*exec->cmd)->args[1];
-    cmd = (*exec->cmd)->args[0];
+    nb = exec->tmp->args[1];
+    cmd = exec->tmp->args[0];
     if(ft_strcmp(cmd, "exit") == 0)
     {
         if(cmd && !nb)
@@ -28,37 +28,38 @@ void    ft_exit(t_exec *exec)
         printf("minishell: %s: command not found\n", cmd);
 }
 
-void    ft_exit_code(char *line, char *nb, t_exec *exec)
+void	ft_exit_code(char *line, char *nb, t_exec *exec)
 {
-    long nbr;
-    
-    if((line && ft_isdigit(nb) == 0))
-    {
-        nbr = ft_atoi(nb);
-        if(nbr > INT_MAX || nbr < INT_MIN)
-        {
-            printf("exit\nminishell: exit: %ld: numeric argument required\n", nbr);
-            exit_return(exec);
-            exit(2);
-        }
-        if(nbr > 255)
-        {
-            printf("exit\n");
-            exit_return(exec);
-            exit(nbr % 256);
-        }
-        else
-        {
-            printf("exit\n");
-            exit_return(exec);
-            exit(nbr);
-        }    
-    }
+	long	nbr;
+
+	if ((line && ft_isdigit(nb) == 0))
+	{
+		nbr = ft_atoi(nb);
+		if (nbr > INT_MAX || nbr < INT_MIN)
+		{
+			printf("exit\nminishell: exit: %ld: numeric argument required\n",
+				nbr);
+			exit_return(exec);
+			exit(2);
+		}
+		if (nbr > 255)
+		{
+			printf("exit\n");
+			exit_return(exec);
+			exit(nbr % 256);
+		}
+		else
+		{
+			printf("exit\n");
+			exit_return(exec);
+			exit(nbr);
+		}
+	}
 }
 
-void    exit_return(t_exec *exec)
+void	exit_return(t_exec *exec)
 {
-    close_files(exec);
-    close_saved_files(exec);
-    free_all(exec);
+	close_files(exec);
+	close_saved_files(exec);
+	free_all(exec);
 }
