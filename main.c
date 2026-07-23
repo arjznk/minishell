@@ -1,4 +1,4 @@
-    #include "minishell.h"
+#include "minishell.h"
     
 
 void	loop_shell(t_exec *exec)
