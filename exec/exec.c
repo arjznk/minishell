@@ -9,7 +9,10 @@ void	exec_pipe(t_exec *exec)
     {
         pipe(exec->fd);
         if(is_builtins(exec) == 0)
+        {
+            create_saved_files(exec);
             builtins_pipe(exec);
+        }
         else
             fork_pipe(exec);
         if(exec->old_fd != -1)
@@ -88,10 +91,14 @@ void    cmd_only(t_exec *exec, t_path_acces *tmp)
 		free(line);
     }
 }
+
+void    create_saved_files(t_exec *exec)
+{
+    exec->saved_stdout = dup(STDOUT_FILENO);
+    exec->saved_stdin = dup(STDIN_FILENO);
+}
 void    builtins_pipe(t_exec *exec)
 {
-	exec->saved_stdout = dup(STDOUT_FILENO);
-	exec->saved_stdin = dup(STDIN_FILENO);
 	if ((*exec->cmd)->heredoc)
 		heredocs(exec);
 	else if (found_outfile(exec) == 0)
@@ -102,6 +109,7 @@ void    builtins_pipe(t_exec *exec)
 			return ;
 		}
 		dup2(exec->redir_fd, STDOUT_FILENO);
+        close(exec->redir_fd);
 	}
 	else if (found_infile(exec) == 0)
 	{

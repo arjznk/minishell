@@ -18,7 +18,6 @@ void	close_files(t_exec *exec)
     if(exec->tmp->heredoc)
     {
         close(exec->heredoc_fd[0]);
-        close(exec->heredoc_fd[1]);
     }
 }
 void	close_saved_files(t_exec *exec)

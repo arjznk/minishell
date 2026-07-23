@@ -40,6 +40,7 @@ void	free_path(t_exec *exec)
 {
 	free_node_path(exec->acces_path);
 	free_tab(exec->path->path_acces);
+	exec->path->path_acces = NULL;
 }
 
 void	free_unset(t_exec *exec, t_env *prev, t_env *tmp)

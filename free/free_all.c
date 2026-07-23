@@ -4,10 +4,14 @@ void free_all(t_exec *exec)
 {
 	if(exec->line)
 		free(exec->line);
+	if(exec->env)
+	{
+		if(exec->path->path_acces)
+			free_tab(exec->path->path_acces);
+		free_node_env(exec->env);
+	}
 	if(exec->path)
 		free(exec->path);
-	if(exec->env)
-		free_node_env(exec->env);
 	if(exec->acces_path)
 		free_node_path(exec->acces_path);
 	free_parsing(exec);
