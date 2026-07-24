@@ -35,6 +35,8 @@ int    redir_pipe(t_exec *exec)
 
     *exec->cmd = exec->tmp;
     tmp = (*exec->acces_path);
+    if (!exec->tmp->args[1])
+        return 1;
     if(!tmp)
         return (1);
     dup_for_pipe(exec);
@@ -139,6 +141,8 @@ void	fork_pipe(t_exec *exec)
 			free_all(exec);
             exit(127);
         }
+        else
+            exit(0);
     }
 }
 

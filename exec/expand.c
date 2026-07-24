@@ -36,15 +36,26 @@ char	*get_var_name(char *str, int *i)
 	return (ft_substr(str, start, *i - start + 1));
 }
 
+// char	*get_env_value(char *var_name, t_env *env)
+// {
+// 	while (env)
+// 	{
+// 		if (ft_strcmp(var_name, env->variable) == 0)
+// 			return (env->value);
+// 		env = env->next;
+// 	}
+// 	return (ft_strdup(""));
+// }
+
 char	*get_env_value(char *var_name, t_env *env)
 {
 	while (env)
 	{
 		if (ft_strcmp(var_name, env->variable) == 0)
-			return (env->value);
+			return (ft_strdup(env->value));
 		env = env->next;
 	}
-	return ("");
+	return (ft_strdup(""));
 }
 
 char	*expand_var2(char *str, int *i, char *result, t_exec *exec)
@@ -68,6 +79,7 @@ char	*expand_var2(char *str, int *i, char *result, t_exec *exec)
 	value = get_env_value(var_name, *(exec->env));
 	new_result = ft_strjoin(result, value);
 	free(result);
+	free(value);
 	free(var_name);
 	return (new_result);
 }
