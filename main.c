@@ -4,7 +4,7 @@ void	loop_shell(t_exec *exec)
 {
     char    *line;
 
-	init_signals();
+	init_parent_signals();
     while(1)
     {
         line = readline("minishell> ");

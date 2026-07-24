@@ -161,9 +161,10 @@ void    cmd_only(t_exec *exec, t_path_acces *tmp);
 // void    expand_var(t_exec *exec);
 
 // signal
-void	handle_sigquit(int sig);
-void				init_signals(void);
-void				handle_sigint(int sig);
+void	handle_sigint(int sig);
+void	init_parent_signals(void);
+void	init_child_signals(void);
+void	handle_child_status(t_exec *exec, int status);
 
 //built-in
 int     is_builtins(t_exec *exec);

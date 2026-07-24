@@ -1,32 +1,68 @@
 #include "minishell.h"
 
+// void	exec_pipe(t_exec *exec)
+// {
+//     exec->old_fd = -1;
+//     exec->status = -1;
+//     exec->tmp = (*exec->cmd);
+//     while(exec->tmp)
+//     {
+//         pipe(exec->fd);
+//         if(is_builtins(exec) == 0)
+//         {
+//             create_saved_files(exec);
+//             builtins_pipe(exec);
+//         }
+//         else
+//             fork_pipe(exec);
+//         if(exec->old_fd != -1)
+//             close(exec->old_fd);
+//         exec->old_fd = exec->fd[0];
+//         close(exec->fd[1]);
+//         if(found_heredocs(exec) == 0)
+//             close(exec->heredoc_fd[0]);
+//         if(!exec->tmp->next_cmd)
+//             close(exec->fd[0]);
+//         exec->tmp = exec->tmp->next_cmd; 
+//     }
+//     while(waitpid(-1, &exec->status, 0) > 0)
+//         handle_child_status(exec, wait_status);
+// }
+
 void	exec_pipe(t_exec *exec)
 {
-    exec->old_fd = -1;
-    exec->status = -1;
-    exec->tmp = (*exec->cmd);
-    while(exec->tmp)
-    {
-        pipe(exec->fd);
-        if(is_builtins(exec) == 0)
-        {
-            create_saved_files(exec);
-            builtins_pipe(exec);
-        }
-        else
-            fork_pipe(exec);
-        if(exec->old_fd != -1)
-            close(exec->old_fd);
-        exec->old_fd = exec->fd[0];
-        close(exec->fd[1]);
-        if(found_heredocs(exec) == 0)
-            close(exec->heredoc_fd[0]);
-        if(!exec->tmp->next_cmd)
-            close(exec->fd[0]);
-        exec->tmp = exec->tmp->next_cmd; 
-    }
-    while(waitpid(-1, &exec->status, 0) > 0)
-        exec->status = WEXITSTATUS(exec->status);
+	int	wait_status;
+
+	exec->old_fd = -1;
+	exec->status = 0;
+	exec->tmp = *exec->cmd;
+	while (exec->tmp)
+	{
+		if (pipe(exec->fd) == -1)
+		{
+			perror("pipe");
+			exec->status = 1;
+			return ;
+		}
+		if (is_builtins(exec) == 0)
+		{
+			create_saved_files(exec);
+			builtins_pipe(exec);
+		}
+		else
+			fork_pipe(exec);
+		if (exec->old_fd != -1)
+			close(exec->old_fd);
+		exec->old_fd = exec->fd[0];
+		close(exec->fd[1]);
+		if (found_heredocs(exec) == 0)
+			close(exec->heredoc_fd[0]);
+		if (!exec->tmp->next_cmd)
+			close(exec->fd[0]);
+		exec->tmp = exec->tmp->next_cmd;
+	}
+	while (waitpid(-1, &wait_status, 0) > 0)
+		handle_child_status(exec, wait_status);
 }
 
 int    redir_pipe(t_exec *exec)
@@ -51,6 +87,7 @@ void    exec_cmd(t_exec *exec, t_path_acces *tmp)
         close(STDOUT_FILENO);
         exit(0);
     }
+    init_child_signals();
     if(ft_strchr(exec->tmp->args[0], '/'))
     {
         if(access(exec->tmp->args[0], F_OK) == 0)
@@ -132,21 +169,51 @@ void    builtins_pipe(t_exec *exec)
 	dup_and_close(exec);
 }
 
+// void	fork_pipe(t_exec *exec)
+// {
+//     if(found_heredocs(exec) == 0)
+//         heredocs(exec);
+//     if(fork() == 0)
+//     {
+//         if (redir_pipe(exec) == 1)
+//         {
+//             printf("minishell: %s: no such file or directory\n", (*exec->cmd)->args[0]);
+//             exec->status = 127;
+//             close_files(exec);
+// 			free_all(exec);
+//             exit(127);
+//         }
+//     }
+// }
+
 void	fork_pipe(t_exec *exec)
 {
-    if(found_heredocs(exec) == 0)
-        heredocs(exec);
-    if(fork() == 0)
-    {
-        if (redir_pipe(exec) == 1)
-        {
-            printf("minishell: %s: no such file or directory\n", (*exec->cmd)->args[0]);
-            exec->status = 127;
-            close_files(exec);
+	pid_t	pid;
+
+	if (found_heredocs(exec) == 0)
+		heredocs(exec);
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("fork");
+		exec->status = 1;
+		return ;
+	}
+	if (pid == 0)
+	{
+		init_child_signals();
+		if (redir_pipe(exec) == 1)
+		{
+			ft_putstr_fd("minishell: ", 2);
+			if (exec->tmp && exec->tmp->args
+				&& exec->tmp->args[0])
+				ft_putstr_fd(exec->tmp->args[0], 2);
+			ft_putendl_fd(": no such file or directory", 2);
+			close_files(exec);
 			free_all(exec);
-            exit(127);
-        }
-    }
+			exit(127);
+		}
+	}
 }
 
 void	dup_for_pipe(t_exec *exec)
