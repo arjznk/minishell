@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+
+
 void	handle_sigint(int sig)
 {
 	(void)sig;
@@ -13,4 +15,13 @@ void	init_signals(void)
 {
 	signal(SIGINT, handle_sigint);
 	signal(SIGQUIT, SIG_IGN);
+	
 }
+
+void	handle_sigquit(int sig)
+{
+	(void)sig;
+
+	printf("Quit (core dumped)\n");
+}
+

@@ -9,6 +9,8 @@ void	heredocs(t_exec *exec)
         while(1)
         {
             line = readline(">");
+            // if(!line)
+            //     free_all(exec);
             if(ft_strcmp(line, exec->tmp->heredoc) == 0)
             {
                 free(line);

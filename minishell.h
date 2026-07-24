@@ -160,8 +160,9 @@ void    cmd_only(t_exec *exec, t_path_acces *tmp);
 // void    expand_var(t_exec *exec);
 
 // signal
-void				set_sig_childen(void);
-void				set_sig_parent(void);
+void	handle_sigquit(int sig);
+void				init_signals(void);
+void				handle_sigint(int sig);
 
 //built-in
 int     is_builtins(t_exec *exec);
@@ -218,10 +219,6 @@ t_cmd				*parse_cmd(t_token *tokens);
 void				add_args(t_cmd *current, char *str);
 char				*expand_and_remove_quotes(char *str, t_exec *exec);
 char				*join_char(char *result, char c);
-
-// Signaux
-void				init_signals(void);
-void				handle_sigint(int sig);
 
 //error
 void	syntax_error(char *token, t_exec *exec);
