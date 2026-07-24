@@ -9,8 +9,11 @@ void	heredocs(t_exec *exec)
         while(1)
         {
             line = readline(">");
-            // if(!line)
-            //     free_all(exec);
+            if(!line)
+            {
+                free(line);
+                break;
+            }
             if(ft_strcmp(line, exec->tmp->heredoc) == 0)
             {
                 free(line);
@@ -23,6 +26,8 @@ void	heredocs(t_exec *exec)
         close(exec->heredoc_fd[1]);
     }
 }
+
+
 
 int	found_heredocs(t_exec *exec)
 {

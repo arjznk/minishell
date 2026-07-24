@@ -16,6 +16,8 @@ t_env	*ft_lstnew_for_env(char *value, t_exec *exec)
 		lstnew->variable = search_and_stop(value, '=');
 		if(ft_strcmp(lstnew->variable, "HOME") == 0)
             exec->home = lstnew->value;
+		if(ft_strcmp(lstnew->variable, "OLDPWD") == 0)
+            exec->old_pwd = lstnew->value;
 	}
 	else
 	{

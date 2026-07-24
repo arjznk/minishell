@@ -16,11 +16,18 @@ void	ft_cd(t_exec *exec)
 			chdir(exec->home);
 			return;
 		}
+		if(ft_strcmp(line, "-") == 0)
+		{
+			cd_home(exec);
+			return;
+		}
 		if(chdir(line) == -1)
 		{
 			printf("minishell: cd: %s: %s\n", line, strerror(errno));
 			exec->status = 1;
 		}
+		else
+			exec->old_pwd = line;
 	}
 	else
 	{
@@ -28,29 +35,36 @@ void	ft_cd(t_exec *exec)
 		exec->status = 127;
 	}
 }
+void	cd_home(t_exec *exec)
+{
+	chdir(exec->home);
+	printf("%s\n", exec->home);
+
+}
+
 int	check_directory(t_exec *exec)
 {
 	struct stat	st;
 
 	if(!((*exec->cmd)->args))
 		return (0);
+	if(c_strcmp((*exec->cmd)->args[0], '/') == 0)
+	{
+		if(stat((*exec->cmd)->args[0], &st) == -1)
+		{
+			printf("minishell: %s : %s\n", (*exec->cmd)->args[0], strerror(errno));
+			exec->status = 127;
+			return(1);
+		}
+		if(S_ISDIR(st.st_mode))
+		{
+			printf("minishell: %s : Is a directory\n", (*exec->cmd)->args[0]);
+			exec->status = 126;
+			return (1);
+		}
+	}
 	if(dot_error(exec) == 1)
 		return (1);
-    if(c_strcmp((*exec->cmd)->args[0], '/') == 0)
-    {
-        if(stat((*exec->cmd)->args[0], &st) == -1)
-        {
-            printf("minishell: %s : %s\n", (*exec->cmd)->args[0], strerror(errno));
-            exec->status = 127;
-            return(1);
-        }
-        if(S_ISDIR(st.st_mode))
-        {
-            printf("minishell: %s : is a directory\n", (*exec->cmd)->args[0]);
-            exec->status = 126;
-            return (1);
-        }
-    }
     return(0);
 }
 
