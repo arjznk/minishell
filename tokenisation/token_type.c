@@ -58,3 +58,19 @@ void	token_word(t_token **token, int *i, char *str)
 	*i += ft_strlen(word);
 	free(word);
 }
+
+int		count_heredoc(t_token *token)
+{
+	t_token	*tmp;
+	int		count;
+
+	tmp = token;
+	count = 0;
+	while (tmp)
+	{
+		if (tmp->type == T_HEREDOC)
+			count++;
+		tmp = tmp->next_token;
+	}
+	return (count);
+}
