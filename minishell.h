@@ -90,6 +90,7 @@ typedef struct s_exec
     int heredoc_fd[2];
 	int	redir_fd;
     char *home;
+    char *old_pwd;
 } t_exec;
 
 //list utils
@@ -171,6 +172,7 @@ int     is_builtins(t_exec *exec);
 void    ft_env(t_exec *exec);
 void    ft_pwd();
 void    ft_cd(t_exec *exec);
+void	cd_home(t_exec *exec);
 int	    check_directory(t_exec *exec);
 void    ft_exit_code(char *line, char *nb, t_exec *exec);
 void    ft_exit(t_exec *exec);

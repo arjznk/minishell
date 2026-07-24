@@ -40,7 +40,7 @@ void	loop_shell(t_exec *exec)
             free_parsing(exec);
             continue;
         }
-        (*exec->cmd)->nb_heredoc = printf("nb de heredocs : %d\n", count_heredoc(*exec->tokens));
+        (*exec->cmd)->nb_heredoc = count_heredoc(*exec->tokens);
         exec->tmp = *exec->cmd;
         if(check_directory(exec) == 1)
         {
