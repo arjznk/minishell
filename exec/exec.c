@@ -72,11 +72,18 @@ void    cmd_only(t_exec *exec, t_path_acces *tmp)
 
     while(tmp->acces)
     {
+        // printf("line = %s\n", exec->tmp->args[0]);
+        if(exec->tmp->args[0] == NULL)
+            printf("NULLLLL\n");
         tmp_line = ft_strjoin(tmp->acces, "/");
         line = ft_strjoin(tmp_line, exec->tmp->args[0]);
 		free(tmp_line);
         if(access(line, F_OK) == 0)
+        {
             execve(line, exec->tmp->args, exec->envp);
+            // write(1, "la\n", 3);
+            // printf("line = %s\n", line);
+        }    
         else if(tmp->next == NULL)
         {
             if(access(line, F_OK) != 0)
@@ -139,8 +146,6 @@ void	fork_pipe(t_exec *exec)
 			free_all(exec);
             exit(127);
         }
-        else
-            exit(0);
     }
 }
 

@@ -60,6 +60,7 @@ char	*expand_and_remove_quotes(char *str, t_exec *exec)
 			d_quotes = !d_quotes;
 		else if (str[i] == '$' && s_quotes == 0)
 			result = expand_var2(str, &i, result, exec);
+		
 		else
 			result = join_char(result, str[i]);
 		i++;

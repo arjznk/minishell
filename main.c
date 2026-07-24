@@ -32,7 +32,9 @@ void	loop_shell(t_exec *exec)
             exec->tmp_tokens = exec->tmp_tokens->next_token;
         }
         if(check_syntax((*exec->tokens), exec) == 0)
-            (*exec->cmd) = parse_cmd((*exec->tokens));
+        {
+            (*exec->cmd) = parse_cmd((*exec->tokens));  
+        }
         else
         {
             free_parsing(exec);
