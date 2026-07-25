@@ -54,6 +54,7 @@ typedef struct s_cmd
 	char			*heredoc;
 	struct s_cmd	*next_cmd;
     int             nb_heredoc;
+    char            **heredocs_delims;
 
 }					t_cmd;
 
@@ -213,6 +214,7 @@ void    token_redir_out(t_token **token, int *i, char *str);
 void    token_redir_in(t_token **token, int *i, char *str);
 void    token_pipe(t_token **token, int *i);
 int		count_heredoc(t_token *token);
+char **heredocs_delims(t_token *token ,int count);
 
 // char    *delete_quotes(char *str);
 int					check_quotes(char *str);

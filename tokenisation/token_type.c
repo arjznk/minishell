@@ -74,3 +74,27 @@ int		count_heredoc(t_token *token)
 	}
 	return (count);
 }
+
+char **heredocs_delims(t_token *token ,int count)
+{
+	char **tab;
+	t_token *tmp;
+	int i;
+
+	tab = malloc(sizeof(char *) * (count + 1));
+	if (!tab)
+		return (NULL);
+	tmp = token;
+	i = 0;
+	while (tmp)
+	{
+		if (tmp->type == T_HEREDOC && tmp->next_token)
+		{
+			tab[i] = ft_strdup(tmp->next_token->str);
+			i++;
+		}
+		tmp = tmp->next_token;
+	}
+	tab[i] = NULL;
+	return (tab);
+}
