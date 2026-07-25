@@ -1,18 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free_all.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/25 17:48:24 by azenk             #+#    #+#             */
+/*   Updated: 2026/07/25 17:48:25 by azenk            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void free_all(t_exec *exec)
+void	free_all(t_exec *exec)
 {
-	if(exec->line)
+	if (exec->line)
 		free(exec->line);
-	if(exec->env)
+	if (exec->env)
 	{
-		if(exec->path->path_acces)
+		if (exec->path->path_acces)
 			free_tab(exec->path->path_acces);
 		free_node_env(exec->env);
 	}
-	if(exec->path)
+	if (exec->path)
 		free(exec->path);
-	if(exec->acces_path)
+	if (exec->acces_path)
 		free_node_path(exec->acces_path);
 	free_parsing(exec);
 	free(exec);
@@ -20,18 +32,18 @@ void free_all(t_exec *exec)
 
 void	free_cmd_tokens(t_exec *exec)
 {
-	if(exec->tokens && (*exec->tokens))
+	if (exec->tokens && (*exec->tokens))
 		free_node_token(exec->tokens);
-	if(exec->cmd && (*exec->cmd))
+	if (exec->cmd && (*exec->cmd))
 		free_node_cmd(exec->cmd);
 }
 
 void	free_tab(char **tab)
 {
-	int	i; 
+	int	i;
 
 	if (!tab)
-		return;
+		return ;
 	i = 0;
 	while (tab[i])
 	{
@@ -53,7 +65,7 @@ void	free_node_env(t_env **list)
 		free((*list)->variable);
 		free((*list)->value);
 		free(*list);
-	    *list = tmp;
+		*list = tmp;
 	}
 	*list = NULL;
 }
@@ -69,7 +81,7 @@ void	free_node_token(t_token **list)
 		tmp = (*list)->next_token;
 		free((*list)->str);
 		free(*list);
-	    *list = tmp;
+		*list = tmp;
 	}
 	*list = NULL;
 }
@@ -89,7 +101,7 @@ void	free_node_cmd(t_cmd **list)
 		free((*list)->outfile);
 		free((*list)->heredoc);
 		free(*list);
-	    *list = tmp;
+		*list = tmp;
 	}
 	*list = NULL;
 }
@@ -105,28 +117,27 @@ void	free_node_path(t_path_acces **list)
 		tmp = (*list)->next;
 		free((*list)->acces);
 		free(*list);
-	    *list = tmp;
+		*list = tmp;
 	}
 	*list = NULL;
 }
 
 void	free_parsing(t_exec *exec)
 {
-	if(exec->tokens)
+	if (exec->tokens)
 		free_node_token(exec->tokens);
-	if(exec->tmp_tokens)
+	if (exec->tmp_tokens)
 		free_tmp_token(exec->tmp_tokens);
-	if(exec->cmd)
+	if (exec->cmd)
 	{
 		free_node_cmd(exec->cmd);
 		exec->tmp = NULL;
 	}
-	
 }
 
 void	free_tmp_token(t_token *list)
 {
-	t_token	*tmp;
+	t_token *tmp;
 
 	if (!list)
 		return ;
@@ -135,7 +146,7 @@ void	free_tmp_token(t_token *list)
 		tmp = list->next_token;
 		free(list->str);
 		free(list);
-	    list = tmp;
+		list = tmp;
 	}
 	list = NULL;
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/25 17:49:04 by azenk             #+#    #+#             */
+/*   Updated: 2026/07/25 17:49:05 by azenk            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	ft_cd(t_exec *exec)
@@ -9,19 +21,19 @@ void	ft_cd(t_exec *exec)
 	cmd = exec->tmp->args[0];
 	line = exec->tmp->args[1];
 	new_cmd = ft_strchr_echo(exec->tmp->args[0], 'n');
-	if(ft_strcmp(cmd, "cd") == 0 || ft_strcmp(new_cmd, "cd") == 0)
+	if (ft_strcmp(cmd, "cd") == 0 || ft_strcmp(new_cmd, "cd") == 0)
 	{
-		if(!line)
+		if (!line)
 		{
 			chdir(exec->home);
-			return;
+			return ;
 		}
-		if(ft_strcmp(line, "-") == 0)
+		if (ft_strcmp(line, "-") == 0)
 		{
 			cd_home(exec);
-			return;
+			return ;
 		}
-		if(chdir(line) == -1)
+		if (chdir(line) == -1)
 		{
 			printf("minishell: cd: %s: %s\n", line, strerror(errno));
 			exec->status = 1;
@@ -39,32 +51,31 @@ void	cd_home(t_exec *exec)
 {
 	chdir(exec->home);
 	printf("%s\n", exec->home);
-
 }
 
 int	check_directory(t_exec *exec)
 {
 	struct stat	st;
 
-	if(!((*exec->cmd)->args))
+	if (!((*exec->cmd)->args))
 		return (0);
-	if(c_strcmp((*exec->cmd)->args[0], '/') == 0)
+	if (c_strcmp((*exec->cmd)->args[0], '/') == 0)
 	{
-		if(stat((*exec->cmd)->args[0], &st) == -1)
+		if (stat((*exec->cmd)->args[0], &st) == -1)
 		{
-			printf("minishell: %s : %s\n", (*exec->cmd)->args[0], strerror(errno));
+			printf("minishell: %s : %s\n", (*exec->cmd)->args[0],
+				strerror(errno));
 			exec->status = 127;
-			return(1);
+			return (1);
 		}
-		if(S_ISDIR(st.st_mode))
+		if (S_ISDIR(st.st_mode))
 		{
 			printf("minishell: %s : Is a directory\n", (*exec->cmd)->args[0]);
 			exec->status = 126;
 			return (1);
 		}
 	}
-	if(dot_error(exec) == 1)
+	if (dot_error(exec) == 1)
 		return (1);
-    return(0);
+	return (0);
 }
-

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/25 17:48:12 by azenk             #+#    #+#             */
+/*   Updated: 2026/07/25 18:16:23 by azenk            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 t_cmd	*new_cmd(void)
@@ -86,31 +98,31 @@ t_cmd	*parse_cmd(t_token *tokens)
 
 void	add_args(t_cmd *current, char *str)
 {
-    char    **args;
-    int i;
-    int j;
-    char **old;
+	char	**args;
+	char	**old;
+	int		i;
+	int		j;
 
-    i = 0;
-    j = 0;
-
-    if (current->args)
-    {
-        while (current->args[i])
-            i++;
-    }
-    args = malloc(sizeof(char *) * (i + 2));
-    while (j < i)
-    {
-        args[j] = current->args[j];
-        j++;
-    }
-	if(!str)
-		return;
-    args[i] = ft_strdup(str);
-    args[i + 1] = NULL;
-    old = current->args;
-    current->args = args;
-    if(old)
-        free(old);
+	if (!str)
+		return ;
+	i = 0;
+	j = 0;
+	if (current->args)
+	{
+		while (current->args[i])
+			i++;
+	}
+	args = malloc(sizeof(char *) * (i + 2));
+	if (!args)
+		return ;
+	while (j < i)
+	{
+		args[j] = current->args[j];
+		j++;
+	}
+	args[i] = ft_strdup(str);
+	args[i + 1] = NULL;
+	old = current->args;
+	current->args = args;
+	free(old);
 }

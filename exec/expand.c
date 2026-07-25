@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/25 17:48:35 by azenk             #+#    #+#             */
+/*   Updated: 2026/07/25 17:48:36 by azenk            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // void    expand_var(t_exec *exec)
@@ -53,8 +65,8 @@ char	*get_env_value(char *var_name, t_env *env)
 	{
 		if (ft_strcmp(var_name, env->variable) == 0)
 			return (ft_strdup(env->value));
-		else if(env->next == NULL)
-			return NULL;
+		else if (env->next == NULL)
+			return (NULL);
 		env = env->next;
 	}
 	return (ft_strdup(""));
@@ -79,8 +91,8 @@ char	*expand_var2(char *str, int *i, char *result, t_exec *exec)
 		return (join_char(result, '$'));
 	var_name = get_var_name(str, i);
 	value = get_env_value(var_name, *(exec->env));
-	if(!value)
-		return NULL;
+	if (!value)
+		return (NULL);
 	new_result = ft_strjoin(result, value);
 	free(result);
 	free(value);

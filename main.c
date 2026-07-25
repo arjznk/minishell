@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/25 17:57:56 by azenk             #+#    #+#             */
+/*   Updated: 2026/07/25 18:17:28 by azenk            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	loop_shell(t_exec *exec)
@@ -32,25 +44,23 @@ void	loop_shell(t_exec *exec)
             exec->tmp_tokens = exec->tmp_tokens->next_token;
         }
         if(check_syntax((*exec->tokens), exec) == 0)
-        {
-            (*exec->cmd) = parse_cmd((*exec->tokens));  
-        }
+            (*exec->cmd) = parse_cmd((*exec->tokens));
         else
         {
             free_parsing(exec);
             continue;
         }
         (*exec->cmd)->nb_heredoc = count_heredoc(*exec->tokens);
-        printf("nb heredocs : %d\n", count_heredoc(*exec->tokens));
+        // printf("nb heredocs : %d\n", count_heredoc(*exec->tokens));
         if ((*exec->cmd)->nb_heredoc > 1)
         {
-            char **tmp = heredocs_delims(*exec->tokens, (*exec->cmd)->nb_heredoc);
-            int i = 0;
-            while (tmp[i])
-            {
-                printf("delim = %s\n", tmp[i]);
-                i++;
-            }
+            // char **tmp = heredocs_delims(*exec->tokens, (*exec->cmd)->nb_heredoc);
+            // int i = 0;
+            // while (tmp[i])
+            // {
+            //     printf("delim = %s\n", tmp[i]);
+            //     i++;
+            // }
             (*exec->cmd)->heredocs_delims = heredocs_delims(*exec->tokens, (*exec->cmd)->nb_heredoc);
         }
         exec->tmp = *exec->cmd;

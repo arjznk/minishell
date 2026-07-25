@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/25 17:49:12 by azenk             #+#    #+#             */
+/*   Updated: 2026/07/25 17:49:13 by azenk            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	ft_env(t_exec *exec)
@@ -5,7 +17,7 @@ void	ft_env(t_exec *exec)
 	char	*line;
 
 	line = exec->tmp->args[1];
-	if(line)
+	if (line)
 	{
 		printf("env: ‘%s’: No such file or directory\n", line);
 		exec->status = 127;
