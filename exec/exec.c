@@ -31,8 +31,6 @@
 
 void	exec_pipe(t_exec *exec)
 {
-	int	wait_status;
-
 	exec->old_fd = -1;
 	exec->status = 0;
 	exec->tmp = *exec->cmd;
@@ -61,8 +59,8 @@ void	exec_pipe(t_exec *exec)
 			close(exec->fd[0]);
 		exec->tmp = exec->tmp->next_cmd;
 	}
-	while (waitpid(-1, &wait_status, 0) > 0)
-		handle_child_status(exec, wait_status);
+	wait_children(exec);
+	init_parent_signals();
 }
 
 int    redir_pipe(t_exec *exec)
@@ -187,6 +185,7 @@ void	fork_pipe(t_exec *exec)
 
 	if (found_heredocs(exec) == 0)
 		heredocs(exec);
+	ignore_parent_signals();
 	pid = fork();
 	if (pid == -1)
 	{

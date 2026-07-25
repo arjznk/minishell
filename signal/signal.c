@@ -44,16 +44,54 @@ void	init_child_signals(void)
 	signal(SIGQUIT, SIG_DFL);
 }
 
-void	handle_child_status(t_exec *exec, int status)
+// void	handle_child_status(t_exec *exec, int status)
+// {
+// 	if (WIFSIGNALED(status))
+// 	{
+// 		if (WTERMSIG(status) == SIGQUIT)
+// 			ft_putendl_fd("Quit (core dumped)", 2);
+// 		else if (WTERMSIG(status) == SIGINT)
+// 			write(1, "\n", 1);
+// 		exec->status = 128 + WTERMSIG(status);
+// 	}
+// 	else if (WIFEXITED(status))
+// 		exec->status = WEXITSTATUS(status);
+// }
+
+// void	handle_child_status(t_exec *exec, int status)
+// {
+// 	if (WIFSIGNALED(status))
+// 		exec->status = 128 + WTERMSIG(status);
+// 	else if (WIFEXITED(status))
+// 		exec->status = WEXITSTATUS(status);
+// }
+
+void	wait_children(t_exec *exec)
 {
-	if (WIFSIGNALED(status))
+	int	status;
+	int	quit_printed;
+
+	quit_printed = 0;
+	while (waitpid(-1, &status, 0) > 0)
 	{
-		if (WTERMSIG(status) == SIGQUIT)
-			ft_putendl_fd("Quit (core dumped)", 2);
-		else if (WTERMSIG(status) == SIGINT)
-			write(1, "\n", 1);
-		exec->status = 128 + WTERMSIG(status);
+		if (WIFSIGNALED(status))
+		{
+			if (WTERMSIG(status) == SIGQUIT && quit_printed == 0)
+			{
+				ft_putendl_fd("Quit (core dumped)", 2);
+				quit_printed = 1;
+			}
+			else if (WTERMSIG(status) == SIGINT)
+				write(1, "\n", 1);
+			exec->status = 128 + WTERMSIG(status);
+		}
+		else if (WIFEXITED(status))
+			exec->status = WEXITSTATUS(status);
 	}
-	else if (WIFEXITED(status))
-		exec->status = WEXITSTATUS(status);
+}
+
+void	ignore_parent_signals(void)
+{
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 }

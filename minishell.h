@@ -166,7 +166,9 @@ void    cmd_only(t_exec *exec, t_path_acces *tmp);
 void	handle_sigint(int sig);
 void	init_parent_signals(void);
 void	init_child_signals(void);
-void	handle_child_status(t_exec *exec, int status);
+// void	handle_child_status(t_exec *exec, int status);
+void	wait_children(t_exec *exec);
+void	ignore_parent_signals(void);
 
 //built-in
 int     is_builtins(t_exec *exec);
