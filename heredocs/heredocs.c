@@ -1,3 +1,4 @@
+
 #include "minishell.h"
 
 void	heredocs(t_exec *exec)
@@ -24,10 +25,11 @@ void    loop_heredoc(t_exec *exec, int i)
         if(!line)
         {
             free(line);
-            printf("minishell: warning: here-document at line 14 delimited by end-of-file (wanted `%s')\n", exec->tmp->heredocs_delims[i]);
+            printf("minishell: warning: here-document at line %d delimited by end-of-file (wanted `%s')\n", 
+                exec->count_line, exec->tmp->heredocs_delims[i]);
             break;
         }
-        if(ft_strcmp(line, exec->tmp->heredocs_delims[i]) == 0)
+        if( ft_strcmp(line, exec->tmp->heredocs_delims[i]) == 0)
         {
             free(line);
             break;

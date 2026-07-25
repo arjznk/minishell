@@ -92,6 +92,7 @@ typedef struct s_exec
 	int	redir_fd;
     char *home;
     char *old_pwd;
+    int count_line;
 } t_exec;
 
 //list utils
@@ -149,6 +150,7 @@ void	loop_shell(t_exec *exec);
 void    execute_builtins(t_exec *exec);
 void    create_saved_files(t_exec *exec);
 void    exec_pipe(t_exec *exec);
+void    init_pipe(t_exec *exec);
 int     redir_pipe(t_exec *exec);
 void    cmd_error(t_exec *exec);
 void    close_files(t_exec *exec);

@@ -14,6 +14,7 @@ void	loop_shell(t_exec *exec)
             free_all(exec);
             break;
         }
+        exec->count_line++;
         if(line)
             add_history(line);
         exec->line = line;
@@ -41,7 +42,7 @@ void	loop_shell(t_exec *exec)
             continue;
         }
         (*exec->cmd)->nb_heredoc = count_heredoc(*exec->tokens);
-        if ((*exec->cmd)->nb_heredoc > 1)
+        if ((*exec->cmd)->nb_heredoc >= 1)
             (*exec->cmd)->heredocs_delims = heredocs_delims(*exec->tokens, (*exec->cmd)->nb_heredoc);
         exec->tmp = *exec->cmd;
         if(check_directory(exec) == 1)

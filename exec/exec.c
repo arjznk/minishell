@@ -1,21 +1,25 @@
 #include "minishell.h"
 
+void    init_pipe(t_exec *exec)
+{
+    exec->old_fd = -1;
+	exec->status = 0;
+    exec->saved_stdin = -1;
+    exec->saved_stdout = -1;
+    exec->tmp = *exec->cmd;
+}
+
 void	exec_pipe(t_exec *exec)
 {
 	int	wait_status;
 
-	exec->old_fd = -1;
-	exec->status = 0;
-    exec->saved_stdin = -1;
-    exec->saved_stdout = -1;
-	exec->tmp = *exec->cmd;
+    init_pipe(exec);
 	while (exec->tmp)
 	{
 		if (pipe(exec->fd) == -1)
 		{
-			perror("pipe");
 			exec->status = 1;
-			return ;
+			return (perror("pipe"));
 		}
 		if (is_builtins(exec) == 0)
 		{
@@ -28,15 +32,19 @@ void	exec_pipe(t_exec *exec)
 			close(exec->old_fd);
 		exec->old_fd = exec->fd[0];
 		close(exec->fd[1]);
-		if (found_heredocs(exec) == 0)
-			close(exec->heredoc_fd[0]);
-		if (!exec->tmp->next_cmd)
-			close(exec->fd[0]);
 		exec->tmp = exec->tmp->next_cmd;
 	}
 	while (waitpid(-1, &wait_status, 0) > 0)
 		handle_child_status(exec, wait_status);
 } 
+
+void    close_exec_pipe(t_exec *exec)
+{
+    if (found_heredocs(exec) == 0)
+		close(exec->heredoc_fd[0]);
+	if (!exec->tmp->next_cmd)
+		close(exec->fd[0]);
+}
 
 int    redir_pipe(t_exec *exec)
 {
@@ -148,9 +156,8 @@ void	fork_pipe(t_exec *exec)
 	pid = fork();
 	if (pid == -1)
 	{
-		perror("fork");
 		exec->status = 1;
-		return ;
+		return (perror("fork"));
 	}
 	if (pid == 0)
 	{
