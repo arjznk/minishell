@@ -6,7 +6,7 @@
 /*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:49:04 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/25 17:49:05 by azenk            ###   ########.fr       */
+/*   Updated: 2026/07/25 18:43:02 by azenk            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,68 +14,69 @@
 
 void	ft_cd(t_exec *exec)
 {
-	char	*line;
-	char	*cmd;
-	char	*new_cmd;
-
-	cmd = exec->tmp->args[0];
-	line = exec->tmp->args[1];
-	new_cmd = ft_strchr_echo(exec->tmp->args[0], 'n');
-	if (ft_strcmp(cmd, "cd") == 0 || ft_strcmp(new_cmd, "cd") == 0)
+	if(ft_strcmp(exec->tmp->args[0], "cd") != 0)
 	{
-		if (!line)
-		{
-			chdir(exec->home);
-			return ;
-		}
-		if (ft_strcmp(line, "-") == 0)
-		{
-			cd_home(exec);
-			return ;
-		}
-		if (chdir(line) == -1)
-		{
-			printf("minishell: cd: %s: %s\n", line, strerror(errno));
-			exec->status = 1;
-		}
-		else
-			exec->old_pwd = line;
-	}
-	else
-	{
-		printf("minishell: %s: command not found\n", cmd);
+		printf("minishell: %s: command not found\n", exec->tmp->args[0]);
 		exec->status = 127;
+		return;
 	}
+	if(!exec->tmp->args[1])
+		return(cd_no_args(exec));
+	printf("passe la\n");
+	if(ft_strcmp(exec->tmp->args[1], "-") == 0)
+		return(cd_home(exec));
+	cd_pwd(exec);
 }
-void	cd_home(t_exec *exec)
+
+void	cd_no_args(t_exec *exec)
 {
+	if(exist_home(exec) == 1)
+	{
+		printf("minishell: cd: HOME not set\n");
+		exec->status = 1;
+		return;
+	}
 	chdir(exec->home);
 	printf("%s\n", exec->home);
+
 }
 
-int	check_directory(t_exec *exec)
+void	cd_pwd(t_exec *exec)
 {
-	struct stat	st;
+	char	buf[BUFFER_SIZE];
 
-	if (!((*exec->cmd)->args))
-		return (0);
-	if (c_strcmp((*exec->cmd)->args[0], '/') == 0)
+	getcwd(buf, BUFFER_SIZE);
+	if(chdir(exec->tmp->args[1]) == 0)
+		exec->old_pwd = ft_strdup(buf);
+	else if(chdir(exec->tmp->args[1]) == -1)
 	{
-		if (stat((*exec->cmd)->args[0], &st) == -1)
-		{
-			printf("minishell: %s : %s\n", (*exec->cmd)->args[0],
-				strerror(errno));
-			exec->status = 127;
-			return (1);
-		}
-		if (S_ISDIR(st.st_mode))
-		{
-			printf("minishell: %s : Is a directory\n", (*exec->cmd)->args[0]);
-			exec->status = 126;
-			return (1);
-		}
+		printf("minishell: cd: %s: %s\n", exec->tmp->args[1], strerror(errno));
+		exec->status = 1;
 	}
-	if (dot_error(exec) == 1)
-		return (1);
-	return (0);
 }
+
+int		exist_home(t_exec *exec)
+{
+	t_env *tmp;
+
+	tmp = (*exec->env);
+	while(tmp)
+	{
+		if(ft_strcmp(tmp->variable, "HOME") == 0)
+			return (0);
+		else if(tmp->next == NULL)
+			return (1);
+		tmp =  tmp->next;
+	}
+	return (0);
+
+}
+
+void	cd_home(t_exec *exec)
+{
+	chdir(exec->old_pwd);
+	printf("%s\n", exec->old_pwd);
+
+}
+
+

@@ -6,7 +6,7 @@
 /*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:48:57 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/25 17:48:58 by azenk            ###   ########.fr       */
+/*   Updated: 2026/07/25 18:41:13 by azenk            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,30 @@ void	syntax_error(char *token, t_exec *exec)
 {
 	printf("minishell: syntax error near unexpected token '%s'\n", token);
 	exec->status = 2;
+}
+
+int	check_directory(t_exec *exec)
+{
+	struct stat	st;
+
+	if(!((*exec->cmd)->args))
+		return (0);
+	if(c_strcmp((*exec->cmd)->args[0], '/') == 0)
+	{
+		if(stat((*exec->cmd)->args[0], &st) == -1)
+		{
+			printf("minishell: %s : %s\n", (*exec->cmd)->args[0], strerror(errno));
+			exec->status = 127;
+			return(1);
+		}
+		if(S_ISDIR(st.st_mode))
+		{
+			printf("minishell: %s : Is a directory\n", (*exec->cmd)->args[0]);
+			exec->status = 126;
+			return (1);
+		}
+	}
+	if(dot_error(exec) == 1)
+		return (1);
+    return(0);
 }

@@ -6,7 +6,7 @@
 /*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:48:46 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/25 18:11:30 by azenk            ###   ########.fr       */
+/*   Updated: 2026/07/25 18:59:29 by azenk            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 // void	exec_pipe(t_exec *exec)
 // {
+// 	int wait_status;
+	
 //     exec->old_fd = -1;
 //     exec->status = -1;
 //     exec->tmp = (*exec->cmd);
@@ -37,7 +39,7 @@
 //             close(exec->fd[0]);
 //         exec->tmp = exec->tmp->next_cmd;
 //     }
-//     while(waitpid(-1, &exec->status, 0) > 0)
+//     while(waitpid(-1, &wait_status, 0) > 0)
 //         handle_child_status(exec, wait_status);
 // }
 
@@ -45,6 +47,8 @@ void	exec_pipe(t_exec *exec)
 {
 	exec->old_fd = -1;
 	exec->status = 0;
+    exec->saved_stdin = -1;
+    exec->saved_stdout = -1;
 	exec->tmp = *exec->cmd;
 	while (exec->tmp)
 	{
@@ -54,6 +58,7 @@ void	exec_pipe(t_exec *exec)
 			exec->status = 1;
 			return ;
 		}
+		
 		if (is_builtins(exec) == 0)
 		{
 			create_saved_files(exec);
@@ -168,6 +173,7 @@ void	builtins_pipe(t_exec *exec)
 			return ;
 		}
 		dup2(exec->redir_fd, STDIN_FILENO);
+        close(exec->redir_fd);
 	}
 	else if (exec->tmp->next_cmd)
 		dup2(exec->fd[1], STDOUT_FILENO);

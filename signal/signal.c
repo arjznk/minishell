@@ -6,7 +6,7 @@
 /*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:47:52 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/25 17:47:53 by azenk            ###   ########.fr       */
+/*   Updated: 2026/07/25 18:52:14 by azenk            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,19 +56,19 @@ void	init_child_signals(void)
 	signal(SIGQUIT, SIG_DFL);
 }
 
-// void	handle_child_status(t_exec *exec, int status)
-// {
-// 	if (WIFSIGNALED(status))
-// 	{
-// 		if (WTERMSIG(status) == SIGQUIT)
-// 			ft_putendl_fd("Quit (core dumped)", 2);
-// 		else if (WTERMSIG(status) == SIGINT)
-// 			write(1, "\n", 1);
-// 		exec->status = 128 + WTERMSIG(status);
-// 	}
-// 	else if (WIFEXITED(status))
-// 		exec->status = WEXITSTATUS(status);
-// }
+void	handle_child_status(t_exec *exec, int status)
+{
+	if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == SIGQUIT)
+			ft_putendl_fd("Quit (core dumped)", 2);
+		else if (WTERMSIG(status) == SIGINT)
+			write(1, "\n", 1);
+		exec->status = 128 + WTERMSIG(status);
+	}
+	else if (WIFEXITED(status))
+		exec->status = WEXITSTATUS(status);
+}
 
 // void	handle_child_status(t_exec *exec, int status)
 // {

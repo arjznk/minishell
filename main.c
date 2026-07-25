@@ -6,7 +6,7 @@
 /*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:57:56 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/25 18:17:28 by azenk            ###   ########.fr       */
+/*   Updated: 2026/07/25 18:49:09 by azenk            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void	loop_shell(t_exec *exec)
             continue;
         }
         exec_pipe(exec);
-        free_tab((*exec->cmd)->heredocs_delims);
         free_parsing(exec);
     }
 }

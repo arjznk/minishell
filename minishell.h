@@ -6,10 +6,9 @@
 /*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:46:48 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/25 17:56:55 by azenk            ###   ########.fr       */
+/*   Updated: 2026/07/25 18:52:27 by azenk            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -145,6 +144,8 @@ void					fill_path_acces(t_path_acces **acces, t_exec *exec);
 void					heredocs(t_exec *exec);
 int						found_heredocs(t_exec *exec);
 void					close_heredoc_files(t_exec *exec);
+void					heredoc_write(t_exec *exec, char *line);
+void					loop_heredoc(t_exec *exec, int i);
 
 // redirections
 int						redirections(t_exec *exec);
@@ -180,7 +181,7 @@ void					cmd_only(t_exec *exec, t_path_acces *tmp);
 void					handle_sigint(int sig);
 void					init_parent_signals(void);
 void					init_child_signals(void);
-// void	handle_child_status(t_exec *exec, int status);
+void	handle_child_status(t_exec *exec, int status);
 void					wait_children(t_exec *exec);
 void					ignore_parent_signals(void);
 
@@ -190,6 +191,9 @@ void					ft_env(t_exec *exec);
 void					ft_pwd(void);
 void					ft_cd(t_exec *exec);
 void					cd_home(t_exec *exec);
+void					cd_no_args(t_exec *exec);
+void					cd_pwd(t_exec *exec);
+int						exist_home(t_exec *exec);
 int						check_directory(t_exec *exec);
 void					ft_exit_code(char *line, char *nb, t_exec *exec);
 void					ft_exit(t_exec *exec);
@@ -231,7 +235,6 @@ void					token_redir_in(t_token **token, int *i, char *str);
 void					token_pipe(t_token **token, int *i);
 int						count_heredoc(t_token *token);
 char					**heredocs_delims(t_token *token, int count);
-
 // char    *delete_quotes(char *str);
 int						check_quotes(char *str);
 
@@ -243,9 +246,9 @@ t_cmd					*parse_cmd(t_token *tokens);
 void					add_args(t_cmd *current, char *str);
 char					*expand_and_remove_quotes(char *str, t_exec *exec);
 char					*join_char(char *result, char c);
-int	check_redir_syntax(t_token *token, t_exec *exec);
-int	check_pipe_syntax(t_token *token, t_exec *exec);
-int	is_redirection(t_token_type type);
+int						check_redir_syntax(t_token *token, t_exec *exec);
+int						check_pipe_syntax(t_token *token, t_exec *exec);
+int						is_redirection(t_token_type type);
 
 // error
 void					syntax_error(char *token, t_exec *exec);
