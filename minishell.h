@@ -162,9 +162,9 @@ void    cmd_only(t_exec *exec, t_path_acces *tmp);
 // void    expand_var(t_exec *exec);
 
 // signal
-void	handle_sigquit(int sig);
-void				init_signals(void);
-void				handle_sigint(int sig);
+void	     handle_sigquit(int sig);
+void		 init_signals(void);
+void		 handle_sigint(int sig);
 
 //built-in
 int     is_builtins(t_exec *exec);
@@ -172,6 +172,9 @@ void    ft_env(t_exec *exec);
 void    ft_pwd();
 void    ft_cd(t_exec *exec);
 void	cd_home(t_exec *exec);
+void	cd_no_args(t_exec *exec);
+void	cd_pwd(t_exec *exec);
+int		exist_home(t_exec *exec);
 int	    check_directory(t_exec *exec);
 void    ft_exit_code(char *line, char *nb, t_exec *exec);
 void    ft_exit(t_exec *exec);

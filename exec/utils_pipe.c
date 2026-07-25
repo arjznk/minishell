@@ -13,8 +13,10 @@ void	cmd_error(t_exec *exec)
 
 void	close_files(t_exec *exec)
 {
-    close(exec->fd[0]);
-    close(exec->fd[1]);
+    if(exec->fd[0] != -1)
+        close(exec->fd[0]);
+    if(exec->fd[1] != -1)
+        close(exec->fd[1]);
     if(exec->tmp->heredoc)
     {
         close(exec->heredoc_fd[0]);
