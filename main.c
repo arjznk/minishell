@@ -4,7 +4,7 @@ void	loop_shell(t_exec *exec)
 {
     char    *line;
 
-	init_signals();
+	init_parent_signals();
     while(1)
     {
         line = readline("minishell> ");
@@ -41,6 +41,8 @@ void	loop_shell(t_exec *exec)
             continue;
         }
         (*exec->cmd)->nb_heredoc = count_heredoc(*exec->tokens);
+        if ((*exec->cmd)->nb_heredoc > 1)
+            (*exec->cmd)->heredocs_delims = heredocs_delims(*exec->tokens, (*exec->cmd)->nb_heredoc);
         exec->tmp = *exec->cmd;
         if(check_directory(exec) == 1)
         {

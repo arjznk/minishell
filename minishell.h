@@ -54,6 +54,7 @@ typedef struct s_cmd
 	char			*heredoc;
 	struct s_cmd	*next_cmd;
     int             nb_heredoc;
+    char            **heredocs_delims;
 
 }					t_cmd;
 
@@ -130,6 +131,8 @@ void    fill_path_acces(t_path_acces **acces, t_exec *exec);
 void				heredocs(t_exec *exec);
 int					found_heredocs(t_exec *exec);
 void				close_heredoc_files(t_exec *exec);
+void                heredoc_write(t_exec *exec, char *line);
+void                loop_heredoc(t_exec *exec, int i);
 
 // redirections
 int					redirections(t_exec *exec);
@@ -162,9 +165,10 @@ void    cmd_only(t_exec *exec, t_path_acces *tmp);
 // void    expand_var(t_exec *exec);
 
 // signal
-void	     handle_sigquit(int sig);
-void		 init_signals(void);
+void	init_parent_signals(void);
+void	init_child_signals(void);
 void		 handle_sigint(int sig);
+void	    handle_child_status(t_exec *exec, int status);
 
 //built-in
 int     is_builtins(t_exec *exec);
@@ -215,7 +219,7 @@ void    token_redir_out(t_token **token, int *i, char *str);
 void    token_redir_in(t_token **token, int *i, char *str);
 void    token_pipe(t_token **token, int *i);
 int		count_heredoc(t_token *token);
-
+char    **heredocs_delims(t_token *token ,int count);
 // char    *delete_quotes(char *str);
 int					check_quotes(char *str);
 
@@ -227,6 +231,8 @@ t_cmd				*parse_cmd(t_token *tokens);
 void				add_args(t_cmd *current, char *str);
 char				*expand_and_remove_quotes(char *str, t_exec *exec);
 char				*join_char(char *result, char c);
+
+
 
 //error
 void	syntax_error(char *token, t_exec *exec);

@@ -13,6 +13,7 @@ t_cmd	*new_cmd(void)
 	cmd->infile = NULL;
 	cmd->outfile = NULL;
 	cmd->next_cmd = NULL;
+	cmd->heredocs_delims = NULL;
 	return (cmd);
 }
 

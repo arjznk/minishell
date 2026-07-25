@@ -11,8 +11,13 @@ void	ft_exit(t_exec *exec)
     {
         if(cmd && !nb)
         {
-            printf("exit\n");
+			printf("exit\n");
             exit_return(exec);
+			for (int fd = 0; fd < 10; fd++)
+			{
+    			if (fcntl(fd, F_GETFD) != -1)
+        		printf("FD %d est ouvert\n", fd);
+			}
             exit(0);
         }
         else if(cmd && ft_isdigit(nb) == 1)

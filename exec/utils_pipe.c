@@ -18,14 +18,14 @@ void	close_files(t_exec *exec)
     if(exec->fd[1] != -1)
         close(exec->fd[1]);
     if(exec->tmp->heredoc)
-    {
         close(exec->heredoc_fd[0]);
-    }
 }
 void	close_saved_files(t_exec *exec)
 {
-	close(exec->saved_stdin);
-	close(exec->saved_stdout);
+    if(exec->saved_stdin != -1)
+	    close(exec->saved_stdin);
+    if(exec->saved_stdout != -1)
+	    close(exec->saved_stdout);
 }
 
 

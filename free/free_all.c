@@ -14,6 +14,8 @@ void free_all(t_exec *exec)
 		free(exec->path);
 	if(exec->acces_path)
 		free_node_path(exec->acces_path);
+	if((*exec->cmd) && (*exec->cmd)->nb_heredoc)
+		free_tab((*exec->cmd)->heredocs_delims);
 	free_parsing(exec);
 	free(exec);
 }
@@ -88,6 +90,8 @@ void	free_node_cmd(t_cmd **list)
 		free((*list)->infile);
 		free((*list)->outfile);
 		free((*list)->heredoc);
+		if((*list)->heredocs_delims)
+			free_tab((*list)->heredocs_delims);
 		free(*list);
 	    *list = tmp;
 	}
