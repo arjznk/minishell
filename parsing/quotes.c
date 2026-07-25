@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quotes.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/25 17:48:02 by azenk             #+#    #+#             */
+/*   Updated: 2026/07/25 18:21:13 by azenk            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // char    *delete_quotes(char *str)
@@ -26,7 +38,7 @@ int	check_quotes(char *str)
 			while (str[i] && str[i] != '\'')
 				i++;
 			if (!str[i])
-				return (printf("Error quotes\n"), 1);
+				return (printf("minishell: syntax error: unclosed quote\n"), 1);
 		}
 		if (str[i] == '"')
 		{
@@ -34,7 +46,7 @@ int	check_quotes(char *str)
 			while (str[i] && str[i] != '"')
 				i++;
 			if (!str[i])
-				return (printf("Error quotes\n"), 1);
+				return (printf("minishell: syntax error: unclosed quote\n"), 1);
 		}
 		i++;
 	}
@@ -60,7 +72,6 @@ char	*expand_and_remove_quotes(char *str, t_exec *exec)
 			d_quotes = !d_quotes;
 		else if (str[i] == '$' && s_quotes == 0)
 			result = expand_var2(str, &i, result, exec);
-		
 		else
 			result = join_char(result, str[i]);
 		i++;

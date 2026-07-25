@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unset.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/25 17:49:30 by azenk             #+#    #+#             */
+/*   Updated: 2026/07/25 17:49:31 by azenk            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	ft_unset(t_exec *exec)
@@ -6,10 +18,10 @@ void	ft_unset(t_exec *exec)
 	int		i;
 
 	i = 1;
-	while(exec->tmp->args[i])
+	while (exec->tmp->args[i])
 	{
 		key = search_and_stop(exec->tmp->args[i], '=');
-		if(ft_strcmp(key, "PATH") == 0)
+		if (ft_strcmp(key, "PATH") == 0)
 			free_path(exec);
 		unset_var(exec, key);
 		free(key);
@@ -24,12 +36,12 @@ void	unset_var(t_exec *exec, char *key)
 
 	tmp = (*exec->env);
 	prev = NULL;
-	while(tmp)
+	while (tmp)
 	{
-		if(ft_strcmp(tmp->variable, key) == 0)
+		if (ft_strcmp(tmp->variable, key) == 0)
 		{
 			free_unset(exec, prev, tmp);
-			break;
+			break ;
 		}
 		prev = tmp;
 		tmp = tmp->next;

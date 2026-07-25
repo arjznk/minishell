@@ -1,13 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirections.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/25 17:47:57 by azenk             #+#    #+#             */
+/*   Updated: 2026/07/25 17:47:58 by azenk            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	redirections(t_exec *exec)
 {
-	if(redir_infile(exec) == 1 || redir_outfile(exec) == 1)
+	if (redir_infile(exec) == 1 || redir_outfile(exec) == 1)
 		return (1);
 	return (0);
 }
 
-int		redir_outfile(t_exec *exec)
+int	redir_outfile(t_exec *exec)
 {
 	if ((*exec->cmd)->outfile && (*exec->cmd)->append == 1)
 	{
@@ -30,7 +42,7 @@ int		redir_outfile(t_exec *exec)
 	return (0);
 }
 
-int		redir_infile(t_exec *exec)
+int	redir_infile(t_exec *exec)
 {
 	if ((*exec->cmd)->infile && (*exec->cmd)->append == 0)
 	{

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenisation.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/25 17:47:28 by azenk             #+#    #+#             */
+/*   Updated: 2026/07/25 17:53:15 by azenk            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 t_token	*tokenisation(char *str)
@@ -64,7 +76,7 @@ char	*find_word(char *str, int i)
 
 void	add_token(t_token **token, t_token *new)
 {
-	t_token *tmp;
+	t_token	*tmp;
 
 	tmp = *token;
 	if (!*token)
@@ -78,4 +90,20 @@ void	add_token(t_token **token, t_token *new)
 			tmp = tmp->next_token;
 	}
 	tmp->next_token = new;
+}
+
+int	count_heredoc(t_token *token)
+{
+	t_token	*tmp;
+	int		count;
+
+	tmp = token;
+	count = 0;
+	while (tmp)
+	{
+		if (tmp->type == T_HEREDOC)
+			count++;
+		tmp = tmp->next_token;
+	}
+	return (count);
 }

@@ -52,9 +52,9 @@ typedef struct s_cmd
 	char			*outfile;
 	int				append;
 	char			*heredoc;
-	struct s_cmd	*next_cmd;
-    int             nb_heredoc;
     char            **heredocs_delims;
+    int             nb_heredoc;
+	struct s_cmd	*next_cmd;
 
 }					t_cmd;
 
@@ -167,10 +167,13 @@ void    cmd_only(t_exec *exec, t_path_acces *tmp);
 // void    expand_var(t_exec *exec);
 
 // signal
-void	init_parent_signals(void);
-void	init_child_signals(void);
-void		 handle_sigint(int sig);
-void	    handle_child_status(t_exec *exec, int status);
+// signal
+void					handle_sigint(int sig);
+void					init_parent_signals(void);
+void					init_child_signals(void);
+void	handle_child_status(t_exec *exec, int status);
+void					wait_children(t_exec *exec);
+void					ignore_parent_signals(void);
 
 //built-in
 int     is_builtins(t_exec *exec);
