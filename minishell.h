@@ -155,6 +155,7 @@ int     redir_pipe(t_exec *exec);
 void    cmd_error(t_exec *exec);
 void    close_files(t_exec *exec);
 void    close_saved_files(t_exec *exec);
+void    close_exec_pipe(t_exec *exec);
 void    dup_and_close(t_exec *exec);
 void    builtins_pipe(t_exec *exec);
 void    fork_pipe(t_exec *exec);

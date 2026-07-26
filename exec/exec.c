@@ -30,6 +30,7 @@ void	exec_pipe(t_exec *exec)
 			close(exec->old_fd);
 		exec->old_fd = exec->fd[0];
 		close(exec->fd[1]);
+		close_exec_pipe(exec);
 		exec->tmp = exec->tmp->next_cmd;
 	}
 	wait_children(exec);
