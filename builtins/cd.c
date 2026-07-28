@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/25 17:49:04 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/25 18:43:02 by azenk            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 void	ft_cd(t_exec *exec)
@@ -22,7 +10,6 @@ void	ft_cd(t_exec *exec)
 	}
 	if(!exec->tmp->args[1])
 		return(cd_no_args(exec));
-	printf("passe la\n");
 	if(ft_strcmp(exec->tmp->args[1], "-") == 0)
 		return(cd_home(exec));
 	cd_pwd(exec);
@@ -37,8 +24,6 @@ void	cd_no_args(t_exec *exec)
 		return;
 	}
 	chdir(exec->home);
-	printf("%s\n", exec->home);
-
 }
 
 void	cd_pwd(t_exec *exec)

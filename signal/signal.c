@@ -6,7 +6,7 @@
 /*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:47:52 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/25 19:25:34 by azenk            ###   ########.fr       */
+/*   Updated: 2026/07/28 15:00:55 by azenk            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,32 @@ void	init_child_signals(void)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+}
+volatile sig_atomic_t	g_signal = 0;
+
+
+void	handle_heredoc_sigint(int sig)
+{
+	(void)sig;
+	g_signal = SIGINT;
+}
+
+int	heredoc_event(void)
+{
+	if (g_signal == SIGINT)
+		rl_done = 1;
+	return (0);
+}
+
+void	init_heredoc_signals(void)
+{
+	struct sigaction	sa;
+
+	sa.sa_handler = handle_heredoc_sigint;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, NULL);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	handle_child_status(t_exec *exec, int status)

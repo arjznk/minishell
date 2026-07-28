@@ -6,86 +6,25 @@
 /*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:48:46 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/25 19:06:08 by azenk            ###   ########.fr       */
+/*   Updated: 2026/07/28 14:12:59 by azenk            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void	exec_pipe(t_exec *exec)
-// {
-// 	int wait_status;
-	
-//     exec->old_fd = -1;
-//     exec->status = -1;
-//     exec->tmp = (*exec->cmd);
-//     while(exec->tmp)
-//     {
-//         pipe(exec->fd);
-//         if(is_builtins(exec) == 0)
-//         {
-//             create_saved_files(exec);
-//             builtins_pipe(exec);
-//         }
-//         else
-//             fork_pipe(exec);
-//         if(exec->old_fd != -1)
-//             close(exec->old_fd);
-//         exec->old_fd = exec->fd[0];
-//         close(exec->fd[1]);
-//         if(found_heredocs(exec) == 0)
-//             close(exec->heredoc_fd[0]);
-//         if(!exec->tmp->next_cmd)
-//             close(exec->fd[0]);
-//         exec->tmp = exec->tmp->next_cmd;
-//     }
-//     while(waitpid(-1, &wait_status, 0) > 0)
-//         handle_child_status(exec, wait_status);
-// }
-
-// void	exec_pipe(t_exec *exec)
-// {
-// 	int wait_status;
-	
-//     exec->old_fd = -1;
-//     exec->status = -1;
-//     exec->tmp = (*exec->cmd);
-//     while(exec->tmp)
-//     {
-//         pipe(exec->fd);
-//         if(is_builtins(exec) == 0)
-//         {
-//             create_saved_files(exec);
-//             builtins_pipe(exec);
-//         }
-//         else
-//             fork_pipe(exec);
-//         if(exec->old_fd != -1)
-//             close(exec->old_fd);
-//         exec->old_fd = exec->fd[0];
-//         close(exec->fd[1]);
-//         if(found_heredocs(exec) == 0)
-//             close(exec->heredoc_fd[0]);
-//         if(!exec->tmp->next_cmd)
-//             close(exec->fd[0]);
-//         exec->tmp = exec->tmp->next_cmd;
-//     }
-//     while(waitpid(-1, &wait_status, 0) > 0)
-//         handle_child_status(exec, wait_status);
-// }
-
 void    init_pipe(t_exec *exec)
 {
-	exec->old_fd = -1;
+    exec->old_fd = -1;
 	exec->status = 0;
     exec->saved_stdin = -1;
     exec->saved_stdout = -1;
+    exec->heredoc_fd[0] = -1;
+    exec->heredoc_fd[1] = -1;
     exec->tmp = *exec->cmd;
 }
 
 void	exec_pipe(t_exec *exec)
 {
-
     init_pipe(exec);
 	while (exec->tmp)
 	{
@@ -94,7 +33,6 @@ void	exec_pipe(t_exec *exec)
 			exec->status = 1;
 			return (perror("pipe"));
 		}
-		
 		if (is_builtins(exec) == 0)
 		{
 			create_saved_files(exec);
@@ -106,182 +44,77 @@ void	exec_pipe(t_exec *exec)
 			close(exec->old_fd);
 		exec->old_fd = exec->fd[0];
 		close(exec->fd[1]);
+		close_exec_pipe(exec);
 		exec->tmp = exec->tmp->next_cmd;
 	}
 	wait_children(exec);
 	init_parent_signals();
+} 
+
+int    redir_pipe(t_exec *exec)
+{
+    t_path_acces *tmp;
+
+    tmp = (*exec->acces_path);
+    if(!tmp)
+        return (1);
+    dup_for_pipe(exec);
+    exec_cmd(exec, tmp);
+    return (0);
 }
 
-int	redir_pipe(t_exec *exec)
+void    exec_cmd(t_exec *exec, t_path_acces *tmp)
 {
-	t_path_acces	*tmp;
-
-	*exec->cmd = exec->tmp;
-	tmp = (*exec->acces_path);
-	if (!tmp)
-		return (1);
-	dup_for_pipe(exec);
-	exec_cmd(exec, tmp);
-	return (0);
+    if(!(exec->tmp->args))
+    {
+        close_files(exec);
+        close(STDIN_FILENO);
+        free_all(exec);
+        close(STDOUT_FILENO);
+        exit(0);
+    }
+    if(ft_strchr(exec->tmp->args[0], '/'))
+    {
+        if(access(exec->tmp->args[0], F_OK) == 0)
+            execve(exec->tmp->args[0], exec->tmp->args, exec->envp);
+        else
+        {
+            cmd_error(exec);
+            return;
+        }
+    }
+    else
+        cmd_only(exec, tmp);
 }
 
-void	exec_cmd(t_exec *exec, t_path_acces *tmp)
+void    cmd_only(t_exec *exec, t_path_acces *tmp)
 {
-	if (!(exec->tmp->args))
-	{
-		close_files(exec);
-		free_all(exec);
-		close(STDOUT_FILENO);
-		exit(0);
-	}
-	init_child_signals();
-	if (ft_strchr(exec->tmp->args[0], '/'))
-	{
-		if (access(exec->tmp->args[0], F_OK) == 0)
-			execve(exec->tmp->args[0], exec->tmp->args, exec->envp);
-		else
-		{
-			cmd_error(exec);
-			return ;
-		}
-	}
-	else
-		cmd_only(exec, tmp);
-}
+    char *line;
+	char *tmp_line;
 
-void	cmd_only(t_exec *exec, t_path_acces *tmp)
-{
-	char	*line;
-	char	*tmp_line;
-
-	while (tmp->acces)
-	{
-		tmp_line = ft_strjoin(tmp->acces, "/");
-		line = ft_strjoin(tmp_line, exec->tmp->args[0]);
+    while(tmp->acces)
+    {
+        tmp_line = ft_strjoin(tmp->acces, "/");
+        line = ft_strjoin(tmp_line, exec->tmp->args[0]);
 		free(tmp_line);
-		if (access(line, F_OK) == 0)
-		{
-			execve(line, exec->tmp->args, exec->envp);
-		}
-		else if (tmp->next == NULL)
-		{
-			if (access(line, F_OK) != 0)
-			{
+        if(access(line, F_OK) == 0)
+            execve(line, exec->tmp->args, exec->envp);
+        else if(tmp->next == NULL)
+        {
+            if(access(line, F_OK) != 0)
+            {
 				free(line);
-				cmd_error(exec);
-				return ;
-			}
-		}
-		else
-			tmp = tmp->next;
+                cmd_error(exec);
+                return;
+            }
+        }
+        else
+            tmp = tmp->next;
 		free(line);
-	}
+    }
 }
 
-void	create_saved_files(t_exec *exec)
-{
-	exec->saved_stdout = dup(STDOUT_FILENO);
-	exec->saved_stdin = dup(STDIN_FILENO);
-}
-void	builtins_pipe(t_exec *exec)
-{
-	if ((*exec->cmd)->heredoc)
-		heredocs(exec);
-	else if (found_outfile(exec) == 0)
-	{
-		if (redirections(exec) == 1)
-		{
-			close_saved_files(exec);
-			return ;
-		}
-		dup2(exec->redir_fd, STDOUT_FILENO);
-		close(exec->redir_fd);
-	}
-	else if (found_infile(exec) == 0)
-	{
-		if (redirections(exec) == 1)
-		{
-			close_saved_files(exec);
-			return ;
-		}
-		dup2(exec->redir_fd, STDIN_FILENO);
-        close(exec->redir_fd);
-	}
-	else if (exec->tmp->next_cmd)
-		dup2(exec->fd[1], STDOUT_FILENO);
-	dup_and_close(exec);
-}
 
-// void	fork_pipe(t_exec *exec)
-// {
-//     if(found_heredocs(exec) == 0)
-//         heredocs(exec);
-//     if(fork() == 0)
-//     {
-//         if (redir_pipe(exec) == 1)
-//         {
-//             printf("minishell: %s: no such file or directory\n",
-//(*exec->cmd)->args[0]);
-//             exec->status = 127;
-//             close_files(exec);
-// 			free_all(exec);
-//             exit(127);
-//         }
-//     }
-// }
 
-void	fork_pipe(t_exec *exec)
-{
-	pid_t	pid;
 
-	if (found_heredocs(exec) == 0)
-		heredocs(exec);
-	ignore_parent_signals();
-	pid = fork();
-	if (pid == -1)
-	{
-		exec->status = 1;
-		return (perror("fork"));
-	}
-	if (pid == 0)
-	{
-		init_child_signals();
-		if (redir_pipe(exec) == 1)
-		{
-			ft_putstr_fd("minishell: ", 2);
-			if (exec->tmp && exec->tmp->args && exec->tmp->args[0])
-				ft_putstr_fd(exec->tmp->args[0], 2);
-			ft_putendl_fd(": no such file or directory", 2);
-			close_files(exec);
-			free_all(exec);
-			exit(127);
-		}
-	}
-}
 
-void	dup_for_pipe(t_exec *exec)
-{
-	if ((*exec->cmd)->heredoc)
-	{
-		dup2(exec->heredoc_fd[0], STDIN_FILENO);
-		exec->old_fd = exec->heredoc_fd[0];
-	}
-	else if (found_outfile(exec) == 0)
-	{
-		if (redirections(exec) == 1)
-			return ;
-		dup2(exec->redir_fd, STDOUT_FILENO);
-		close(exec->redir_fd);
-	}
-	else if (found_infile(exec) == 0)
-	{
-		if (redirections(exec) == 1)
-			return ;
-		dup2(exec->redir_fd, STDIN_FILENO);
-		close(exec->redir_fd);
-	}
-	if (exec->old_fd != -1)
-		dup2(exec->old_fd, STDIN_FILENO);
-	if (exec->tmp->next_cmd)
-		dup2(exec->fd[1], STDOUT_FILENO);
-}

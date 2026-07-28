@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:48:12 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/25 18:16:23 by azenk            ###   ########.fr       */
+/*   Updated: 2026/07/28 08:01:17 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_cmd	*new_cmd(void)
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
+	memset(cmd, 0, sizeof(t_cmd));
 	cmd->args = NULL;
 	cmd->append = 0;
 	cmd->heredoc = NULL;

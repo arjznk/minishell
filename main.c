@@ -6,7 +6,7 @@
 /*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:57:56 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/25 19:14:49 by azenk            ###   ########.fr       */
+/*   Updated: 2026/07/28 14:16:39 by azenk            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int	main(int ac, char **av, char **envp)
     path = malloc(sizeof(t_path));
     if(!path || !exec || !envp)
         return (1);
+    ft_memset(exec, 0, sizeof(t_exec)); 
     size = 0;
     while (envp[size])
         size++;

@@ -1,29 +1,40 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   heredocs.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/25 17:48:19 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/25 19:01:29 by azenk            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
+// void	heredocs(t_exec *exec)
+// {
+//     int i;
+
+//     i = 0;
+//     pipe(exec->heredoc_fd);
+//     while(i < exec->tmp->nb_heredoc)
+//     {
+//         loop_heredoc(exec, i);
+//         i++;
+//     }
+//     close(exec->heredoc_fd[1]);
+//     exec->heredoc_fd[1] = -1;
+// }
 void	heredocs(t_exec *exec)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    pipe(exec->heredoc_fd);
-    while(i < exec->tmp->nb_heredoc)
-    {
-        loop_heredoc(exec, i);
-        i++;
-    }
-    close(exec->heredoc_fd[1]);
+	i = 0;
+	g_signal = 0;
+    signal(SIGINT, handle_heredoc_sigint);
+    signal(SIGQUIT, SIG_IGN);
+    rl_event_hook = heredoc_event;
+	pipe(exec->heredoc_fd);
+	while (i < exec->tmp->nb_heredoc)
+	{
+		loop_heredoc(exec, i);
+		if (g_signal == SIGINT)
+			break ;
+		i++;
+	}
+	close(exec->heredoc_fd[1]);
+	exec->heredoc_fd[1] = -1;
+    rl_event_hook = NULL;
+	init_parent_signals();
 }
 
 void    loop_heredoc(t_exec *exec, int i)
@@ -33,7 +44,13 @@ void    loop_heredoc(t_exec *exec, int i)
     while(1)
     {
         line = readline(">");
-        if(!line)
+        if (g_signal == SIGINT)
+        {
+	        free(line);
+	        exec->status = 130;
+	        return ;
+        }
+        if (!line)
         {
             free(line);
             printf("minishell: warning: here-document at line %d delimited by end-of-file (wanted `%s')\n", 
@@ -61,9 +78,9 @@ void    heredoc_write(t_exec *exec, char *line)
 
 int	found_heredocs(t_exec *exec)
 {
-	if (exec->tmp->heredoc)
-		return (0);
-	return (1);
+    if(exec->tmp->heredoc)
+        return (0);
+    return (1);
 }
 
 void	close_heredoc_files(t_exec *exec)
