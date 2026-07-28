@@ -6,7 +6,7 @@
 /*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:47:52 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/25 18:52:14 by azenk            ###   ########.fr       */
+/*   Updated: 2026/07/25 19:25:34 by azenk            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	wait_children(t_exec *exec)
 				quit_printed = 1;
 			}
 			else if (WTERMSIG(status) == SIGINT)
-				write(1, "\n", 1);
+				printf("\n");
 			exec->status = 128 + WTERMSIG(status);
 		}
 		else if (WIFEXITED(status))

@@ -6,7 +6,7 @@
 /*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:48:24 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/25 17:48:25 by azenk            ###   ########.fr       */
+/*   Updated: 2026/07/25 19:15:20 by azenk            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ void	free_all(t_exec *exec)
 		free(exec->path);
 	if (exec->acces_path)
 		free_node_path(exec->acces_path);
-	if((*exec->cmd) && (*exec->cmd)->nb_heredoc)
-		free_tab((*exec->cmd)->heredocs_delims);
 	free_parsing(exec);
 	free(exec);
 }

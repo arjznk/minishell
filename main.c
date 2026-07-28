@@ -6,7 +6,7 @@
 /*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:57:56 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/25 18:49:09 by azenk            ###   ########.fr       */
+/*   Updated: 2026/07/25 19:14:49 by azenk            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	loop_shell(t_exec *exec)
             free_all(exec);
             break;
         }
+        exec->count_line++;
         if(line)
             add_history(line);
         exec->line = line;
@@ -52,7 +53,7 @@ void	loop_shell(t_exec *exec)
         }
         (*exec->cmd)->nb_heredoc = count_heredoc(*exec->tokens);
         // printf("nb heredocs : %d\n", count_heredoc(*exec->tokens));
-        if ((*exec->cmd)->nb_heredoc > 1)
+        if ((*exec->cmd)->nb_heredoc >= 1)
         {
             // char **tmp = heredocs_delims(*exec->tokens, (*exec->cmd)->nb_heredoc);
             // int i = 0;
@@ -106,4 +107,3 @@ int	main(int ac, char **av, char **envp)
     path_function(exec, size);
     loop_shell(exec);
 }
-

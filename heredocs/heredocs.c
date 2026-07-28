@@ -6,7 +6,7 @@
 /*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:48:19 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/25 18:38:01 by azenk            ###   ########.fr       */
+/*   Updated: 2026/07/25 19:01:29 by azenk            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,11 @@ void    loop_heredoc(t_exec *exec, int i)
         if(!line)
         {
             free(line);
-            printf("minishell: warning: here-document at line 14 delimited by end-of-file (wanted `%s')\n", exec->tmp->heredocs_delims[i]);
+            printf("minishell: warning: here-document at line %d delimited by end-of-file (wanted `%s')\n", 
+                exec->count_line, exec->tmp->heredocs_delims[i]);
             break;
         }
-        if(ft_strcmp(line, exec->tmp->heredocs_delims[i]) == 0)
+        if( ft_strcmp(line, exec->tmp->heredocs_delims[i]) == 0)
         {
             free(line);
             break;

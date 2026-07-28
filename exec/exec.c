@@ -6,7 +6,7 @@
 /*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:48:46 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/25 18:59:29 by azenk            ###   ########.fr       */
+/*   Updated: 2026/07/25 19:06:08 by azenk            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,20 +43,56 @@
 //         handle_child_status(exec, wait_status);
 // }
 
-void	exec_pipe(t_exec *exec)
+// void	exec_pipe(t_exec *exec)
+// {
+// 	int wait_status;
+	
+//     exec->old_fd = -1;
+//     exec->status = -1;
+//     exec->tmp = (*exec->cmd);
+//     while(exec->tmp)
+//     {
+//         pipe(exec->fd);
+//         if(is_builtins(exec) == 0)
+//         {
+//             create_saved_files(exec);
+//             builtins_pipe(exec);
+//         }
+//         else
+//             fork_pipe(exec);
+//         if(exec->old_fd != -1)
+//             close(exec->old_fd);
+//         exec->old_fd = exec->fd[0];
+//         close(exec->fd[1]);
+//         if(found_heredocs(exec) == 0)
+//             close(exec->heredoc_fd[0]);
+//         if(!exec->tmp->next_cmd)
+//             close(exec->fd[0]);
+//         exec->tmp = exec->tmp->next_cmd;
+//     }
+//     while(waitpid(-1, &wait_status, 0) > 0)
+//         handle_child_status(exec, wait_status);
+// }
+
+void    init_pipe(t_exec *exec)
 {
 	exec->old_fd = -1;
 	exec->status = 0;
     exec->saved_stdin = -1;
     exec->saved_stdout = -1;
-	exec->tmp = *exec->cmd;
+    exec->tmp = *exec->cmd;
+}
+
+void	exec_pipe(t_exec *exec)
+{
+
+    init_pipe(exec);
 	while (exec->tmp)
 	{
 		if (pipe(exec->fd) == -1)
 		{
-			perror("pipe");
 			exec->status = 1;
-			return ;
+			return (perror("pipe"));
 		}
 		
 		if (is_builtins(exec) == 0)
@@ -70,10 +106,6 @@ void	exec_pipe(t_exec *exec)
 			close(exec->old_fd);
 		exec->old_fd = exec->fd[0];
 		close(exec->fd[1]);
-		if (found_heredocs(exec) == 0)
-			close(exec->heredoc_fd[0]);
-		if (!exec->tmp->next_cmd)
-			close(exec->fd[0]);
 		exec->tmp = exec->tmp->next_cmd;
 	}
 	wait_children(exec);
@@ -208,9 +240,8 @@ void	fork_pipe(t_exec *exec)
 	pid = fork();
 	if (pid == -1)
 	{
-		perror("fork");
 		exec->status = 1;
-		return ;
+		return (perror("fork"));
 	}
 	if (pid == 0)
 	{

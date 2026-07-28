@@ -6,7 +6,7 @@
 /*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:46:48 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/25 18:52:27 by azenk            ###   ########.fr       */
+/*   Updated: 2026/07/25 19:05:00 by azenk            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ typedef struct s_exec
 	int					redir_fd;
 	char				*home;
 	char				*old_pwd;
+    int                 count_line;
 }						t_exec;
 
 // list utils
@@ -158,21 +159,22 @@ int						redir_infile(t_exec *exec);
 // main
 void					loop_shell(t_exec *exec);
 
-// exec
-void					execute_builtins(t_exec *exec);
-void					create_saved_files(t_exec *exec);
-void					exec_pipe(t_exec *exec);
-int						redir_pipe(t_exec *exec);
-void					cmd_error(t_exec *exec);
-void					close_files(t_exec *exec);
-void					close_saved_files(t_exec *exec);
-void					dup_and_close(t_exec *exec);
-void					builtins_pipe(t_exec *exec);
-void					fork_pipe(t_exec *exec);
-void					dup_for_pipe(t_exec *exec);
-void					exit_code(t_exec *exec);
-void					exec_cmd(t_exec *exec, t_path_acces *tmp);
-void					cmd_only(t_exec *exec, t_path_acces *tmp);
+//exec
+void    execute_builtins(t_exec *exec);
+void    create_saved_files(t_exec *exec);
+void    exec_pipe(t_exec *exec);
+void    init_pipe(t_exec *exec);
+int     redir_pipe(t_exec *exec);
+void    cmd_error(t_exec *exec);
+void    close_files(t_exec *exec);
+void    close_saved_files(t_exec *exec);
+void    dup_and_close(t_exec *exec);
+void    builtins_pipe(t_exec *exec);
+void    fork_pipe(t_exec *exec);
+void    dup_for_pipe(t_exec *exec);
+void    exit_code(t_exec *exec);
+void    exec_cmd(t_exec *exec, t_path_acces *tmp);
+void    cmd_only(t_exec *exec, t_path_acces *tmp);
 
 // expand
 // void    expand_var(t_exec *exec);
