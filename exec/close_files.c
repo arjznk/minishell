@@ -1,14 +1,20 @@
 #include "minishell.h"
 
-void	cmd_error(t_exec *exec)
+void    create_saved_files(t_exec *exec)
 {
-    printf("minishell: %s: command not found\n", exec->tmp->args[0]);
-    exec->status = 127;
-    close_files(exec);
-    if(exec->old_fd != -1)
-        close(exec->old_fd);
-    free_all(exec);
-    exit(127);
+    exec->saved_stdout = dup(STDOUT_FILENO);
+    exec->saved_stdin = dup(STDIN_FILENO);
+}
+
+void    close_exec_pipe(t_exec *exec)
+{
+    if (found_heredocs(exec) == 0)
+	{
+        close(exec->heredoc_fd[0]);
+        exec->heredoc_fd[0] = -1;
+    }
+	if (!exec->tmp->next_cmd)
+		close(exec->fd[0]);
 }
 
 void	close_files(t_exec *exec)
@@ -17,8 +23,7 @@ void	close_files(t_exec *exec)
         close(exec->fd[0]);
     if(exec->fd[1] != -1)
         close(exec->fd[1]);
-    if(exec->tmp->heredoc)
-    {
+    if(exec->tmp->heredoc && exec->heredoc_fd[0] != -1)
         close(exec->heredoc_fd[0]);
 }
 void	close_saved_files(t_exec *exec)

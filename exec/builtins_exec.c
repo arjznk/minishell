@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:48:51 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/25 18:11:06 by azenk            ###   ########.fr       */
+/*   Updated: 2026/07/28 08:06:37 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	execute_builtins(t_exec *exec)
 	else
 	{
 		printf("minishell: %s: command not found\n", exec->tmp->args[0]);
+		close_files(exec);
+		free_all(exec);
 		exec->status = 127;
 	}
 }

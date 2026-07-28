@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 void	heredocs(t_exec *exec)
@@ -13,6 +12,7 @@ void	heredocs(t_exec *exec)
         i++;
     }
     close(exec->heredoc_fd[1]);
+    exec->heredoc_fd[1] = -1;
 }
 
 void    loop_heredoc(t_exec *exec, int i)

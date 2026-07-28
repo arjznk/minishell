@@ -4,7 +4,7 @@ void	loop_shell(t_exec *exec)
 {
     char    *line;
 
-	init_signals();
+	init_parent_signals();
     while(1)
     {
         line = readline("minishell> ");
@@ -73,9 +73,10 @@ int	main(int ac, char **av, char **envp)
     path = malloc(sizeof(t_path));
     if(!path || !exec || !envp)
         return (1);
+    ft_memset(exec, 0, sizeof(t_exec)); 
     size = 0;
     while (envp[size])
-        size++;
+    size++;
     exec->env = &env;
     exec->path = path;
     exec->cmd = &cmd;

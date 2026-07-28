@@ -10,7 +10,6 @@ void	ft_cd(t_exec *exec)
 	}
 	if(!exec->tmp->args[1])
 		return(cd_no_args(exec));
-	printf("passe la\n");
 	if(ft_strcmp(exec->tmp->args[1], "-") == 0)
 		return(cd_home(exec));
 	cd_pwd(exec);

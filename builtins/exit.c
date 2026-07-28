@@ -61,5 +61,7 @@ void	exit_return(t_exec *exec)
 {
 	close_files(exec);
 	close_saved_files(exec);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
 	free_all(exec);
 }
