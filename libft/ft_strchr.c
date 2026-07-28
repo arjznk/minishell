@@ -1,0 +1,37 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/13 20:53:35 by rijebbar          #+#    #+#             */
+/*   Updated: 2026/07/28 16:46:53 by azenk            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
+
+char	*ft_strchr(const char *s, int c)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] && s[i] == (char)c)
+			return ((char *)&s[i] + 1);
+		i++;
+	}
+	if ((char)c == '\0')
+		return ((char *)&s[i] + 1);
+	return (NULL);
+}
+/*int main()
+{
+	const char s[] = "HelloAreej";
+	int c = 'r';
+
+	printf("%s\n", ft_strchr(s, c));
+	printf("%s\n", strchr(s, c));
+}*/
