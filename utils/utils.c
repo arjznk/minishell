@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:47:07 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/25 17:47:08 by azenk            ###   ########.fr       */
+/*   Updated: 2026/07/28 15:15:11 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,35 +26,35 @@ void	print_token(t_token **token)
 	}
 }
 
-void	print_cmds(t_cmd *cmds)
-{
-	t_cmd	*tmp;
-	int		i;
+// void	print_cmds(t_cmd *cmds)
+// {
+// 	t_cmd	*tmp;
+// 	int		i;
 
-	i = 0;
-	tmp = cmds;
-	while (tmp)
-	{
-		printf("CMD\n");
-		i = 0;
-		if (tmp->args)
-		{
-			while (tmp->args[i])
-			{
-				printf(" args %s\n", tmp->args[i]);
-				i++;
-			}
-		}
-		if (tmp->infile)
-			printf("INFILE = %s\n", tmp->infile);
-		if (tmp->outfile)
-			printf("OUTFILE = %s\n", tmp->outfile);
-		if (tmp->heredoc)
-			printf("HEREDOC = %s\n", tmp->heredoc);
-		printf("APPEND = %d\n", tmp->append);
-		tmp = tmp->next_cmd;
-	}
-}
+// 	i = 0;
+// 	tmp = cmds;
+// 	while (tmp)
+// 	{
+// 		printf("CMD\n");
+// 		i = 0;
+// 		if (tmp->args)
+// 		{
+// 			while (tmp->args[i])
+// 			{
+// 				printf(" args %s\n", tmp->args[i]);
+// 				i++;
+// 			}
+// 		}
+// 		if (tmp->infile)
+// 			printf("INFILE = %s\n", tmp->infile);
+// 		if (tmp->outfile)
+// 			printf("OUTFILE = %s\n", tmp->outfile);
+// 		if (tmp->heredoc)
+// 			printf("HEREDOC = %s\n", tmp->heredoc);
+// 		printf("APPEND = %d\n", tmp->append);
+// 		tmp = tmp->next_cmd;
+// 	}
+// }
 
 char	*search_and_stop(char *str, char c)
 {

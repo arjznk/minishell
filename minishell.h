@@ -201,7 +201,7 @@ void    ft_export(t_exec *exec);
 void    export_w_error(t_exec *exec);
 void    export_only(t_exec *exec);
 int     export_error(t_exec *exec);
-void    export_return(t_exec *exec);
+void	return_export(t_exec *exec, char *var);
 void    exist_var(t_exec *exec, int i, t_env *tp, char *temp);
 
 //free

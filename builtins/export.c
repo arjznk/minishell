@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:49:21 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/28 15:05:00 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/28 15:21:47 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,27 +35,33 @@ int	export_error(t_exec *exec)
 
 	i = 0;
 	var = search_and_stop(exec->tmp->args[1], '=');
-	if(!var[0] || ft_isalpha(var[0] == 0 && var[0] != '_'))
+	if(!var[0] || (ft_isalpha(var[0])== 0 && var[0] != '_'))
 	{
-		printf("minishell: export: `%s': not a valid identifier\n",
-			exec->tmp->args[1]);
-		exec->status = 1;
+		return_export(exec, var);
 		return (1);
 	}
 	i = 1;
 	while ((var[i]))
 	{
-		if(ft_isdigit(var[i]) == 0 && var[i] != '_')
+		if(ft_isalnum(var[i]) == 0 && var[i] != '_')
 		{
-		printf("minishell: export: `%s': not a valid identifier\n",
-			exec->tmp->args[1]);
-		exec->status = 1;
-		return (1);
+			return_export(exec, var);
+			return (1);
 		}
 		i++;
 	}
 	free(var);
 	return (0);
+}
+
+void	return_export(t_exec *exec, char *var)
+{
+	ft_putstr_fd("minishell: export ", 2);
+    ft_putstr_fd(exec->tmp->args[1], 2);
+    ft_putendl_fd(": not a valid identifier", 2);
+	if(var)
+		free(var);
+	exec->status = 1;
 }
 
 void	export_w_error(t_exec *exec)
@@ -117,8 +123,3 @@ void	export_only(t_exec *exec)
 	exec->status = 0;
 }
 
-void	export_return(t_exec *exec)
-{
-	printf("minishell: %s: not a valid identifer\n", exec->tmp->args[1]);
-	exec->status = 1;
-}
