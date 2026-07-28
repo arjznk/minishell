@@ -6,7 +6,7 @@
 /*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:47:35 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/25 17:52:47 by azenk            ###   ########.fr       */
+/*   Updated: 2026/07/28 15:33:50 by azenk            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,21 +62,18 @@ void	token_word(t_token **token, int *i, char *str)
 	t_token	*new;
 	char	*word;
 
-	// char *clean;
 	word = find_word(str, *i);
-	// clean = delete_quotes(word);
 	new = new_token(word, T_WORD);
 	add_token(token, new);
 	*i += ft_strlen(word);
 	free(word);
 }
 
-
 char	**heredocs_delims(t_token *token, int count)
 {
-	char **tab;
-	t_token *tmp;
-	int i;
+	char	**tab;
+	t_token	*tmp;
+	int		i;
 
 	tab = malloc(sizeof(char *) * (count + 1));
 	if (!tab)

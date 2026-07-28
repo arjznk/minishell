@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_exec.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:48:51 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/28 08:06:37 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/28 16:34:15 by azenk            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	execute_builtins(t_exec *exec)
 	else if (ft_strcmp(exec->tmp->args[0], "exit") == 0)
 		ft_exit(exec);
 	else if (ft_strcmp(exec->tmp->args[0], "echo") == 0)
-        ft_echo(exec);
+		ft_echo(exec);
 	else if (ft_strcmp(exec->tmp->args[0], "env") == 0)
 		ft_env(exec);
 	else if (ft_strcmp(exec->tmp->args[0], "export") == 0)

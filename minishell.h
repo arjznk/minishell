@@ -52,8 +52,6 @@ typedef struct s_cmd
 	char			*outfile;
 	int				append;
 	char			*heredoc;
-    char            **heredocs_delims;
-    int             nb_heredoc;
 	struct s_cmd	*next_cmd;
 
 }					t_cmd;
@@ -91,8 +89,6 @@ typedef struct s_exec
     int heredoc_fd[2];
 	int	redir_fd;
     char *home;
-    char *old_pwd;
-    int count_line;
 } t_exec;
 
 //list utils
@@ -132,8 +128,6 @@ void    fill_path_acces(t_path_acces **acces, t_exec *exec);
 void				heredocs(t_exec *exec);
 int					found_heredocs(t_exec *exec);
 void				close_heredoc_files(t_exec *exec);
-void                heredoc_write(t_exec *exec, char *line);
-void                loop_heredoc(t_exec *exec, int i);
 
 // redirections
 int					redirections(t_exec *exec);
@@ -150,12 +144,10 @@ void	loop_shell(t_exec *exec);
 void    execute_builtins(t_exec *exec);
 void    create_saved_files(t_exec *exec);
 void    exec_pipe(t_exec *exec);
-void    init_pipe(t_exec *exec);
 int     redir_pipe(t_exec *exec);
 void    cmd_error(t_exec *exec);
 void    close_files(t_exec *exec);
 void    close_saved_files(t_exec *exec);
-void    close_exec_pipe(t_exec *exec);
 void    dup_and_close(t_exec *exec);
 void    builtins_pipe(t_exec *exec);
 void    fork_pipe(t_exec *exec);
@@ -168,23 +160,14 @@ void    cmd_only(t_exec *exec, t_path_acces *tmp);
 // void    expand_var(t_exec *exec);
 
 // signal
-// signal
-void					handle_sigint(int sig);
-void					init_parent_signals(void);
-void					init_child_signals(void);
-void	handle_child_status(t_exec *exec, int status);
-void					wait_children(t_exec *exec);
-void					ignore_parent_signals(void);
+void				set_sig_childen(void);
+void				set_sig_parent(void);
 
 //built-in
 int     is_builtins(t_exec *exec);
 void    ft_env(t_exec *exec);
 void    ft_pwd();
 void    ft_cd(t_exec *exec);
-void	cd_home(t_exec *exec);
-void	cd_no_args(t_exec *exec);
-void	cd_pwd(t_exec *exec);
-int		exist_home(t_exec *exec);
 int	    check_directory(t_exec *exec);
 void    ft_exit_code(char *line, char *nb, t_exec *exec);
 void    ft_exit(t_exec *exec);
@@ -214,7 +197,6 @@ void	free_cmd_tokens(t_exec *exec);
 void	free_node_path(t_path_acces **list);
 void	free_parsing(t_exec *exec);
 void	free_tmp_token(t_token *list);
-void	free_for_expand(char *result, char *value, char *var_name);
 
 // tokenisation functions
 t_token    *tokenisation(char *str);
@@ -225,8 +207,6 @@ void    token_word(t_token **token, int *i, char *str);
 void    token_redir_out(t_token **token, int *i, char *str);
 void    token_redir_in(t_token **token, int *i, char *str);
 void    token_pipe(t_token **token, int *i);
-int		count_heredoc(t_token *token);
-char    **heredocs_delims(t_token *token ,int count);
 // char    *delete_quotes(char *str);
 int					check_quotes(char *str);
 
@@ -239,7 +219,9 @@ void				add_args(t_cmd *current, char *str);
 char				*expand_and_remove_quotes(char *str, t_exec *exec);
 char				*join_char(char *result, char c);
 
-
+// Signaux
+void				init_signals(void);
+void				handle_sigint(int sig);
 
 //error
 void	syntax_error(char *token, t_exec *exec);
