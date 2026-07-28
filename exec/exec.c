@@ -56,9 +56,7 @@ void    exec_cmd(t_exec *exec, t_path_acces *tmp)
     if(!(exec->tmp->args))
     {
         close_files(exec);
-        close(STDIN_FILENO);
         free_all(exec);
-        close(STDOUT_FILENO);
         exit(0);
     }
     if(ft_strchr(exec->tmp->args[0], '/'))

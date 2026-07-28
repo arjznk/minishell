@@ -214,6 +214,7 @@ void	free_cmd_tokens(t_exec *exec);
 void	free_node_path(t_path_acces **list);
 void	free_parsing(t_exec *exec);
 void	free_tmp_token(t_token *list);
+void	free_for_expand(char *result, char *value, char *var_name);
 
 // tokenisation functions
 t_token    *tokenisation(char *str);

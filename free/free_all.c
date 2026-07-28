@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:48:24 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/25 19:12:21 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/28 14:32:31 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ void	free_all(t_exec *exec)
 		free_node_path(exec->acces_path);
 	free_parsing(exec);
 	free(exec);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
 }
 
 void	free_cmd_tokens(t_exec *exec)

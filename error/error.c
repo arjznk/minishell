@@ -9,7 +9,6 @@ void	cmd_error(t_exec *exec)
     close_files(exec);
     if(exec->old_fd != -1)
         close(exec->old_fd);
-    close(STDIN_FILENO);
     free_all(exec);
     exit(127);
 }

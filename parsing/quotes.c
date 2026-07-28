@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:48:02 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/25 18:21:13 by azenk            ###   ########.fr       */
+/*   Updated: 2026/07/28 14:50:03 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,11 @@ char	*join_char(char *result, char c)
 	tmp[0] = c;
 	tmp[1] = '\0';
 	new_result = ft_strjoin(result, tmp);
+	if(!new_result)
+	{
+		free(result);
+		return NULL;
+	}
 	free(result);
 	return (new_result);
 }
