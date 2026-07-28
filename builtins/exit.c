@@ -11,7 +11,7 @@ void	ft_exit(t_exec *exec)
     {
         if(cmd && !nb)
         {
-			printf("exit\n");
+            printf("exit\n");
             exit_return(exec);
             exit(0);
         }

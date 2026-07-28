@@ -136,7 +136,6 @@ void    builtins_pipe(t_exec *exec)
 			return ;
 		}
 		dup2(exec->redir_fd, STDIN_FILENO);
-        close(exec->redir_fd);
 	}
 	else if (exec->tmp->next_cmd)
 		dup2(exec->fd[1], STDOUT_FILENO);
