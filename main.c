@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/25 17:57:56 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/28 14:16:39 by azenk            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 void	loop_shell(t_exec *exec)
@@ -52,18 +40,8 @@ void	loop_shell(t_exec *exec)
             continue;
         }
         (*exec->cmd)->nb_heredoc = count_heredoc(*exec->tokens);
-        // printf("nb heredocs : %d\n", count_heredoc(*exec->tokens));
         if ((*exec->cmd)->nb_heredoc >= 1)
-        {
-            // char **tmp = heredocs_delims(*exec->tokens, (*exec->cmd)->nb_heredoc);
-            // int i = 0;
-            // while (tmp[i])
-            // {
-            //     printf("delim = %s\n", tmp[i]);
-            //     i++;
-            // }
             (*exec->cmd)->heredocs_delims = heredocs_delims(*exec->tokens, (*exec->cmd)->nb_heredoc);
-        }
         exec->tmp = *exec->cmd;
         if(check_directory(exec) == 1)
         {
@@ -98,7 +76,7 @@ int	main(int ac, char **av, char **envp)
     ft_memset(exec, 0, sizeof(t_exec)); 
     size = 0;
     while (envp[size])
-        size++;
+    size++;
     exec->env = &env;
     exec->path = path;
     exec->cmd = &cmd;
@@ -108,3 +86,4 @@ int	main(int ac, char **av, char **envp)
     path_function(exec, size);
     loop_shell(exec);
 }
+

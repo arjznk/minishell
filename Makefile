@@ -6,7 +6,7 @@ CFLAGS = -Wall -Wextra -Werror
 
 SRCS = main.c tokenisation/get_env.c tokenisation/tokenisation.c parsing/quotes.c tokenisation/token_type.c utils/list_functions.c parsing/parsing.c parsing/cmd.c builtins/cd.c builtins/echo.c \
 builtins/env.c builtins/exit.c builtins/export.c builtins/pwd.c builtins/unset.c exec/exec.c free/free_all.c utils/str_utils.c utils/utils.c \
-exec/expand.c signal/signal.c exec/builtins_exec.c redirection/redirections.c heredocs/heredocs.c error/error.c \
+exec/expand.c signal/signal.c exec/builtins_exec.c redirection/redirections.c heredocs/heredocs.c error/error.c signal/signal2.c redirection/redirection2.c free/free2.c\
 exec/pipe.c exec/close_files.c 
 OBJS = $(SRCS:.c=.o)
 

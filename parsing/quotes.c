@@ -6,24 +6,11 @@
 /*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:48:02 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/25 18:21:13 by azenk            ###   ########.fr       */
+/*   Updated: 2026/07/28 16:36:15 by azenk            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// char    *delete_quotes(char *str)
-// {
-//     int len;
-//     char *s;
-
-//     len = ft_strlen(str);
-//     if ((str[0] == '"' && str[len - 1] == '"') || (str[0] == '\'' && str[len - 1] == '\''))
-//         s = ft_substr(str, 1, len - 2);
-//     else
-//         s = ft_strdup(str);
-//     return(s);
-// }
 
 int	check_quotes(char *str)
 {
@@ -71,7 +58,7 @@ char	*expand_and_remove_quotes(char *str, t_exec *exec)
 		else if (str[i] == '"' && s_quotes == 0)
 			d_quotes = !d_quotes;
 		else if (str[i] == '$' && s_quotes == 0)
-			result = expand_var2(str, &i, result, exec);
+			result = expand_var(str, &i, result, exec);
 		else
 			result = join_char(result, str[i]);
 		i++;
@@ -87,6 +74,11 @@ char	*join_char(char *result, char c)
 	tmp[0] = c;
 	tmp[1] = '\0';
 	new_result = ft_strjoin(result, tmp);
+	if (!new_result)
+	{
+		free(result);
+		return (NULL);
+	}
 	free(result);
 	return (new_result);
 }

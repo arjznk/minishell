@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:48:12 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/28 08:01:17 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/28 15:29:44 by azenk            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,51 +48,48 @@ void	add_cmd(t_cmd **cmds, t_cmd *new)
 	tmp->next_cmd = new;
 }
 
+static void	parse_redirection(t_cmd *current, t_token **tmp)
+{
+	if ((*tmp)->type == T_REDIR_IN)
+		current->infile = ft_strdup((*tmp)->next_token->str);
+	else if ((*tmp)->type == T_REDIR_OUT)
+		current->outfile = ft_strdup((*tmp)->next_token->str);
+	else if ((*tmp)->type == T_APPEND)
+	{
+		current->outfile = ft_strdup((*tmp)->next_token->str);
+		current->append = 1;
+	}
+	else if ((*tmp)->type == T_HEREDOC)
+	{
+		free(current->heredoc);
+		current->heredoc = ft_strdup((*tmp)->next_token->str);
+	}
+	*tmp = (*tmp)->next_token;
+}
+
 t_cmd	*parse_cmd(t_token *tokens)
 {
-	t_token	*tmp;
 	t_cmd	*new;
 	t_cmd	*cmds;
 	t_cmd	*current;
 
-	tmp = tokens;
 	cmds = NULL;
 	new = new_cmd();
 	add_cmd(&cmds, new);
 	current = new;
-	while (tmp)
+	while (tokens)
 	{
-		if (tmp->type == T_PIPE)
+		if (tokens->type == T_PIPE)
 		{
 			new = new_cmd();
 			add_cmd(&cmds, new);
 			current = new;
 		}
-		else if (tmp->type == T_WORD)
-			add_args(current, tmp->str);
-		else if (tmp->type == T_REDIR_IN)
-		{
-			current->infile = ft_strdup(tmp->next_token->str);
-			tmp = tmp->next_token;
-		}
-		else if (tmp->type == T_REDIR_OUT)
-		{
-			current->outfile = ft_strdup(tmp->next_token->str);
-			tmp = tmp->next_token;
-		}
-		else if (tmp->type == T_APPEND)
-		{
-			current->outfile = ft_strdup(tmp->next_token->str);
-			current->append = 1;
-			tmp = tmp->next_token;
-		}
-		else if (tmp->type == T_HEREDOC)
-		{
-			free(current->heredoc);
-			current->heredoc = ft_strdup(tmp->next_token->str);
-			tmp = tmp->next_token;
-		}
-		tmp = tmp->next_token;
+		else if (tokens->type == T_WORD)
+			add_args(current, tokens->str);
+		else
+			parse_redirection(current, &tokens);
+		tokens = tokens->next_token;
 	}
 	return (cmds);
 }
@@ -108,11 +105,8 @@ void	add_args(t_cmd *current, char *str)
 		return ;
 	i = 0;
 	j = 0;
-	if (current->args)
-	{
-		while (current->args[i])
-			i++;
-	}
+	while (current->args && current->args[i])
+		i++;
 	args = malloc(sizeof(char *) * (i + 2));
 	if (!args)
 		return ;

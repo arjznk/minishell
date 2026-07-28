@@ -6,7 +6,7 @@
 /*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:49:21 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/25 17:49:22 by azenk            ###   ########.fr       */
+/*   Updated: 2026/07/28 17:01:57 by azenk            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,17 @@ int	export_error(t_exec *exec)
 
 	i = 0;
 	var = search_and_stop(exec->tmp->args[1], '=');
+	if (!var[0] || ft_isalpha(var[0] == 0 && var[0] != '_'))
+	{
+		printf("minishell: export: `%s': not a valid identifier\n",
+			exec->tmp->args[1]);
+		exec->status = 1;
+		return (1);
+	}
+	i = 1;
 	while ((var[i]))
 	{
-		if (compar_char(var[i], '_') == 0)
-			i++;
-		if (ft_isalpha(var[i]) == 0 || ft_isdigit(var) == 0)
+		if (ft_isalnum(var[i]) == 0 && var[i] != '_')
 		{
 			printf("minishell: export: `%s': not a valid identifier\n",
 				exec->tmp->args[1]);

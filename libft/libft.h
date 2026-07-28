@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 21:03:03 by rijebbar          #+#    #+#             */
-/*   Updated: 2026/05/24 14:29:55 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/28 16:46:59 by azenk            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <ctype.h>
 # include <fcntl.h>
+# include <limits.h>
 # include <stdint.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -22,7 +23,6 @@
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <unistd.h>
-#include <limits.h>
 
 typedef struct s_list
 {
@@ -30,7 +30,7 @@ typedef struct s_list
 	struct s_list	*next;
 }					t_list;
 
-long					ft_atoi(const char *nptr);
+long				ft_atoi(const char *nptr);
 void				ft_bzero(void *s, size_t n);
 void				*ft_calloc(size_t nmemb, size_t size);
 int					ft_isalnum(int c);
