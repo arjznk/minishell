@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredocs.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 16:45:59 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/28 16:54:51 by azenk            ###   ########.fr       */
+/*   Updated: 2026/07/28 17:58:11 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,5 @@ int	found_heredocs(t_exec *exec)
 void	close_heredoc_files(t_exec *exec)
 {
 	close(exec->heredoc_fd[0]);
+	exec->heredoc_fd[0] = -1;
 }

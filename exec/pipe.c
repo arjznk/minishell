@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 16:29:35 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/28 16:33:46 by azenk            ###   ########.fr       */
+/*   Updated: 2026/07/28 18:00:23 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	dup_for_pipe(t_exec *exec)
 	if (exec->tmp->next_cmd)
 		dup2(exec->fd[1], STDOUT_FILENO);
 }
+
 
 void	builtins_pipe(t_exec *exec)
 {

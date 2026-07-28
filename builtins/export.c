@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:49:21 by azenk             #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2026/07/28 15:21:47 by rijebbar         ###   ########.fr       */
-=======
-/*   Updated: 2026/07/28 17:01:57 by azenk            ###   ########.fr       */
->>>>>>> areej
+/*   Updated: 2026/07/28 17:13:18 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +35,7 @@ int	export_error(t_exec *exec)
 
 	i = 0;
 	var = search_and_stop(exec->tmp->args[1], '=');
-<<<<<<< HEAD
-	if(!var[0] || (ft_isalpha(var[0])== 0 && var[0] != '_'))
-=======
 	if (!var[0] || ft_isalpha(var[0] == 0 && var[0] != '_'))
->>>>>>> areej
 	{
 		return_export(exec, var);
 		return (1);
@@ -51,17 +43,11 @@ int	export_error(t_exec *exec)
 	i = 1;
 	while ((var[i]))
 	{
-<<<<<<< HEAD
-		if(ft_isalnum(var[i]) == 0 && var[i] != '_')
-		{
-			return_export(exec, var);
-=======
 		if (ft_isalnum(var[i]) == 0 && var[i] != '_')
 		{
 			printf("minishell: export: `%s': not a valid identifier\n",
 				exec->tmp->args[1]);
 			exec->status = 1;
->>>>>>> areej
 			return (1);
 		}
 		i++;
