@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:49:21 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/28 17:13:18 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/29 13:09:28 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ void	ft_export(t_exec *exec)
 	char	*cmd;
 
 	cmd = exec->tmp->args[0];
-	if (exec->tmp->args[0] && exec->tmp->args[1] == NULL)
+	if (cmd && exec->tmp->args[1] == NULL)
 		export_only((exec));
 	else if (export_error(exec) != 0 && exec->tmp->args[1])
 		return ;
-	else if (ft_strcmp(cmd, "export") == 0)
+	else
 	{
 		export_w_error(exec);
 		exec->status = 0;
@@ -30,39 +30,34 @@ void	ft_export(t_exec *exec)
 
 int	export_error(t_exec *exec)
 {
-	int		i;
 	char	*var;
+	int i;
+	t_cmd *tmp;
 
-	i = 0;
-	var = search_and_stop(exec->tmp->args[1], '=');
-	if (!var[0] || ft_isalpha(var[0] == 0 && var[0] != '_'))
+	tmp = *exec->cmd;
+	while(tmp)
 	{
-		return_export(exec, var);
-		return (1);
-	}
-	i = 1;
-	while ((var[i]))
-	{
-		if (ft_isalnum(var[i]) == 0 && var[i] != '_')
+		i = 1;
+		while(exec->tmp->args[i])
 		{
-			printf("minishell: export: `%s': not a valid identifier\n",
-				exec->tmp->args[1]);
-			exec->status = 1;
-			return (1);
+			var = exec->tmp->args[i];
+			if (ft_isalnum(var[0]) == 0 || ft_isalpha(var) == 0)
+			{
+				return_export(exec, var);
+				return (1);
+			}	
+			i++;
 		}
-		i++;
+		tmp = tmp->next_cmd;
 	}
-	free(var);
-	return (0);
+	return(0);
 }
 
 void	return_export(t_exec *exec, char *var)
 {
-	ft_putstr_fd("minishell: export ", 2);
-    ft_putstr_fd(exec->tmp->args[1], 2);
-    ft_putendl_fd(": not a valid identifier", 2);
-	if(var)
-		free(var);
+	ft_putstr_fd("minishell: export: `", 2);
+	ft_putstr_fd(var, 2);
+	ft_putendl_fd("': not a valid identifier", 2);
 	exec->status = 1;
 }
 
@@ -112,7 +107,7 @@ void	export_only(t_exec *exec)
 {
 	t_env	*tmp;
 
-	sort_str((exec->env));
+	sort_str(exec->env);
 	tmp = (*exec->env);
 	while (tmp)
 	{

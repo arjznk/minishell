@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:47:57 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/28 18:07:33 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/29 10:38:10 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ int	redir_infile(t_exec *exec)
 			redir_error(exec);
 			return (1);
 		}
-		close(exec->redir_fd);
 	}
 	return (0);
 }

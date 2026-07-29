@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 16:45:59 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/28 17:58:11 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/29 11:42:37 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	heredocs(t_exec *exec)
 		loop_heredoc(exec, i);
 		if (g_signal == SIGINT)
 			break ;
+		write(1, "aa\n", 2);
 		i++;
 	}
 	close(exec->heredoc_fd[1]);
@@ -44,25 +45,35 @@ void	loop_heredoc(t_exec *exec, int i)
 		line = readline(">");
 		if (g_signal == SIGINT)
 		{
+			write(1, "1\n", 2);
 			free(line);
 			exec->status = 130;
 			return ;
 		}
 		if (!line)
 		{
+			write(1, "2\n", 2);
 			free(line);
 			printf("minishell: warning: here-document at line %d delimited by end-of-file (wanted `%s')\n", exec->count_line, exec->tmp->heredocs_delims[i]);
 			break ;
 		}
 		if (ft_strcmp(line, exec->tmp->heredocs_delims[i]) == 0)
 		{
+			write(1, "3\n", 2);
 			free(line);
 			break ;
 		}
 		if (i == (exec->tmp->nb_heredoc - 1))
+		{
+			write(1, "4\n", 2);
 			heredoc_write(exec, line);
+			write(1, "5\n", 2);
+		}
 		else
+		{
+			write(1, "6\n", 2);
 			free(line);
+		}
 	}
 }
 
