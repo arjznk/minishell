@@ -26,7 +26,8 @@ void	cmd_error(t_exec *exec)
 {
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(exec->tmp->args[0], 2);
-	ft_putendl_fd(": command not found", 2);
+	ft_putendl_fd(strerror(errno), 2);
+	// ft_putendl_fd(": command not found", 2);
 	exec->status = 127;
 	close_files(exec);
 	if (exec->old_fd != -1)
