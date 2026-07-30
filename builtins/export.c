@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:49:21 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/29 13:09:28 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/30 12:47:15 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,26 +31,26 @@ void	ft_export(t_exec *exec)
 int	export_error(t_exec *exec)
 {
 	char	*var;
-	int i;
-	t_cmd *tmp;
+	int		i;
+	t_cmd	*tmp;
 
 	tmp = *exec->cmd;
-	while(tmp)
+	while (tmp)
 	{
 		i = 1;
-		while(exec->tmp->args[i])
+		while (exec->tmp->args[i])
 		{
 			var = exec->tmp->args[i];
 			if (ft_isalnum(var[0]) == 0 || ft_isalpha(var) == 0)
 			{
 				return_export(exec, var);
 				return (1);
-			}	
+			}
 			i++;
 		}
 		tmp = tmp->next_cmd;
 	}
-	return(0);
+	return (0);
 }
 
 void	return_export(t_exec *exec, char *var)
@@ -90,19 +90,6 @@ void	export_w_error(t_exec *exec)
 	}
 }
 
-void	exist_var(t_exec *exec, int i, t_env *tp, char *temp)
-{
-	char	*tmp;
-
-	(void)temp;
-	tmp = ft_strchr(exec->tmp->args[i], '=');
-	if (tmp != NULL)
-	{
-		free(tp->value);
-		tp->value = ft_strdup(tmp);
-	}
-}
-
 void	export_only(t_exec *exec)
 {
 	t_env	*tmp;
@@ -119,4 +106,3 @@ void	export_only(t_exec *exec)
 	}
 	exec->status = 0;
 }
-

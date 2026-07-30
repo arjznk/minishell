@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:47:14 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/29 12:59:08 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/30 12:52:28 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	sort_str(t_env **env)
 		tmp = *env;
 		while (tmp && tmp->next)
 		{
-			if (ft_strcmp(tmp->variable, tmp->next->variable) > 0 )
+			if (ft_strcmp(tmp->variable, tmp->next->variable) > 0)
 			{
 				tmp_var = tmp->variable;
 				tmp->variable = tmp->next->variable;

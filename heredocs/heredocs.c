@@ -6,12 +6,11 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 16:45:59 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/30 11:54:14 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/30 12:46:42 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 void	heredocs(t_exec *exec)
 {
@@ -45,14 +44,12 @@ void	loop_heredoc(t_exec *exec, int i)
 		line = readline(">");
 		if (g_signal == SIGINT)
 		{
-			free(line);
 			exec->status = 130;
-			return ;
+			return (free(line));
 		}
 		if (!line)
 		{
-			free(line);
-			printf("minishell: warning: here-document at line %d delimited by end-of-file (wanted `%s')\n", exec->count_line, (*exec->cmd)->heredocs_delims[i]);
+			heredoc_error(exec, i, line);
 			break ;
 		}
 		if (ft_strcmp(line, (*exec->cmd)->heredocs_delims[i]) == 0)

@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:48:35 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/30 11:25:17 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/30 14:00:55 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	exit_code(t_exec *exec)
 {
-	if (ft_strcmp(exec->tmp->args[1], "$?") == 0)
+	if (ft_strcmp((*exec->cmd)->args[1], "$?") == 0)
 		printf("%d\n", exec->status);
 }
 
@@ -36,6 +36,8 @@ char	*get_env_value(char *var_name, t_env *env)
 	{
 		if (ft_strcmp(var_name, env->variable) == 0)
 			return (ft_strdup(env->value));
+		else if (env->next == NULL)
+			return (NULL);
 		env = env->next;
 	}
 	return (ft_strdup(""));

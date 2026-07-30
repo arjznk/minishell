@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 16:29:35 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/30 11:24:42 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/30 12:46:32 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,20 @@ void	fork_pipe(t_exec *exec)
 		init_child_signals();
 		if (redir_pipe(exec) == 1)
 		{
-			ft_putstr_fd("minishell: ", 2);
-			if (exec->tmp && exec->tmp->args && exec->tmp->args[0])
-				ft_putstr_fd(exec->tmp->args[0], 2);
-			ft_putendl_fd(": no such file or directory", 2);
-			close_files(exec);
-			free_all(exec);
+			return_fork_pipe(exec);
 			exit(127);
 		}
 	}
+}
+
+void	return_fork_pipe(t_exec *exec)
+{
+	ft_putstr_fd("minishell: ", 2);
+	if (exec->tmp && exec->tmp->args && exec->tmp->args[0])
+		ft_putstr_fd(exec->tmp->args[0], 2);
+	ft_putendl_fd(": no such file or directory", 2);
+	close_files(exec);
+	free_all(exec);
 }
 
 void	dup_for_pipe(t_exec *exec)
@@ -62,7 +67,7 @@ void	dup_for_pipe(t_exec *exec)
 	else if (found_infile(exec) == 0)
 	{
 		if (redirections(exec) == 1)
-				return ;
+			return ;
 		dup2(exec->redir_fd, STDIN_FILENO);
 		close(exec->redir_fd);
 	}
@@ -71,7 +76,6 @@ void	dup_for_pipe(t_exec *exec)
 	if (exec->tmp->next_cmd)
 		dup2(exec->fd[1], STDOUT_FILENO);
 }
-
 
 void	builtins_pipe(t_exec *exec)
 {
@@ -85,10 +89,7 @@ void	builtins_pipe(t_exec *exec)
 	{
 		printf("passe la\n");
 		if (redirections(exec) == 1)
-		{
-			close_saved_files(exec);
-			return ;
-		}
+			return (close_saved_files(exec));
 		dup2(exec->redir_fd, STDOUT_FILENO);
 		close(exec->redir_fd);
 	}
