@@ -12,13 +12,19 @@
 
 #include "minishell.h"
 
-int	check_quotes(char *str)
+int	check_quotes(char *str, t_exec *exec)
 {
 	int	i;
 
 	i = 0;
 	while (str[i])
 	{
+		if((str[i] == '"' && str[i + 1] == '"') || (str[i] == '\'' && str[i + 1] == '\'' ))
+		{
+			printf("minishell : command not found\n");
+			exec->status = 127;
+			return (1);
+		}
 		if (str[i] == '\'')
 		{
 			i++;

@@ -28,6 +28,7 @@ void	loop_shell(t_exec *exec)
 			free_parsing(exec);
 			continue ;
 		}
+        printf("cmd = %s\n", exec->tmp->args[0]);
 		exec_pipe(exec);
 		free_parsing(exec);
 	}
@@ -45,7 +46,7 @@ int	init_parsing(t_exec *exec)
 {
 	char	*tmp;
 
-	if (check_quotes(exec->line) == 0)
+	if (check_quotes(exec->line, exec) == 0)
 		(*exec->tokens) = tokenisation(exec->line);
 	exec->tmp_tokens = (*exec->tokens);
 	while (exec->tmp_tokens)
