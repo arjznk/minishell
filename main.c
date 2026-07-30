@@ -18,7 +18,7 @@ void	loop_shell(t_exec *exec)
         if(line)
             add_history(line);
         exec->line = line;
-        if(check_quotes(exec->line) == 0)
+        if(check_quotes(exec->line) ==  0)
             (*exec->tokens) = tokenisation(line);
         exec->tmp_tokens = (*exec->tokens);
         while (exec->tmp_tokens)
@@ -41,13 +41,15 @@ void	loop_shell(t_exec *exec)
         }
         (*exec->cmd)->nb_heredoc = count_heredoc(*exec->tokens);
         if ((*exec->cmd)->nb_heredoc >= 1)
-            (*exec->cmd)->heredocs_delims = heredocs_delims(*exec->tokens, (*exec->cmd)->nb_heredoc);
+        (*exec->cmd)->heredocs_delims = heredocs_delims(*exec->tokens, (*exec->cmd)->nb_heredoc);
         exec->tmp = *exec->cmd;
         if(check_directory(exec) == 1)
         {
             free_parsing(exec);
             continue;
         }
+        if(found_heredocs(exec) == 0)
+            heredocs(exec);
         exec_pipe(exec);
         free_parsing(exec);
     }

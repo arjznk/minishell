@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 16:29:35 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/29 10:46:32 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/30 11:24:42 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	fork_pipe(t_exec *exec)
 
 	if (found_heredocs(exec) == 0)
 	{
-		printf("passe la\n");
 		heredocs(exec);
 		if (g_signal == SIGINT)
 			return ;
@@ -76,7 +75,7 @@ void	dup_for_pipe(t_exec *exec)
 
 void	builtins_pipe(t_exec *exec)
 {
-	if ((*exec->cmd)->heredoc)
+	if (exec->tmp->heredoc)
 	{
 		heredocs(exec);
 		if (g_signal == SIGINT)
@@ -84,6 +83,7 @@ void	builtins_pipe(t_exec *exec)
 	}
 	else if (found_outfile(exec) == 0)
 	{
+		printf("passe la\n");
 		if (redirections(exec) == 1)
 		{
 			close_saved_files(exec);

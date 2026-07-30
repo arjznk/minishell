@@ -6,11 +6,12 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 16:45:59 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/29 11:42:37 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/30 11:54:14 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 
 void	heredocs(t_exec *exec)
 {
@@ -22,12 +23,11 @@ void	heredocs(t_exec *exec)
 	signal(SIGQUIT, SIG_IGN);
 	rl_event_hook = heredoc_event;
 	pipe(exec->heredoc_fd);
-	while (i < exec->tmp->nb_heredoc)
+	while (i < (*exec->cmd)->nb_heredoc)
 	{
 		loop_heredoc(exec, i);
 		if (g_signal == SIGINT)
 			break ;
-		write(1, "aa\n", 2);
 		i++;
 	}
 	close(exec->heredoc_fd[1]);
@@ -45,35 +45,25 @@ void	loop_heredoc(t_exec *exec, int i)
 		line = readline(">");
 		if (g_signal == SIGINT)
 		{
-			write(1, "1\n", 2);
 			free(line);
 			exec->status = 130;
 			return ;
 		}
 		if (!line)
 		{
-			write(1, "2\n", 2);
 			free(line);
-			printf("minishell: warning: here-document at line %d delimited by end-of-file (wanted `%s')\n", exec->count_line, exec->tmp->heredocs_delims[i]);
+			printf("minishell: warning: here-document at line %d delimited by end-of-file (wanted `%s')\n", exec->count_line, (*exec->cmd)->heredocs_delims[i]);
 			break ;
 		}
-		if (ft_strcmp(line, exec->tmp->heredocs_delims[i]) == 0)
+		if (ft_strcmp(line, (*exec->cmd)->heredocs_delims[i]) == 0)
 		{
-			write(1, "3\n", 2);
 			free(line);
 			break ;
 		}
-		if (i == (exec->tmp->nb_heredoc - 1))
-		{
-			write(1, "4\n", 2);
+		if (i == ((*exec->cmd)->nb_heredoc - 1))
 			heredoc_write(exec, line);
-			write(1, "5\n", 2);
-		}
 		else
-		{
-			write(1, "6\n", 2);
 			free(line);
-		}
 	}
 }
 

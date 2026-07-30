@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 17:02:06 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/28 17:02:29 by azenk            ###   ########.fr       */
+/*   Updated: 2026/07/30 11:25:59 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 void	redir_error(t_exec *exec)
 {
-	if ((*exec->cmd)->infile)
-		printf("minishell: %s: %s\n", (*exec->cmd)->infile, strerror(errno));
-	else if ((*exec->cmd)->outfile)
-		printf("minishell: %s: %s\n", (*exec->cmd)->outfile, strerror(errno));
+	if(exec->tmp->infile)
+		printf("minishell: %s: %s\n", exec->tmp->infile, strerror(errno));
+	else if(exec->tmp->outfile && exec->tmp->append == 0)
+		printf("minishell: %s: %s\n", exec->tmp->outfile, strerror(errno));
+	else if(exec->tmp->outfile && exec->tmp->append == 1)
+		printf("minishell: %s: %s\n", exec->tmp->outfile, strerror(errno));
 	exec->status = 1;
 }

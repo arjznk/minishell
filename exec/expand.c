@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:48:35 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/28 16:36:32 by azenk            ###   ########.fr       */
+/*   Updated: 2026/07/30 11:25:17 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	exit_code(t_exec *exec)
 {
-	if (ft_strcmp((*exec->cmd)->args[1], "$?") == 0)
+	if (ft_strcmp(exec->tmp->args[1], "$?") == 0)
 		printf("%d\n", exec->status);
 }
 

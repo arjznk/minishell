@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenisation.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:47:28 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/25 17:53:15 by azenk            ###   ########.fr       */
+/*   Updated: 2026/07/30 11:49:29 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,10 @@ int	count_heredoc(t_token *token)
 	while (tmp)
 	{
 		if (tmp->type == T_HEREDOC)
+		{
+			write(1, "found\n", 6);
 			count++;
+		}
 		tmp = tmp->next_token;
 	}
 	return (count);

@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:47:57 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/29 10:38:10 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/30 11:23:58 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,18 @@ int	redirections(t_exec *exec)
 
 int	redir_outfile(t_exec *exec)
 {
-	if ((*exec->cmd)->outfile && (*exec->cmd)->append == 1)
+	if (exec->tmp->append == 1)
 	{
-		if ((exec->redir_fd = open((*exec->cmd)->outfile,
+		if ((exec->redir_fd = open(exec->tmp->outfile,
 					O_CREAT | O_WRONLY | O_APPEND, 0644)) == -1)
 		{
 			redir_error(exec);
 			return (1);
 		}
 	}
-	else if ((*exec->cmd)->outfile && (*exec->cmd)->append == 0)
+	else if (exec->tmp->outfile && exec->tmp->append == 0)
 	{
-		if ((exec->redir_fd = open((*exec->cmd)->outfile,
+		if ((exec->redir_fd = open(exec->tmp->outfile,
 					O_CREAT | O_WRONLY | O_TRUNC, 0644)) == -1)
 		{
 			redir_error(exec);
@@ -44,9 +44,9 @@ int	redir_outfile(t_exec *exec)
 
 int	redir_infile(t_exec *exec)
 {
-	if ((*exec->cmd)->infile && (*exec->cmd)->append == 0)
+	if (exec->tmp->infile && exec->tmp->append == 0)
 	{
-		if ((exec->redir_fd = open((*exec->cmd)->infile, O_RDONLY)) == -1)
+		if ((exec->redir_fd = open(exec->tmp->infile, O_RDONLY)) == -1)
 		{
 			redir_error(exec);
 			return (1);
@@ -58,7 +58,7 @@ int	redir_infile(t_exec *exec)
 int	found_outfile(t_exec *exec)
 {
 	exec->redir_fd = -1;
-	if ((*exec->cmd)->outfile)
+	if (exec->tmp->outfile || exec->tmp->append)
 		return (0);
 	return (1);
 }
@@ -66,7 +66,7 @@ int	found_outfile(t_exec *exec)
 int	found_infile(t_exec *exec)
 {
 	exec->redir_fd = -1;
-	if ((*exec->cmd)->infile)
+	if (exec->tmp->infile)
 		return (0);
 	return (1);
 }

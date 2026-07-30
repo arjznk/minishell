@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:46:48 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/28 17:40:54 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/30 11:52:16 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ typedef struct s_exec
 	char			*home;
 	char			*old_pwd;
 	int				count_line;
+	int				save;
+	char			*tmpfile;
 }	t_exec;
 
 //List utils
@@ -125,7 +127,7 @@ void			sort_str(t_env **env);
 char			*search_and_return(char *str, char c);
 int				compar_char(int a, int b);
 
-//Environment
+//Env
 
 void			get_and_cut_path(char **envp, t_path *path);
 void			fill_list_env(char **envp, t_env **env, int size,
@@ -146,6 +148,7 @@ int				found_heredocs(t_exec *exec);
 void			close_heredoc_files(t_exec *exec);
 void			heredoc_write(t_exec *exec, char *line);
 void			loop_heredoc(t_exec *exec, int i);
+void	save_readline(t_exec *exec);
 
 //Redirections
 
