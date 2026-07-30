@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/30 12:47:54 by rijebbar          #+#    #+#             */
-/*   Updated: 2026/07/30 13:05:33 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/30 20:26:19 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void	cmd_error(t_exec *exec)
 {
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(exec->tmp->args[0], 2);
-	ft_putendl_fd(": command not found", 2);
+	ft_putendl_fd(strerror(errno), 2);
+	// ft_putendl_fd(": command not found", 2);
 	exec->status = 127;
 	close_files(exec);
 	if (exec->old_fd != -1)

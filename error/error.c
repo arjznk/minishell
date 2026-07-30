@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 15:56:53 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/30 20:02:17 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/30 20:25:58 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,7 @@ int	dot_error_return(t_exec *exec, int i, char *cmd)
 	if(count_dots(exec->tmp->args[i]) == 2)
 	{
 		if(ft_strcmp("cd", exec->tmp->args[0]) == 0 && ft_strcmp("..", exec->tmp->args[1]) == 0)
-		{
-			printf("la\n");
-			execute_builtins(exec);
-		}
+			return (0);
 	}
 	else if (count_dots(exec->tmp->args[i]) > 1)
 	{
@@ -96,11 +93,11 @@ int	check_directory(t_exec *exec)
 		{
 			if (ft_strcmp("echo", (*exec->cmd)->args[0]) == 0)
 				break ;
-			if (c_strcmp(exec->tmp->args[i], '/') == 0)
-			{
-				if (stat_directory(exec, i) == 1)
-					return (1);
-			}
+			// if (c_strcmp(exec->tmp->args[i], '/') == 0)
+			// {
+			// 	if (stat_directory(exec, i) == 1)
+			// 		return (1);
+			// }
 			i++;
 		}
 		tmp = tmp->next_cmd;
@@ -110,21 +107,21 @@ int	check_directory(t_exec *exec)
 	return (0);
 }
 
-int	stat_directory(t_exec *exec, int i)
-{
-	struct stat	st;
+// int	stat_directory(t_exec *exec, int i)
+// {
+// 	struct stat	st;
 
-	if (stat(exec->tmp->args[i], &st) == -1)
-	{
-		printf("minishell: %s : %s\n", exec->tmp->args[0], strerror(errno));
-		exec->status = 127;
-		return (1);
-	}
-	if (S_ISDIR(st.st_mode))
-	{
-		printf("minishell: %s : Is a directory\n", exec->tmp->args[0]);
-		exec->status = 126;
-		return (1);
-	}
-	return (0);
-}
+// 	if (stat(exec->tmp->args[i], &st) == -1)
+// 	{
+// 		printf("minishell: %s : %s\n", exec->tmp->args[0], strerror(errno));
+// 		exec->status = 127;
+// 		return (1);
+// 	}
+// 	if (S_ISDIR(st.st_mode))
+// 	{
+// 		printf("minishell: %s : Is a directory\n", exec->tmp->args[0]);
+// 		exec->status = 126;
+// 		return (1);
+// 	}
+// 	return (0);
+// }
