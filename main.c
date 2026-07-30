@@ -1,49 +1,44 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/30 16:35:39 by rijebbar          #+#    #+#             */
+/*   Updated: 2026/07/30 17:12:17 by rijebbar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	loop_shell(t_exec *exec)
 {
-    init_parent_signals();
+	init_parent_signals();
 	while (1)
 	{
-        if(readline_loop(exec) == 1)
-            break;
-        if (init_parsing(exec) == 1)
-            continue;
-        init_heredocs(exec);
-        exec->tmp = *exec->cmd;
+		if (readline_loop(exec) == 1)
+			break ;
+		if (init_parsing(exec) == 1)
+			continue ;
+		init_heredocs(exec);
+		exec->tmp = *exec->cmd;
 		if (check_directory(exec) == 1)
 		{
-            free_parsing(exec);
+			free_parsing(exec);
 			continue ;
 		}
 		exec_pipe(exec);
 		free_parsing(exec);
 	}
 }
-int   readline_loop(t_exec *exec)
-{
-    char	*line;
 
-    line = readline("minishell> ");
-    if (!line)
-    {
-        printf("exit\n");
-        free_all(exec);
-        return (1);
-    }
-    exec->count_line++;
-    if (line)
-        add_history(line);
-    exec->line = line;
-    return (0);
-}
-
-void init_heredocs(t_exec *exec)
+void	init_heredocs(t_exec *exec)
 {
-    (*exec->cmd)->nb_heredoc = count_heredoc(*exec->tokens);
-    if ((*exec->cmd)->nb_heredoc >= 1)
-        (*exec->cmd)->heredocs_delims = heredocs_delims(*exec->tokens,
-                (*exec->cmd)->nb_heredoc);
+	(*exec->cmd)->nb_heredoc = count_heredoc(*exec->tokens);
+	if ((*exec->cmd)->nb_heredoc >= 1)
+		(*exec->cmd)->heredocs_delims = heredocs_delims(*exec->tokens,
+				(*exec->cmd)->nb_heredoc);
 }
 
 int	init_parsing(t_exec *exec)
@@ -70,7 +65,7 @@ int	init_parsing(t_exec *exec)
 		free_parsing(exec);
 		return (1);
 	}
-    return (0);
+	return (0);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -91,6 +86,7 @@ int	main(int ac, char **av, char **envp)
 		return (1);
 	exec = malloc(sizeof(t_exec));
 	ft_memset(exec, 0, sizeof(t_exec));
+	env = NULL;
 	if (init(exec) == 1)
 		return (1);
 	while (envp[size])
@@ -103,10 +99,10 @@ int	main(int ac, char **av, char **envp)
 
 int	init(t_exec *exec)
 {
-	static t_token *tokens;
-	static t_cmd *cmd;
-	static t_path_acces *acces_path;
-	t_path *path;
+	static t_token		*tokens;
+	static t_cmd		*cmd;
+	static t_path_acces	*acces_path;
+	t_path				*path;
 
 	path = malloc(sizeof(t_path));
 	if (!path || !exec)

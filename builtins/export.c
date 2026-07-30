@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:49:21 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/30 12:47:15 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/30 16:44:52 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,30 +27,27 @@ void	ft_export(t_exec *exec)
 		exec->status = 0;
 	}
 }
-
-int	export_error(t_exec *exec)
+int export_error(t_exec *exec)
 {
-	char	*var;
-	int		i;
-	t_cmd	*tmp;
+    char    *var;
+    char    *name;
+    int     i;
 
-	tmp = *exec->cmd;
-	while (tmp)
-	{
-		i = 1;
-		while (exec->tmp->args[i])
-		{
-			var = exec->tmp->args[i];
-			if (ft_isalnum(var[0]) == 0 || ft_isalpha(var) == 0)
-			{
-				return_export(exec, var);
-				return (1);
-			}
-			i++;
-		}
-		tmp = tmp->next_cmd;
-	}
-	return (0);
+    i = 1;
+    while (exec->tmp->args[i])
+    {
+        var = exec->tmp->args[i];
+        name = search_and_stop(var, '=');
+        if (ft_isalnum_export(name[0]) == 0 || ft_isalpha(name) == 0)
+        {
+            return_export(exec, var);
+            free(name);
+            return (1);
+        }
+        free(name);
+        i++;
+    }
+    return (0);
 }
 
 void	return_export(t_exec *exec, char *var)

@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 16:29:35 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/30 12:46:32 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/30 19:02:12 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	fork_pipe(t_exec *exec)
 {
-	pid_t	pid;
 
 	if (found_heredocs(exec) == 0)
 	{
@@ -23,13 +22,13 @@ void	fork_pipe(t_exec *exec)
 			return ;
 	}
 	ignore_parent_signals();
-	pid = fork();
-	if (pid == -1)
+	exec->pid = fork();
+	if (exec->pid == -1)
 	{
 		exec->status = 1;
 		return (perror("fork"));
 	}
-	if (pid == 0)
+	if (exec->pid == 0)
 	{
 		init_child_signals();
 		if (redir_pipe(exec) == 1)
@@ -37,6 +36,16 @@ void	fork_pipe(t_exec *exec)
 			return_fork_pipe(exec);
 			exit(127);
 		}
+	}
+	else{
+		int status;
+		
+		waitpid(exec->pid, &status, 0);
+		
+		if (WIFEXITED(status))
+			exec->status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			exec->status = 128 + WTERMSIG(status);
 	}
 }
 
@@ -60,14 +69,14 @@ void	dup_for_pipe(t_exec *exec)
 	if (found_outfile(exec) == 0)
 	{
 		if (redirections(exec) == 1)
-			return ;
+			exit(1) ;
 		dup2(exec->redir_fd, STDOUT_FILENO);
 		close(exec->redir_fd);
 	}
 	else if (found_infile(exec) == 0)
 	{
 		if (redirections(exec) == 1)
-			return ;
+			exit(1) ;
 		dup2(exec->redir_fd, STDIN_FILENO);
 		close(exec->redir_fd);
 	}
@@ -87,7 +96,6 @@ void	builtins_pipe(t_exec *exec)
 	}
 	else if (found_outfile(exec) == 0)
 	{
-		printf("passe la\n");
 		if (redirections(exec) == 1)
 			return (close_saved_files(exec));
 		dup2(exec->redir_fd, STDOUT_FILENO);

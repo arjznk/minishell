@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:46:48 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/30 14:14:43 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/30 17:59:12 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ typedef struct s_exec
 	t_cmd						*tmp;
 	t_token						*tmp_tokens;
 	t_path_acces				**acces_path;
+	pid_t						pid;
 	char						**envp;
 	char						*line;
 	char						*valid_cmd;
@@ -103,8 +104,6 @@ typedef struct s_exec
 	char						*home;
 	char						*old_pwd;
 	int							count_line;
-	int							save;
-	char						*tmpfile;
 }								t_exec;
 
 // List utils
@@ -126,6 +125,7 @@ int								c_strrcmp(char *str, char b);
 void							sort_str(t_env **env);
 char							*search_and_return(char *str, char c);
 int								compar_char(int a, int b);
+int								ft_isalnum_export(int c);
 
 // Env
 
@@ -162,11 +162,11 @@ int								redir_infile(t_exec *exec);
 
 // Main
 
-void						loop_shell(t_exec *exec);
-int							init(t_exec *exec);
-void 						init_heredocs(t_exec *exec);
-int							init_parsing(t_exec *exec);
-int   						readline_loop(t_exec *exec);
+void							loop_shell(t_exec *exec);
+int								init(t_exec *exec);
+void							init_heredocs(t_exec *exec);
+int								init_parsing(t_exec *exec);
+int								readline_loop(t_exec *exec);
 
 // Exec
 

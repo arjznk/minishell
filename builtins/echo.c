@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:49:08 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/25 17:49:09 by azenk            ###   ########.fr       */
+/*   Updated: 2026/07/30 17:12:57 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,7 @@ void	ft_echo(t_exec *exec)
 		echo_n(exec);
 		return ;
 	}
-	if (ft_strcmp(exec->tmp->args[1], "$?") == 0)
-		exit_code(exec);
-	else if (ft_strncmp(exec->tmp->args[1], "$", 1) == 0)
-		printf("%s\n", exec->tmp->args[1]);
-	else if (ft_strcmp(cmd1, "echo") == 0)
+	if (ft_strcmp(cmd1, "echo") == 0)
 		echo(exec);
 	else
 	{

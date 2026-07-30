@@ -1,26 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/13 20:33:01 by rijebbar          #+#    #+#             */
-/*   Updated: 2026/07/30 16:37:09 by rijebbar         ###   ########.fr       */
+/*   Created: 2026/07/30 16:36:40 by rijebbar          #+#    #+#             */
+/*   Updated: 2026/07/30 16:36:46 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-int	ft_isalnum(int c)
+int	ft_isalnum_export(int c)
 {
-	if ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') || (c >= 'A'
-			&& c <= 'Z'))
-		return (1);
-	return (0);
+	if ((c >= '0' && c <= '9'))
+		return (0);
+	return (1);
 }
-/*int main(void)
-{
-	int c = 3;
-	printf("%d\n", ft_isalnum(c));
-}*/

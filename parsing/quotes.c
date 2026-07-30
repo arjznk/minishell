@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:48:02 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/30 14:04:11 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/30 17:52:24 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,10 @@ char	*expand_and_remove_quotes(char *str, t_exec *exec)
 			s_quotes = !s_quotes;
 		else if (str[i] == '"' && s_quotes == 0)
 			d_quotes = !d_quotes;
-		else if (str[i] == '$' && s_quotes == 0)
+		else if (str[i] == '$' && s_quotes == 0){
+			
 			result = expand_var(str, &i, result, exec);
+		}
 		else
 			result = join_char(result, str[i]);
 		i++;

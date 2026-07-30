@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 15:56:53 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/30 12:56:11 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/30 19:29:42 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,12 @@ int	dot_error(t_exec *exec)
 
 int	dot_error_return(t_exec *exec, int i, char *cmd)
 {
-	if (count_dots(exec->tmp->args[i]) > 1)
+	if(count_dots(exec->tmp->args[i]) == 2)
+	{
+		if(ft_strcmp("cd", exec->tmp->args[0]) == 0 && ft_strcmp("..", exec->tmp->args[1]) == 0)
+			execute_builtins(exec);
+	}
+	else if (count_dots(exec->tmp->args[i]) > 1)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd, 2);

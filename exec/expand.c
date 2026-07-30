@@ -6,17 +6,12 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:48:35 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/30 14:00:55 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/30 18:02:41 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exit_code(t_exec *exec)
-{
-	if (ft_strcmp((*exec->cmd)->args[1], "$?") == 0)
-		printf("%d\n", exec->status);
-}
 
 char	*get_var_name(char *str, int *i)
 {
@@ -52,6 +47,14 @@ char	*expand_var(char *str, int *i, char *result, t_exec *exec)
 	if (str[*i + 1] == '?')
 	{
 		value = ft_itoa(exec->status);
+		new_result = ft_strjoin(result, value);
+		free(result);
+		free(value);
+		(*i)++;
+		return (new_result);
+	}
+	if (str[*i + 1] == '$'){
+		value = ft_itoa(exec->pid);
 		new_result = ft_strjoin(result, value);
 		free(result);
 		free(value);

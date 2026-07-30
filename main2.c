@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   main2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/13 20:33:01 by rijebbar          #+#    #+#             */
-/*   Updated: 2026/07/30 16:37:09 by rijebbar         ###   ########.fr       */
+/*   Created: 2026/07/30 16:38:34 by rijebbar          #+#    #+#             */
+/*   Updated: 2026/07/30 16:38:44 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-int	ft_isalnum(int c)
+int	readline_loop(t_exec *exec)
 {
-	if ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') || (c >= 'A'
-			&& c <= 'Z'))
+	char	*line;
+
+	line = readline("minishell> ");
+	if (!line)
+	{
+		printf("exit\n");
+		free_all(exec);
 		return (1);
+	}
+	exec->count_line++;
+	if (line)
+		add_history(line);
+	exec->line = line;
 	return (0);
 }
-/*int main(void)
-{
-	int c = 3;
-	printf("%d\n", ft_isalnum(c));
-}*/
