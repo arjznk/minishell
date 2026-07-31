@@ -30,9 +30,11 @@ void	fork_pipe(t_exec *exec)
 	}
 	if (exec->pid == 0)
 	{
+		printf("abc\n");
 		init_child_signals();
 		if (redir_pipe(exec) == 1)
 		{
+			printf("efg\n");
 			return_fork_pipe(exec);
 			exit(127);
 		}
@@ -54,7 +56,8 @@ void	return_fork_pipe(t_exec *exec)
 	ft_putstr_fd("minishell: ", 2);
 	if (exec->tmp && exec->tmp->args && exec->tmp->args[0])
 		ft_putstr_fd(exec->tmp->args[0], 2);
-	ft_putendl_fd(": no such file or directory", 2);
+	ft_putendl_fd(strerror(errno), 2);
+	// ft_putendl_fd(": no such file or directory", 2);
 	close_files(exec);
 	free_all(exec);
 }

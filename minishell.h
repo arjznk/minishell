@@ -260,7 +260,7 @@ void							token_redir_in(t_token **token, int *i,
 void							token_pipe(t_token **token, int *i);
 int								count_heredoc(t_token *token);
 char							**heredocs_delims(t_token *token, int count);
-int								check_quotes(char *str);
+int								check_quotes(char *str, t_exec *exec);
 
 // Parsing
 

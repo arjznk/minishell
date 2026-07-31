@@ -39,7 +39,10 @@ void	exec_pipe(t_exec *exec)
 			builtins_pipe(exec);
 		}
 		else
+		{
+			printf("ici\n");
 			fork_pipe(exec);
+		}
 		if (exec->old_fd != -1)
 			close(exec->old_fd);
 		exec->old_fd = exec->fd[0];
@@ -101,6 +104,7 @@ void	cmd_only(t_exec *exec, t_path_acces *tmp)
 		{
 			if (access(line, F_OK) != 0)
 			{
+				printf("passe la\n");
 				free(line);
 				cmd_error(exec);
 				return ;
