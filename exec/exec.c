@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:48:46 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/31 15:03:22 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/31 20:21:04 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,7 @@ void	exec_pipe(t_exec *exec)
 			builtins_pipe(exec);
 		}
 		else
-		{
-			printf("ici\n");
 			fork_pipe(exec);
-		}
 		if (exec->old_fd != -1)
 			close(exec->old_fd);
 		exec->old_fd = exec->fd[0];
@@ -50,6 +47,8 @@ void	exec_pipe(t_exec *exec)
 		close_exec_pipe(exec);
 		exec->tmp = exec->tmp->next_cmd;
 	}
+	if (exec->old_fd != -1)
+		close(exec->old_fd);
 	wait_children(exec);
 	init_parent_signals();
 }
@@ -93,6 +92,8 @@ void	cmd_only(t_exec *exec, t_path_acces *tmp)
 	char	*line;
 	char	*tmp_line;
 
+	if (exec->tmp->args[0][0] == '\0')
+		cmd_error(exec);
 	while (tmp->acces)
 	{
 		tmp_line = ft_strjoin(tmp->acces, "/");
@@ -104,7 +105,6 @@ void	cmd_only(t_exec *exec, t_path_acces *tmp)
 		{
 			if (access(line, F_OK) != 0)
 			{
-				printf("passe la\n");
 				free(line);
 				cmd_error(exec);
 				return ;

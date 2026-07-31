@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 16:38:34 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/28 16:41:02 by azenk            ###   ########.fr       */
+/*   Updated: 2026/07/31 17:51:30 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	free_all(t_exec *exec)
 	if (exec->acces_path)
 		free_node_path(exec->acces_path);
 	free_parsing(exec);
+	if(exec->old_pwd)
+		free(exec->old_pwd);
 	free(exec);
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);

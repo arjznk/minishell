@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:47:20 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/28 15:40:00 by azenk            ###   ########.fr       */
+/*   Updated: 2026/07/31 17:58:11 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_env	*ft_lstnew_for_env(char *value, t_exec *exec)
 		if (ft_strcmp(lstnew->variable, "HOME") == 0)
 			exec->home = lstnew->value;
 		if (ft_strcmp(lstnew->variable, "OLDPWD") == 0)
-			exec->old_pwd = lstnew->value;
+			exec->old_pwd = ft_strdup(lstnew->value);
 	}
 	else
 	{

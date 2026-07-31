@@ -6,25 +6,19 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:48:02 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/30 17:52:24 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/31 16:32:43 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_quotes(char *str, t_exec *exec)
+int	check_quotes(char *str)
 {
 	int	i;
 
 	i = 0;
 	while (str[i])
 	{
-		if((str[i] == '"' && str[i + 1] == '"') || (str[i] == '\'' && str[i + 1] == '\'' ))
-		{
-			printf("minishell : command not found\n");
-			exec->status = 127;
-			return (1);
-		}
 		if (str[i] == '\'')
 		{
 			i++;

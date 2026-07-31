@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 16:29:35 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/30 19:02:12 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/31 20:13:18 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,13 @@
 
 void	fork_pipe(t_exec *exec)
 {
-
+	ignore_parent_signals();
 	if (found_heredocs(exec) == 0)
 	{
 		heredocs(exec);
 		if (g_signal == SIGINT)
 			return ;
 	}
-	ignore_parent_signals();
 	exec->pid = fork();
 	if (exec->pid == -1)
 	{
@@ -30,25 +29,21 @@ void	fork_pipe(t_exec *exec)
 	}
 	if (exec->pid == 0)
 	{
-		printf("abc\n");
 		init_child_signals();
 		if (redir_pipe(exec) == 1)
 		{
-			printf("efg\n");
 			return_fork_pipe(exec);
 			exit(127);
 		}
 	}
-	else{
-		int status;
-		
-		waitpid(exec->pid, &status, 0);
-		
-		if (WIFEXITED(status))
-			exec->status = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			exec->status = 128 + WTERMSIG(status);
-	}
+	// else{
+	// 	int status;
+	// 	waitpid(exec->pid, &status, 0);
+	// 	if (WIFEXITED(status))
+	// 		exec->status = WEXITSTATUS(status);
+	// 	else if (WIFSIGNALED(status))
+	// 		exec->status = 128 + WTERMSIG(status);
+	// }
 }
 
 void	return_fork_pipe(t_exec *exec)
@@ -56,8 +51,7 @@ void	return_fork_pipe(t_exec *exec)
 	ft_putstr_fd("minishell: ", 2);
 	if (exec->tmp && exec->tmp->args && exec->tmp->args[0])
 		ft_putstr_fd(exec->tmp->args[0], 2);
-	ft_putendl_fd(strerror(errno), 2);
-	// ft_putendl_fd(": no such file or directory", 2);
+	ft_putendl_fd(": no such file or directory", 2);
 	close_files(exec);
 	free_all(exec);
 }
@@ -72,14 +66,14 @@ void	dup_for_pipe(t_exec *exec)
 	if (found_outfile(exec) == 0)
 	{
 		if (redirections(exec) == 1)
-			exit(1) ;
+			exit(1);
 		dup2(exec->redir_fd, STDOUT_FILENO);
 		close(exec->redir_fd);
 	}
 	else if (found_infile(exec) == 0)
 	{
 		if (redirections(exec) == 1)
-			exit(1) ;
+			exit(1);
 		dup2(exec->redir_fd, STDIN_FILENO);
 		close(exec->redir_fd);
 	}
@@ -97,7 +91,7 @@ void	builtins_pipe(t_exec *exec)
 		if (g_signal == SIGINT)
 			return ;
 	}
-	else if (found_outfile(exec) == 0)
+	if (found_outfile(exec) == 0)
 	{
 		if (redirections(exec) == 1)
 			return (close_saved_files(exec));

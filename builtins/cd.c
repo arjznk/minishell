@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 15:46:09 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/30 20:04:16 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/31 17:59:29 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ void	cd_pwd(t_exec *exec)
 
 	getcwd(buf, BUFFER_SIZE);
 	if (chdir(exec->tmp->args[1]) == 0)
+	{
+		free(exec->old_pwd);
 		exec->old_pwd = ft_strdup(buf);
+	}
 	else if (chdir(exec->tmp->args[1]) == -1)
 	{
 		printf("minishell: cd: %s: %s\n", exec->tmp->args[1], strerror(errno));

@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:49:21 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/30 16:44:52 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/31 20:11:14 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	export_w_error(t_exec *exec)
 			if (ft_strcmp(temp, tp->variable) == 0)
 			{
 				exist_var(exec, i, tp, temp);
+				free(temp); 
 				found = 1;
 				break ;
 			}

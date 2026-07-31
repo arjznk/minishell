@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/30 16:35:39 by rijebbar          #+#    #+#             */
-/*   Updated: 2026/07/30 17:12:17 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/31 19:52:49 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,22 @@ void	loop_shell(t_exec *exec)
 		if (readline_loop(exec) == 1)
 			break ;
 		if (init_parsing(exec) == 1)
+		{
+			free_parsing(exec);
 			continue ;
-		init_heredocs(exec);
+		}
 		exec->tmp = *exec->cmd;
+		init_heredocs(exec);
 		if (check_directory(exec) == 1)
 		{
 			free_parsing(exec);
 			continue ;
 		}
-        printf("cmd = %s\n", exec->tmp->args[0]);
 		exec_pipe(exec);
 		free_parsing(exec);
 	}
 }
+
 
 void	init_heredocs(t_exec *exec)
 {
@@ -46,8 +49,10 @@ int	init_parsing(t_exec *exec)
 {
 	char	*tmp;
 
-	if (check_quotes(exec->line, exec) == 0)
+	if (check_quotes(exec->line) == 0)
 		(*exec->tokens) = tokenisation(exec->line);
+	else
+		return (1);
 	exec->tmp_tokens = (*exec->tokens);
 	while (exec->tmp_tokens)
 	{
@@ -60,12 +65,11 @@ int	init_parsing(t_exec *exec)
 		exec->tmp_tokens = exec->tmp_tokens->next_token;
 	}
 	if (check_syntax((*exec->tokens), exec) == 0)
-		(*exec->cmd) = parse_cmd((*exec->tokens));
-	else
 	{
-		free_parsing(exec);
-		return (1);
+		(*exec->cmd) = parse_cmd((*exec->tokens));
 	}
+	else
+		return (1);
 	return (0);
 }
 

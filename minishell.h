@@ -6,14 +6,14 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:46:48 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/31 15:08:00 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/31 19:51:19 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# define BUFFER_SIZE 40
+# define BUFFER_SIZE 1000
 
 # include "libft/libft.h"
 # include <dirent.h>
@@ -260,7 +260,7 @@ void							token_redir_in(t_token **token, int *i,
 void							token_pipe(t_token **token, int *i);
 int								count_heredoc(t_token *token);
 char							**heredocs_delims(t_token *token, int count);
-int								check_quotes(char *str, t_exec *exec);
+int								check_quotes(char *str);
 
 // Parsing
 
@@ -281,5 +281,8 @@ int								dot_error(t_exec *exec);
 int								stat_directory(t_exec *exec, int i);
 int								dot_error_return(t_exec *exec, int i,
 									char *cmd);
+void							return_point(t_exec *exec, char *cmd);
+void							return_point_only(t_exec *exec, char *cmd);
+int								compar_and_stat(t_exec *exec, int i);
 
 #endif
