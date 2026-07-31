@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:46:48 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/30 17:59:12 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/07/31 15:08:00 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ void							sort_str(t_env **env);
 char							*search_and_return(char *str, char c);
 int								compar_char(int a, int b);
 int								ft_isalnum_export(int c);
+int								is_letter(int c);
 
 // Env
 
