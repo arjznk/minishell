@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 16:45:59 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/31 19:52:40 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/08/01 19:16:40 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,16 +70,16 @@ void	heredoc_write(t_exec *exec, char *line)
 	write(exec->heredoc_fd[1], "\n", 1);
 	free(line);
 }
-
-int	found_heredocs(t_exec *exec)
+int found_heredocs(t_exec *exec)
 {
-	if (exec->tmp->heredoc)
-		return (0);
-	return (1);
-}
+    t_cmd *tmp;
 
-void	close_heredoc_files(t_exec *exec)
-{
-	close(exec->heredoc_fd[0]);
-	exec->heredoc_fd[0] = -1;
+    tmp = *exec->cmd;
+    while (tmp)
+    {
+        if (tmp->heredoc || tmp->heredocs_delims)
+            return (0);
+        tmp = tmp->next_cmd;
+    }
+    return (1);
 }

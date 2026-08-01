@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 16:29:35 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/31 20:13:18 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/08/01 19:26:07 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,6 @@
 void	fork_pipe(t_exec *exec)
 {
 	ignore_parent_signals();
-	if (found_heredocs(exec) == 0)
-	{
-		heredocs(exec);
-		if (g_signal == SIGINT)
-			return ;
-	}
 	exec->pid = fork();
 	if (exec->pid == -1)
 	{
@@ -36,14 +30,7 @@ void	fork_pipe(t_exec *exec)
 			exit(127);
 		}
 	}
-	// else{
-	// 	int status;
-	// 	waitpid(exec->pid, &status, 0);
-	// 	if (WIFEXITED(status))
-	// 		exec->status = WEXITSTATUS(status);
-	// 	else if (WIFSIGNALED(status))
-	// 		exec->status = 128 + WTERMSIG(status);
-	// }
+
 }
 
 void	return_fork_pipe(t_exec *exec)
@@ -60,8 +47,9 @@ void	dup_for_pipe(t_exec *exec)
 {
 	if (exec->tmp->heredoc)
 	{
-		dup2(exec->heredoc_fd[0], STDIN_FILENO);
-		exec->old_fd = exec->heredoc_fd[0];
+		if(exec->heredoc_fd[0] != -1)
+			dup2(exec->heredoc_fd[0], STDIN_FILENO);
+		// exec->old_fd = exec->heredoc_fd[0];
 	}
 	if (found_outfile(exec) == 0)
 	{
@@ -85,12 +73,6 @@ void	dup_for_pipe(t_exec *exec)
 
 void	builtins_pipe(t_exec *exec)
 {
-	if (exec->tmp->heredoc)
-	{
-		heredocs(exec);
-		if (g_signal == SIGINT)
-			return ;
-	}
 	if (found_outfile(exec) == 0)
 	{
 		if (redirections(exec) == 1)

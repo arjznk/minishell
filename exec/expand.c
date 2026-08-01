@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:48:35 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/30 18:02:41 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/08/01 16:37:02 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ char	*get_env_value(char *var_name, t_env *env)
 	{
 		if (ft_strcmp(var_name, env->variable) == 0)
 			return (ft_strdup(env->value));
-		else if (env->next == NULL)
-			return (NULL);
 		env = env->next;
 	}
 	return (ft_strdup(""));

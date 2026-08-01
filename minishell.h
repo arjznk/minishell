@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:46:48 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/31 19:51:19 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/08/01 16:25:46 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ void							add_to_env(t_exec *exec, int i, char *temp);
 void							path_function(t_exec *exec, int size);
 void							fill_path_acces(t_path_acces **acces,
 									t_exec *exec);
+int								found_value(char *var_name, t_env *env);
 
 // Heredoc
 

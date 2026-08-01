@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   close_files.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: azenk <azenk@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 16:34:33 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/28 16:34:56 by azenk            ###   ########.fr       */
+/*   Updated: 2026/08/01 19:31:36 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,26 @@ void	create_saved_files(t_exec *exec)
 
 void	close_exec_pipe(t_exec *exec)
 {
-	if (found_heredocs(exec) == 0)
+	if (exec->heredoc_fd[0] != -1)
 	{
 		close(exec->heredoc_fd[0]);
 		exec->heredoc_fd[0] = -1;
 	}
-	if (!exec->tmp->next_cmd)
-		close(exec->fd[0]);
+	if (exec->heredoc_fd[1] != -1)
+	{
+		close(exec->heredoc_fd[1]);
+		exec->heredoc_fd[1] = -1;
+	}
 }
 
 void	close_files(t_exec *exec)
 {
 	if (exec->fd[0] != -1)
+	{
 		close(exec->fd[0]);
+	}
 	if (exec->fd[1] != -1)
 		close(exec->fd[1]);
-	if (exec->tmp->heredoc && exec->heredoc_fd[0] != -1)
-		close(exec->heredoc_fd[0]);
 }
 
 void	close_saved_files(t_exec *exec)

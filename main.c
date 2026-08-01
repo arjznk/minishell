@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/30 16:35:39 by rijebbar          #+#    #+#             */
-/*   Updated: 2026/07/31 19:52:49 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/08/01 17:41:48 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,23 @@ void	loop_shell(t_exec *exec)
 			free_parsing(exec);
 			continue ;
 		}
-		exec_pipe(exec);
+		if (found_heredocs(exec) == 0)
+		{
+			heredocs(exec);
+			if (g_signal == SIGINT)
+				return ;
+			exec_pipe(exec);
+		}
+		else
+			exec_pipe(exec);
 		free_parsing(exec);
 	}
 }
 
-
 void	init_heredocs(t_exec *exec)
 {
+	exec->heredoc_fd[0] = -1;
+	exec->heredoc_fd[1] = -1;
 	(*exec->cmd)->nb_heredoc = count_heredoc(*exec->tokens);
 	if ((*exec->cmd)->nb_heredoc >= 1)
 		(*exec->cmd)->heredocs_delims = heredocs_delims(*exec->tokens,

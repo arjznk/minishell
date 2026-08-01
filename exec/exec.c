@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:48:46 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/31 20:21:04 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/08/01 20:00:35 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,16 @@ void	init_pipe(t_exec *exec)
 	exec->status = 0;
 	exec->saved_stdin = -1;
 	exec->saved_stdout = -1;
-	exec->heredoc_fd[0] = -1;
-	exec->heredoc_fd[1] = -1;
 	exec->tmp = *exec->cmd;
 }
 
 void	exec_pipe(t_exec *exec)
 {
+	if(exec->heredoc_fd[0] != -1)
+	{
+		close(exec->heredoc_fd[0]);
+		exec->heredoc_fd[0] = -1;
+	}
 	init_pipe(exec);
 	while (exec->tmp)
 	{
@@ -43,8 +46,9 @@ void	exec_pipe(t_exec *exec)
 		if (exec->old_fd != -1)
 			close(exec->old_fd);
 		exec->old_fd = exec->fd[0];
-		close(exec->fd[1]);
-		close_exec_pipe(exec);
+		if(exec->fd[1] != -1)
+			close(exec->fd[1]);
+		// close_exec_pipe(exec);
 		exec->tmp = exec->tmp->next_cmd;
 	}
 	if (exec->old_fd != -1)
