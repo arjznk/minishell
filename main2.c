@@ -29,3 +29,19 @@ int	readline_loop(t_exec *exec)
 	exec->line = line;
 	return (0);
 }
+
+int 	heredoc_main(t_exec *exec)
+{
+	if (found_heredocs(exec) == 0)
+	{
+		if(save_heredoc(exec) == 0)
+		{
+			heredocs(exec);
+			if (g_signal == SIGINT)
+				return (0);
+		}
+		else
+			return (1);
+	}
+	return (0);
+}

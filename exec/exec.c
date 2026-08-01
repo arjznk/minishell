@@ -23,11 +23,6 @@ void	init_pipe(t_exec *exec)
 
 void	exec_pipe(t_exec *exec)
 {
-	if(exec->heredoc_fd[0] != -1)
-	{
-		close(exec->heredoc_fd[0]);
-		exec->heredoc_fd[0] = -1;
-	}
 	init_pipe(exec);
 	while (exec->tmp)
 	{
@@ -37,10 +32,7 @@ void	exec_pipe(t_exec *exec)
 			return (perror("pipe"));
 		}
 		if (is_builtins(exec) == 0)
-		{
-			create_saved_files(exec);
-			builtins_pipe(exec);
-		}
+			builtins_exec(exec);
 		else
 			fork_pipe(exec);
 		if (exec->old_fd != -1)
@@ -48,13 +40,11 @@ void	exec_pipe(t_exec *exec)
 		exec->old_fd = exec->fd[0];
 		if(exec->fd[1] != -1)
 			close(exec->fd[1]);
-		// close_exec_pipe(exec);
 		exec->tmp = exec->tmp->next_cmd;
 	}
 	if (exec->old_fd != -1)
 		close(exec->old_fd);
-	wait_children(exec);
-	init_parent_signals();
+	signal_exec(exec);
 }
 
 int	redir_pipe(t_exec *exec)
@@ -71,12 +61,7 @@ int	redir_pipe(t_exec *exec)
 
 void	exec_cmd(t_exec *exec, t_path_acces *tmp)
 {
-	if (!(exec->tmp->args))
-	{
-		close_files(exec);
-		free_all(exec);
-		exit(0);
-	}
+
 	if (ft_strchr(exec->tmp->args[0], '/'))
 	{
 		if (access(exec->tmp->args[0], F_OK) == 0)

@@ -12,6 +12,20 @@
 
 #include "minishell.h"
 
+int	save_heredoc(t_exec *exec)
+{
+
+	exec->saved = "/tmp/heredoc";
+
+	exec->heredoc_fd = open(exec->saved, O_CREAT | O_WRONLY | O_APPEND, 0644);
+	if(exec->heredoc_fd == -1)
+	{
+		strerror(errno);
+		return (1);
+	}
+	return (0);
+}
+
 void	heredocs(t_exec *exec)
 {
 	int	i;
@@ -21,7 +35,6 @@ void	heredocs(t_exec *exec)
 	signal(SIGINT, handle_heredoc_sigint);
 	signal(SIGQUIT, SIG_IGN);
 	rl_event_hook = heredoc_event;
-	pipe(exec->heredoc_fd);
 	while (i < (*exec->cmd)->nb_heredoc)
 	{
 		loop_heredoc(exec, i);
@@ -29,8 +42,12 @@ void	heredocs(t_exec *exec)
 			break ;
 		i++;
 	}
-	close(exec->heredoc_fd[1]);
-	exec->heredoc_fd[1] = -1;
+	close(exec->heredoc_fd);
+	exec->saved_stdin_heredoc = dup(STDIN_FILENO);
+	exec->heredoc_fd = open(exec->saved, O_RDONLY, 0644);
+	dup2(exec->heredoc_fd, STDIN_FILENO);
+	close(exec->heredoc_fd);
+	unlink(exec->saved);
 	rl_event_hook = NULL;
 	init_parent_signals();
 }
@@ -66,8 +83,8 @@ void	loop_heredoc(t_exec *exec, int i)
 
 void	heredoc_write(t_exec *exec, char *line)
 {
-	write(exec->heredoc_fd[1], line, ft_strlen(line));
-	write(exec->heredoc_fd[1], "\n", 1);
+	write(exec->heredoc_fd, line, ft_strlen(line));
+	write(exec->heredoc_fd, "\n", 1);
 	free(line);
 }
 int found_heredocs(t_exec *exec)

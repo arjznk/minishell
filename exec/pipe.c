@@ -14,6 +14,11 @@
 
 void	fork_pipe(t_exec *exec)
 {
+	if (!(exec->tmp->args))
+	{
+		close_files(exec);
+		return ;
+	}
 	ignore_parent_signals();
 	exec->pid = fork();
 	if (exec->pid == -1)
@@ -30,27 +35,28 @@ void	fork_pipe(t_exec *exec)
 			exit(127);
 		}
 	}
-
 }
 
 void	return_fork_pipe(t_exec *exec)
 {
-	ft_putstr_fd("minishell: ", 2);
+	char	*line;
+	char	*tmp;
+
 	if (exec->tmp && exec->tmp->args && exec->tmp->args[0])
-		ft_putstr_fd(exec->tmp->args[0], 2);
-	ft_putendl_fd(": no such file or directory", 2);
+	{
+		tmp = ft_strjoin("minishell: ", exec->tmp->args[0]);
+		line = ft_strjoin(tmp, ": no such file or directory\n");
+		free(tmp);
+		write(2, line, ft_strlen(line));
+		free(line);
+		exec->status = 127;
+	}
 	close_files(exec);
 	free_all(exec);
 }
 
 void	dup_for_pipe(t_exec *exec)
 {
-	if (exec->tmp->heredoc)
-	{
-		if(exec->heredoc_fd[0] != -1)
-			dup2(exec->heredoc_fd[0], STDIN_FILENO);
-		// exec->old_fd = exec->heredoc_fd[0];
-	}
 	if (found_outfile(exec) == 0)
 	{
 		if (redirections(exec) == 1)

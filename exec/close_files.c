@@ -18,28 +18,20 @@ void	create_saved_files(t_exec *exec)
 	exec->saved_stdin = dup(STDIN_FILENO);
 }
 
-void	close_exec_pipe(t_exec *exec)
+void	dup_close_heredoc(t_exec *exec)
 {
-	if (exec->heredoc_fd[0] != -1)
-	{
-		close(exec->heredoc_fd[0]);
-		exec->heredoc_fd[0] = -1;
-	}
-	if (exec->heredoc_fd[1] != -1)
-	{
-		close(exec->heredoc_fd[1]);
-		exec->heredoc_fd[1] = -1;
-	}
+	dup2(exec->saved_stdin_heredoc, STDIN_FILENO);
+	close(exec->saved_stdin_heredoc);
 }
 
 void	close_files(t_exec *exec)
 {
 	if (exec->fd[0] != -1)
-	{
 		close(exec->fd[0]);
-	}
 	if (exec->fd[1] != -1)
 		close(exec->fd[1]);
+	if (exec->old_fd != -1)
+		close(exec->old_fd);
 }
 
 void	close_saved_files(t_exec *exec)

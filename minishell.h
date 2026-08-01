@@ -99,15 +99,17 @@ typedef struct s_exec
 	int							saved_stdin;
 	int							fd[2];
 	int							old_fd;
-	int							heredoc_fd[2];
+	int							heredoc_fd;
 	int							redir_fd;
 	char						*home;
 	char						*old_pwd;
+	char 						*saved;
 	int							count_line;
+	int							saved_stdin_heredoc;
+	int							saved_stdout_heredoc;
 }								t_exec;
 
 // List utils
-
 t_env							*ft_lstnew_for_env(char *value, t_exec *exec);
 void							ft_lstadd_back(t_env **lst, t_env *new);
 t_path_acces					*ft_lstnew_for_path(char *value);
@@ -142,16 +144,16 @@ void							add_to_env(t_exec *exec, int i, char *temp);
 void							path_function(t_exec *exec, int size);
 void							fill_path_acces(t_path_acces **acces,
 									t_exec *exec);
-int								found_value(char *var_name, t_env *env);
 
 // Heredoc
 
 void							heredocs(t_exec *exec);
 int								found_heredocs(t_exec *exec);
-void							close_heredoc_files(t_exec *exec);
 void							heredoc_write(t_exec *exec, char *line);
 void							loop_heredoc(t_exec *exec, int i);
 void							heredoc_error(t_exec *exec, int i, char *line);
+int								save_heredoc(t_exec *exec);
+void							dup_close_heredoc(t_exec *exec);
 
 // Redirections
 
@@ -169,6 +171,7 @@ int								init(t_exec *exec);
 void							init_heredocs(t_exec *exec);
 int								init_parsing(t_exec *exec);
 int								readline_loop(t_exec *exec);
+int 							heredoc_main(t_exec *exec);
 
 // Exec
 
@@ -180,15 +183,14 @@ int								redir_pipe(t_exec *exec);
 void							cmd_error(t_exec *exec);
 void							close_files(t_exec *exec);
 void							close_saved_files(t_exec *exec);
-void							close_exec_pipe(t_exec *exec);
 void							dup_and_close(t_exec *exec);
 void							builtins_pipe(t_exec *exec);
 void							fork_pipe(t_exec *exec);
 void							return_fork_pipe(t_exec *exec);
 void							dup_for_pipe(t_exec *exec);
-void							exit_code(t_exec *exec);
 void							exec_cmd(t_exec *exec, t_path_acces *tmp);
 void							cmd_only(t_exec *exec, t_path_acces *tmp);
+void 							builtins_exec(t_exec *exec);
 
 // Signals
 void							handle_sigint(int sig);
@@ -200,6 +202,7 @@ void							ignore_parent_signals(void);
 void							handle_heredoc_sigint(int sig);
 void							init_heredoc_signals(void);
 int								heredoc_event(void);
+void							signal_exec(t_exec *exec);
 
 // Builtins
 
@@ -285,5 +288,6 @@ int								dot_error_return(t_exec *exec, int i,
 void							return_point(t_exec *exec, char *cmd);
 void							return_point_only(t_exec *exec, char *cmd);
 int								compar_and_stat(t_exec *exec, int i);
+void							return_point_slash(t_exec *exec);
 
 #endif

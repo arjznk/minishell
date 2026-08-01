@@ -24,9 +24,14 @@ void	heredoc_error(t_exec *exec, int i, char *line)
 
 void	cmd_error(t_exec *exec)
 {
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(exec->tmp->args[0], 2);
-	ft_putendl_fd(": command not found", 2);
+	char	*line;
+	char	*tmp;
+
+	tmp = ft_strjoin("minishell: ", exec->tmp->args[0]);
+	line = ft_strjoin(tmp, ": command not found\n");
+	free(tmp);
+	write(2, line, ft_strlen(line));
+	free(line);
 	exec->status = 127;
 	close_files(exec);
 	if (exec->old_fd != -1)

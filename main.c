@@ -31,23 +31,20 @@ void	loop_shell(t_exec *exec)
 			free_parsing(exec);
 			continue ;
 		}
-		if (found_heredocs(exec) == 0)
+		if (heredoc_main(exec) == 1)
 		{
-			heredocs(exec);
-			if (g_signal == SIGINT)
-				return ;
-			exec_pipe(exec);
+			free_parsing(exec);
+			continue ;
 		}
-		else
-			exec_pipe(exec);
+		exec_pipe(exec);
+		if(found_heredocs(exec) == 0)
+			dup_close_heredoc(exec);
 		free_parsing(exec);
 	}
 }
 
 void	init_heredocs(t_exec *exec)
 {
-	exec->heredoc_fd[0] = -1;
-	exec->heredoc_fd[1] = -1;
 	(*exec->cmd)->nb_heredoc = count_heredoc(*exec->tokens);
 	if ((*exec->cmd)->nb_heredoc >= 1)
 		(*exec->cmd)->heredocs_delims = heredocs_delims(*exec->tokens,
@@ -74,9 +71,7 @@ int	init_parsing(t_exec *exec)
 		exec->tmp_tokens = exec->tmp_tokens->next_token;
 	}
 	if (check_syntax((*exec->tokens), exec) == 0)
-	{
 		(*exec->cmd) = parse_cmd((*exec->tokens));
-	}
 	else
 		return (1);
 	return (0);
