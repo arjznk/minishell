@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/30 16:35:39 by rijebbar          #+#    #+#             */
-/*   Updated: 2026/08/02 19:36:21 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/08/02 20:52:19 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ void	loop_shell(t_exec *exec)
 			free_parsing(exec);
 			continue ;
 		}
-		exec->tmp = *exec->cmd;
-		init_heredocs(exec);
+		exec_heredoc_tmp(exec);
 		if (check_directory(exec) == 1)
 		{
 			free_parsing(exec);
@@ -37,8 +36,7 @@ void	loop_shell(t_exec *exec)
 			continue ;
 		}
 		exec_pipe(exec);
-		if (exec->saved_stdin_heredoc != -1)
-			dup_close_heredoc(exec);
+		exec_saved_std(exec);
 		free_parsing(exec);
 	}
 }
@@ -87,22 +85,13 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	size = 0;
 	if (ac > 1)
-	{
-		printf("minishell : %s : No such file or directory\n", av[1]);
-		return (1);
-	}
+		return (printf("minishell : %s : No such file or directory\n", av[1]),
+			1);
 	if (!envp)
 		return (1);
 	exec = malloc(sizeof(t_exec));
 	ft_memset(exec, 0, sizeof(t_exec));
-	exec->saved_stdin_heredoc = -1;
-	exec->saved_stdin = -1;
-	exec->saved_stdout = -1;
-	exec->heredoc_fd = -1;
-	exec->fd[0] = -1;
-	exec->fd[1] = -1;
-	exec->old_fd = -1;
-	exec->redir_fd = -1;
+	init_for_exec(exec);
 	env = NULL;
 	if (init(exec) == 1)
 		return (1);

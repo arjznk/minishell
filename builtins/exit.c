@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 15:48:50 by azenk             #+#    #+#             */
-/*   Updated: 2026/08/02 16:08:10 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/08/02 20:57:07 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_exit(t_exec *exec)
 		return ;
 	}
 	if (!nb)
-		return(printf("exit\n"), exit_return(exec), exit(0));
+		return (printf("exit\n"), exit_return(exec), exit(0));
 	if (exec->tmp->args[2])
 	{
 		printf("exit\nminishell: exit: too many arguments\n");
@@ -77,19 +77,14 @@ void	ft_exit_code(char *nb, t_exec *exec)
 	{
 		digit = nb[i] - '0';
 		if (nbr > (LLONG_MAX - digit) / 10)
-		{
-			printf("exit\nminishell: exit: %s: numeric argument required\n",
-				nb);
-			exit_return(exec);
-			exit(2);
-		}
+			return (printf("exit\nminishell: exit: \
+					%s: numeric argument required\n", nb), exit_return(exec),
+				exit(2));
 		nbr = nbr * 10 + digit;
 		i++;
 	}
 	nbr *= sign;
-	printf("exit\n");
-	exit_return(exec);
-	exit((unsigned char)nbr);
+	return (printf("exit\n"), exit_return(exec), exit((unsigned char)nbr));
 }
 
 void	exit_return(t_exec *exec)

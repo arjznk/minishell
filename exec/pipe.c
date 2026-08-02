@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 16:29:35 by azenk             #+#    #+#             */
-/*   Updated: 2026/08/02 19:41:03 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/08/02 20:36:45 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,7 @@ void	builtins_pipe(t_exec *exec)
 			return ((close_saved_files(exec)));
 		if (dup2(exec->redir_fd, STDIN_FILENO) == -1)
 			return ((close_saved_files(exec)));
-		close(exec->redir_fd);
-		exec->redir_fd = -1;
+		close_redirfd(exec);
 	}
 	else if (exec->old_fd != -1)
 	{

@@ -6,34 +6,11 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 16:38:34 by azenk             #+#    #+#             */
-/*   Updated: 2026/08/02 19:01:20 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/08/02 20:40:32 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// void	free_all(t_exec *exec)
-// {
-// 	if (exec->line)
-// 		free(exec->line);
-// 	if (exec->env)
-// 	{
-// 		if (exec->path->path_acces)
-// 			free_tab(exec->path->path_acces);
-// 		free_node_env(exec->env);
-// 	}
-// 	if (exec->path)
-// 		free(exec->path);
-// 	if (exec->acces_path)
-// 		free_node_path(exec->acces_path);
-// 	free_parsing(exec);
-// 	if (exec->old_pwd)
-// 		free(exec->old_pwd);
-// 	close(STDIN_FILENO);
-// 	close(STDERR_FILENO);
-// 	close(STDOUT_FILENO);
-// 	free(exec);
-// }
 
 void	free_all(t_exec *exec)
 {
@@ -52,6 +29,15 @@ void	free_all(t_exec *exec)
 	free_parsing(exec);
 	if (exec->old_pwd)
 		free(exec->old_pwd);
+	free_all2(exec);
+	close(STDIN_FILENO);
+	close(STDERR_FILENO);
+	close(STDOUT_FILENO);
+	free(exec);
+}
+
+void	free_all2(t_exec *exec)
+{
 	if (exec->saved_stdin_heredoc != -1)
 	{
 		close(exec->saved_stdin_heredoc);
@@ -67,11 +53,6 @@ void	free_all(t_exec *exec)
 		close(exec->saved_stdout);
 		exec->saved_stdout = -1;
 	}
-
-	close(STDIN_FILENO);
-	close(STDERR_FILENO);
-	close(STDOUT_FILENO);
-	free(exec);
 }
 
 void	free_cmd_tokens(t_exec *exec)

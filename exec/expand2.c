@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils2.c                                           :+:      :+:    :+:   */
+/*   expand2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/30 16:36:40 by rijebbar          #+#    #+#             */
-/*   Updated: 2026/08/02 20:55:00 by rijebbar         ###   ########.fr       */
+/*   Created: 2026/08/02 20:19:29 by rijebbar          #+#    #+#             */
+/*   Updated: 2026/08/02 20:36:02 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_isalnum_export(int c)
+void	expand_var2(t_exec *exec, char *result)
 {
-	if ((c >= '0' && c <= '9'))
-		return (0);
-	return (1);
+	exec->value = ft_itoa(exec->status);
+	exec->new_result = ft_strjoin(result, exec->value);
+	free(result);
+	free(exec->value);
 }
 
-int	is_letter(int c)
+void	expand_var3(t_exec *exec, char *result)
 {
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
-		return (0);
-	return (1);
+	exec->value = ft_itoa(exec->pid);
+	exec->new_result = ft_strjoin(result, exec->value);
+	free(result);
+	free(exec->value);
 }

@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:48:02 by azenk             #+#    #+#             */
-/*   Updated: 2026/08/02 16:55:51 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/08/02 20:54:01 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	check_quotes(char *str, t_exec *exec)
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while (str[i++])
 	{
 		if (str[i] == '\'')
 		{
@@ -25,7 +25,8 @@ int	check_quotes(char *str, t_exec *exec)
 			while (str[i] && str[i] != '\'')
 				i++;
 			if (!str[i])
-				return (printf("minishell: syntax error: unclosed quote\n"), exec->status = 2, 1);
+				return (printf("minishell: syntax error: unclosed quote\n"),
+					exec->status = 2, 1);
 		}
 		if (str[i] == '"')
 		{
@@ -33,9 +34,9 @@ int	check_quotes(char *str, t_exec *exec)
 			while (str[i] && str[i] != '"')
 				i++;
 			if (!str[i])
-				return (printf("minishell: syntax error: unclosed quote\n"), exec->status = 2, 1);
+				return (printf("minishell: syntax error: unclosed quote\n"),
+					exec->status = 2, 1);
 		}
-		i++;
 	}
 	return (0);
 }
@@ -57,8 +58,8 @@ char	*expand_and_remove_quotes(char *str, t_exec *exec)
 			s_quotes = !s_quotes;
 		else if (str[i] == '"' && s_quotes == 0)
 			d_quotes = !d_quotes;
-		else if (str[i] == '$' && s_quotes == 0){
-			
+		else if (str[i] == '$' && s_quotes == 0)
+		{
 			result = expand_var(str, &i, result, exec);
 		}
 		else

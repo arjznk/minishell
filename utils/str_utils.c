@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:47:14 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/31 15:07:44 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/08/02 20:54:48 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,11 +100,4 @@ void	sort_str(t_env **env)
 			tmp = tmp->next;
 		}
 	}
-}
-
-int	is_letter(int c)
-{
-	if((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
-		return (0);
-	return (1);
 }

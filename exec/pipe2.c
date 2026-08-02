@@ -1,27 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils2.c                                           :+:      :+:    :+:   */
+/*   pipe2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/30 16:36:40 by rijebbar          #+#    #+#             */
-/*   Updated: 2026/08/02 20:55:00 by rijebbar         ###   ########.fr       */
+/*   Created: 2026/08/02 20:33:39 by rijebbar          #+#    #+#             */
+/*   Updated: 2026/08/02 20:34:04 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_isalnum_export(int c)
+void	close_redirfd(t_exec *exec)
 {
-	if ((c >= '0' && c <= '9'))
-		return (0);
-	return (1);
-}
-
-int	is_letter(int c)
-{
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
-		return (0);
-	return (1);
+	close(exec->redir_fd);
+	exec->redir_fd = -1;
 }

@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:46:48 by azenk             #+#    #+#             */
-/*   Updated: 2026/08/02 16:56:26 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/08/02 20:52:45 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,16 +107,19 @@ typedef struct s_exec
 	int							count_line;
 	int							saved_stdin_heredoc;
 	int							saved_stdout_heredoc;
+	char						*var_name;
+	char						*value;
+	char						*new_result;
 }								t_exec;
 
-// List utils
+// list utils
 t_env							*ft_lstnew_for_env(char *value, t_exec *exec);
 void							ft_lstadd_back(t_env **lst, t_env *new);
 t_path_acces					*ft_lstnew_for_path(char *value);
 void							ft_lstadd_back_path(t_path_acces **lst,
 									t_path_acces *new);
 int								is_valid_number(char *nb);
-// Utils functions
+// utils
 
 char							*search_and_stop(char *str, char c);
 char							*str_between(char *str, char c);
@@ -130,7 +133,7 @@ int								compar_char(int a, int b);
 int								ft_isalnum_export(int c);
 int								is_letter(int c);
 
-// Env
+// env
 
 void							get_and_cut_path(char **envp, t_path *path);
 void							fill_list_env(char **envp, t_env **env,
@@ -145,7 +148,7 @@ void							path_function(t_exec *exec, int size);
 void							fill_path_acces(t_path_acces **acces,
 									t_exec *exec);
 
-// Heredoc
+// heredoc
 
 void							heredocs(t_exec *exec);
 int								found_heredocs(t_exec *exec);
@@ -154,8 +157,9 @@ void							loop_heredoc(t_exec *exec, int i);
 void							heredoc_error(t_exec *exec, int i, char *line);
 int								save_heredoc(t_exec *exec);
 void							dup_close_heredoc(t_exec *exec);
+void							close_heredoc2(t_exec *exec);
 
-// Redirections
+// redir
 
 int								redirections(t_exec *exec);
 int								found_outfile(t_exec *exec);
@@ -164,7 +168,7 @@ void							redir_error(t_exec *exec);
 int								redir_outfile(t_exec *exec);
 int								redir_infile(t_exec *exec);
 
-// Main
+// main
 
 void							loop_shell(t_exec *exec);
 int								init(t_exec *exec);
@@ -172,8 +176,11 @@ void							init_heredocs(t_exec *exec);
 int								init_parsing(t_exec *exec);
 int								readline_loop(t_exec *exec);
 int								heredoc_main(t_exec *exec);
+void							init_for_exec(t_exec *exec);
+void							exec_saved_std(t_exec *exec);
+void							exec_heredoc_tmp(t_exec *exec);
 
-// Exec
+// exec
 
 void							execute_builtins(t_exec *exec);
 void							create_saved_files(t_exec *exec);
@@ -191,8 +198,9 @@ void							dup_for_pipe(t_exec *exec);
 void							exec_cmd(t_exec *exec, t_path_acces *tmp);
 void							cmd_only(t_exec *exec, t_path_acces *tmp);
 void							builtins_exec(t_exec *exec);
+void							close_redirfd(t_exec *exec);
 
-// Signals
+// signal
 void							handle_sigint(int sig);
 void							init_parent_signals(void);
 void							init_child_signals(void);
@@ -204,7 +212,7 @@ void							init_heredoc_signals(void);
 int								heredoc_event(void);
 void							signal_exec(t_exec *exec);
 
-// Builtins
+// builtin
 
 int								is_builtins(t_exec *exec);
 void							ft_env(t_exec *exec);
@@ -235,7 +243,7 @@ void							return_export(t_exec *exec, char *var);
 void							exist_var(t_exec *exec, int i, t_env *tp,
 									char *temp);
 
-// Free
+// free
 
 void							free_all(t_exec *exec);
 void							free_node_env(t_env **list);
@@ -248,8 +256,9 @@ void							free_parsing(t_exec *exec);
 void							free_tmp_token(t_token *list);
 void							free_for_expand(char *result, char *value,
 									char *var_name);
+void							free_all2(t_exec *exec);
 
-// Tokenisation
+// tokenisation
 
 t_token							*tokenisation(char *str);
 t_token							*new_token(char *str, t_token_type type);
@@ -275,6 +284,8 @@ void							add_args(t_cmd *current, char *str);
 char							*expand_and_remove_quotes(char *str,
 									t_exec *exec);
 char							*join_char(char *result, char c);
+void							expand_var2(t_exec *exec, char *result);
+void							expand_var3(t_exec *exec, char *result);
 
 // Errors
 

@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 16:45:59 by azenk             #+#    #+#             */
-/*   Updated: 2026/08/02 19:36:21 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/08/02 20:46:34 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	heredocs(t_exec *exec)
 
 	i = 0;
 	g_signal = 0;
-
 	signal(SIGINT, handle_heredoc_sigint);
 	signal(SIGQUIT, SIG_IGN);
 	rl_event_hook = heredoc_event;
@@ -41,8 +40,7 @@ void	heredocs(t_exec *exec)
 			break ;
 		i++;
 	}
-	close(exec->heredoc_fd);
-	exec->saved_stdin_heredoc = dup(STDIN_FILENO);
+	close_heredoc2(exec);
 	exec->heredoc_fd = open(exec->saved, O_RDONLY, 0644);
 	if (exec->heredoc_fd == -1)
 	{
@@ -109,6 +107,7 @@ void	heredoc_write(t_exec *exec, char *line)
 	write(exec->heredoc_fd, "\n", 1);
 	free(line);
 }
+
 int	found_heredocs(t_exec *exec)
 {
 	t_cmd	*tmp;

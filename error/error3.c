@@ -1,32 +1,16 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error3.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/08/02 20:16:10 by rijebbar          #+#    #+#             */
+/*   Updated: 2026/08/02 20:16:11 by rijebbar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-// int	dot_error_return(t_exec *exec, int i, char *cmd)
-// {
-// 	if (count_dots(exec->tmp->args[i]) == 2)
-// 	{
-// 		if (ft_strcmp("cd", exec->tmp->args[0]) == 0 && ft_strcmp("..",
-// 				exec->tmp->args[1]) == 0)
-// 			return (0);
-// 		else
-// 		{
-// 			return_point(exec, cmd);
-// 			return (1);
-// 		}
-// 	}
-// 	else if (count_dots(exec->tmp->args[i]) > 1)
-// 	{
-// 		return_point(exec, cmd);
-// 		return (1);
-// 	}
-// 	else if (ft_strcmp(cmd, ".") == 0)
-// 	{
-// 		return_point_only(exec, cmd);
-// 		return (1);
-// 	}
-// 	else if (cmd[0] == '.' && (cmd[1] == '\0' || cmd[1] == '/'))
-// 		return (return_point_slash(exec), 1);
-// 	return (0);
-// }
+#include "minishell.h"
 
 int	dot_error_return(t_exec *exec, int i, char *cmd)
 {
@@ -56,7 +40,6 @@ void	return_point_slash(t_exec *exec)
 {
 	printf("minishell: %s : Is a directory\n", exec->tmp->args[0]);
 	exec->status = 126;
-
 }
 
 void	return_point_only(t_exec *exec, char *cmd)

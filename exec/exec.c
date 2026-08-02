@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:48:46 by azenk             #+#    #+#             */
-/*   Updated: 2026/08/02 19:25:58 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/08/02 20:16:34 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ void	exec_pipe(t_exec *exec)
 			fork_pipe(exec);
 		if (exec->old_fd != -1)
 			close(exec->old_fd);
-    	exec->old_fd = exec->fd[0];
-		if(exec->fd[1] != -1)
+		exec->old_fd = exec->fd[0];
+		if (exec->fd[1] != -1)
 			close(exec->fd[1]);
 		exec->tmp = exec->tmp->next_cmd;
 	}

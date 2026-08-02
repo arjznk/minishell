@@ -1,27 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils2.c                                           :+:      :+:    :+:   */
+/*   heredoc2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/30 16:36:40 by rijebbar          #+#    #+#             */
-/*   Updated: 2026/08/02 20:55:00 by rijebbar         ###   ########.fr       */
+/*   Created: 2026/08/02 20:45:14 by rijebbar          #+#    #+#             */
+/*   Updated: 2026/08/02 20:45:17 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_isalnum_export(int c)
+void	close_heredoc2(t_exec *exec)
 {
-	if ((c >= '0' && c <= '9'))
-		return (0);
-	return (1);
-}
-
-int	is_letter(int c)
-{
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
-		return (0);
-	return (1);
+	close(exec->heredoc_fd);
+	exec->saved_stdin_heredoc = dup(STDIN_FILENO);
 }
