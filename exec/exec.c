@@ -37,7 +37,10 @@ void	exec_pipe(t_exec *exec)
 			fork_pipe(exec);
 		if (exec->old_fd != -1)
 			close(exec->old_fd);
-		exec->old_fd = exec->fd[0];
+		// if (exec->tmp->heredoc && exec->tmp->args)
+    	// 	exec->old_fd = exec->heredoc_fd;
+		// else
+    		exec->old_fd = exec->fd[0];
 		if(exec->fd[1] != -1)
 			close(exec->fd[1]);
 		exec->tmp = exec->tmp->next_cmd;
@@ -61,7 +64,6 @@ int	redir_pipe(t_exec *exec)
 
 void	exec_cmd(t_exec *exec, t_path_acces *tmp)
 {
-
 	if (ft_strchr(exec->tmp->args[0], '/'))
 	{
 		if (access(exec->tmp->args[0], F_OK) == 0)

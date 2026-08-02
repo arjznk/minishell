@@ -30,7 +30,7 @@ void	close_files(t_exec *exec)
 		close(exec->fd[0]);
 	if (exec->fd[1] != -1)
 		close(exec->fd[1]);
-	if (exec->old_fd != -1)
+	if (exec->tmp->args && exec->old_fd != -1)
 		close(exec->old_fd);
 }
 

@@ -16,7 +16,7 @@ void	fork_pipe(t_exec *exec)
 {
 	if (!(exec->tmp->args))
 	{
-		close_files(exec);
+		// close_files(exec);
 		return ;
 	}
 	ignore_parent_signals();
@@ -71,7 +71,7 @@ void	dup_for_pipe(t_exec *exec)
 		dup2(exec->redir_fd, STDIN_FILENO);
 		close(exec->redir_fd);
 	}
-	if (exec->old_fd != -1)
+	if (!exec->tmp->heredoc && exec->old_fd != -1)
 	{
 		if (dup2(exec->old_fd, STDIN_FILENO) == -1)
 			exit(1);
