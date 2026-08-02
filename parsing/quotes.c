@@ -6,13 +6,13 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:48:02 by azenk             #+#    #+#             */
-/*   Updated: 2026/08/01 16:12:58 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/08/02 16:55:51 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_quotes(char *str)
+int	check_quotes(char *str, t_exec *exec)
 {
 	int	i;
 
@@ -25,7 +25,7 @@ int	check_quotes(char *str)
 			while (str[i] && str[i] != '\'')
 				i++;
 			if (!str[i])
-				return (printf("minishell: syntax error: unclosed quote\n"), 1);
+				return (printf("minishell: syntax error: unclosed quote\n"), exec->status = 2, 1);
 		}
 		if (str[i] == '"')
 		{
@@ -33,7 +33,7 @@ int	check_quotes(char *str)
 			while (str[i] && str[i] != '"')
 				i++;
 			if (!str[i])
-				return (printf("minishell: syntax error: unclosed quote\n"), 1);
+				return (printf("minishell: syntax error: unclosed quote\n"), exec->status = 2, 1);
 		}
 		i++;
 	}

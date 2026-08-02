@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 16:38:34 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/31 17:51:30 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/08/02 17:11:45 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ void	free_all(t_exec *exec)
 	if (exec->acces_path)
 		free_node_path(exec->acces_path);
 	free_parsing(exec);
-	if(exec->old_pwd)
+	if (exec->old_pwd)
 		free(exec->old_pwd);
-	free(exec);
 	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
 	close(STDERR_FILENO);
+	close(STDOUT_FILENO);
+	free(exec);
 }
 
 void	free_cmd_tokens(t_exec *exec)

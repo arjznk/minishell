@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 15:56:53 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/31 18:47:18 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/08/02 16:27:24 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	check_directory(t_exec *exec)
 	t_cmd	*tmp;
 
 	tmp = *exec->cmd;
-	if (!(exec->tmp->args))
+	if (!(exec->tmp->args) && !(exec->tmp->heredoc))
 		return (0);
 	while (tmp)
 	{

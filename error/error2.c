@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/30 12:47:54 by rijebbar          #+#    #+#             */
-/*   Updated: 2026/07/31 18:15:34 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/08/02 15:26:27 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	cmd_error(t_exec *exec)
 	free(line);
 	exec->status = 127;
 	close_files(exec);
+	dup_close_heredoc(exec);
 	if (exec->old_fd != -1)
 		close(exec->old_fd);
 	free_all(exec);

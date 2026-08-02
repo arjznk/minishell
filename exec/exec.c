@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:48:46 by azenk             #+#    #+#             */
-/*   Updated: 2026/08/01 20:00:35 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/08/02 18:12:14 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	init_pipe(t_exec *exec)
 	exec->status = 0;
 	exec->saved_stdin = -1;
 	exec->saved_stdout = -1;
+	exec->redir_fd = -1;
 	exec->tmp = *exec->cmd;
 }
 
@@ -37,10 +38,7 @@ void	exec_pipe(t_exec *exec)
 			fork_pipe(exec);
 		if (exec->old_fd != -1)
 			close(exec->old_fd);
-		// if (exec->tmp->heredoc && exec->tmp->args)
-    	// 	exec->old_fd = exec->heredoc_fd;
-		// else
-    		exec->old_fd = exec->fd[0];
+    	exec->old_fd = exec->fd[0];
 		if(exec->fd[1] != -1)
 			close(exec->fd[1]);
 		exec->tmp = exec->tmp->next_cmd;

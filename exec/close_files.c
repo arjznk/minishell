@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 16:34:33 by azenk             #+#    #+#             */
-/*   Updated: 2026/08/01 19:31:36 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/08/02 18:24:51 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,13 @@ void	create_saved_files(t_exec *exec)
 
 void	dup_close_heredoc(t_exec *exec)
 {
-	dup2(exec->saved_stdin_heredoc, STDIN_FILENO);
-	close(exec->saved_stdin_heredoc);
+	if (exec->saved_stdin_heredoc != -1)
+	{
+		dup2(exec->saved_stdin_heredoc, STDIN_FILENO);
+			exec->saved_stdin_heredoc);
+		close(exec->saved_stdin_heredoc);
+		exec->saved_stdin_heredoc = -1;
+	}
 }
 
 void	close_files(t_exec *exec)
@@ -30,8 +35,11 @@ void	close_files(t_exec *exec)
 		close(exec->fd[0]);
 	if (exec->fd[1] != -1)
 		close(exec->fd[1]);
-	if (exec->tmp->args && exec->old_fd != -1)
+	if (exec->old_fd != -1)
+	{
 		close(exec->old_fd);
+		exec->old_fd = -1;
+	}
 }
 
 void	close_saved_files(t_exec *exec)

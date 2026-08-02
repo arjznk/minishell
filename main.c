@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/30 16:35:39 by rijebbar          #+#    #+#             */
-/*   Updated: 2026/08/01 17:41:48 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/08/02 18:14:30 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	loop_shell(t_exec *exec)
 		}
 		exec->tmp = *exec->cmd;
 		init_heredocs(exec);
+		exec->saved_stdin_heredoc = -1;
 		if (check_directory(exec) == 1)
 		{
 			free_parsing(exec);
@@ -55,7 +56,7 @@ int	init_parsing(t_exec *exec)
 {
 	char	*tmp;
 
-	if (check_quotes(exec->line) == 0)
+	if (check_quotes(exec->line, exec) == 0)
 		(*exec->tokens) = tokenisation(exec->line);
 	else
 		return (1);

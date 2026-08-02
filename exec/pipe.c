@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 16:29:35 by azenk             #+#    #+#             */
-/*   Updated: 2026/08/01 19:26:07 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/08/02 16:10:04 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,7 @@
 void	fork_pipe(t_exec *exec)
 {
 	if (!(exec->tmp->args))
-	{
-		// close_files(exec);
 		return ;
-	}
 	ignore_parent_signals();
 	exec->pid = fork();
 	if (exec->pid == -1)

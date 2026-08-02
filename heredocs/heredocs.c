@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 16:45:59 by azenk             #+#    #+#             */
-/*   Updated: 2026/08/01 19:16:40 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/08/02 18:19:06 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 
 int	save_heredoc(t_exec *exec)
 {
-
 	exec->saved = "/tmp/heredoc";
-
 	exec->heredoc_fd = open(exec->saved, O_CREAT | O_WRONLY | O_APPEND, 0644);
-	if(exec->heredoc_fd == -1)
+	if (exec->heredoc_fd == -1)
 	{
 		strerror(errno);
 		return (1);
@@ -32,6 +30,7 @@ void	heredocs(t_exec *exec)
 
 	i = 0;
 	g_signal = 0;
+
 	signal(SIGINT, handle_heredoc_sigint);
 	signal(SIGQUIT, SIG_IGN);
 	rl_event_hook = heredoc_event;
@@ -83,20 +82,39 @@ void	loop_heredoc(t_exec *exec, int i)
 
 void	heredoc_write(t_exec *exec, char *line)
 {
+	t_env	*tmp;
+	char	*temp;
+
+	tmp = (*exec->env);
+	if (line[0] == '$')
+	{
+		while (tmp)
+		{
+			temp = ft_strchr(line, '$');
+			if (!temp)
+				break ;
+			if (ft_strcmp(temp, tmp->variable) == 0)
+			{
+				line = get_env_value(temp, tmp);
+				break ;
+			}
+			tmp = tmp->next;
+		}
+	}
 	write(exec->heredoc_fd, line, ft_strlen(line));
 	write(exec->heredoc_fd, "\n", 1);
 	free(line);
 }
-int found_heredocs(t_exec *exec)
+int	found_heredocs(t_exec *exec)
 {
-    t_cmd *tmp;
+	t_cmd	*tmp;
 
-    tmp = *exec->cmd;
-    while (tmp)
-    {
-        if (tmp->heredoc || tmp->heredocs_delims)
-            return (0);
-        tmp = tmp->next_cmd;
-    }
-    return (1);
+	tmp = *exec->cmd;
+	while (tmp)
+	{
+		if (tmp->heredoc || tmp->heredocs_delims)
+			return (0);
+		tmp = tmp->next_cmd;
+	}
+	return (1);
 }

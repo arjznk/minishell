@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:46:48 by azenk             #+#    #+#             */
-/*   Updated: 2026/08/01 16:25:46 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/08/02 16:56:26 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ typedef struct s_exec
 	int							redir_fd;
 	char						*home;
 	char						*old_pwd;
-	char 						*saved;
+	char						*saved;
 	int							count_line;
 	int							saved_stdin_heredoc;
 	int							saved_stdout_heredoc;
@@ -115,7 +115,7 @@ void							ft_lstadd_back(t_env **lst, t_env *new);
 t_path_acces					*ft_lstnew_for_path(char *value);
 void							ft_lstadd_back_path(t_path_acces **lst,
 									t_path_acces *new);
-
+int								is_valid_number(char *nb);
 // Utils functions
 
 char							*search_and_stop(char *str, char c);
@@ -171,7 +171,7 @@ int								init(t_exec *exec);
 void							init_heredocs(t_exec *exec);
 int								init_parsing(t_exec *exec);
 int								readline_loop(t_exec *exec);
-int 							heredoc_main(t_exec *exec);
+int								heredoc_main(t_exec *exec);
 
 // Exec
 
@@ -190,7 +190,7 @@ void							return_fork_pipe(t_exec *exec);
 void							dup_for_pipe(t_exec *exec);
 void							exec_cmd(t_exec *exec, t_path_acces *tmp);
 void							cmd_only(t_exec *exec, t_path_acces *tmp);
-void 							builtins_exec(t_exec *exec);
+void							builtins_exec(t_exec *exec);
 
 // Signals
 void							handle_sigint(int sig);
@@ -215,8 +215,7 @@ void							cd_no_args(t_exec *exec);
 void							cd_pwd(t_exec *exec);
 int								exist_home(t_exec *exec);
 int								check_directory(t_exec *exec);
-void							ft_exit_code(char *line, char *nb,
-									t_exec *exec);
+void							ft_exit_code(char *nb, t_exec *exec);
 void							ft_exit(t_exec *exec);
 void							exit_return(t_exec *exec);
 void							ft_echo(t_exec *exec);
@@ -264,7 +263,7 @@ void							token_redir_in(t_token **token, int *i,
 void							token_pipe(t_token **token, int *i);
 int								count_heredoc(t_token *token);
 char							**heredocs_delims(t_token *token, int count);
-int								check_quotes(char *str);
+int								check_quotes(char *str, t_exec *exec);
 
 // Parsing
 

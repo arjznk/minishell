@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:48:12 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/31 18:47:10 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/08/02 16:26:31 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,18 @@ void	add_cmd(t_cmd **cmds, t_cmd *new)
 static void	parse_redirection(t_cmd *current, t_token **tmp)
 {
 	if ((*tmp)->type == T_REDIR_IN)
+	{
+		free(current->infile);
 		current->infile = ft_strdup((*tmp)->next_token->str);
+	}
 	else if ((*tmp)->type == T_REDIR_OUT)
+	{
+		free(current->outfile);
 		current->outfile = ft_strdup((*tmp)->next_token->str);
+	}
 	else if ((*tmp)->type == T_APPEND)
 	{
+		free(current->outfile);
 		current->outfile = ft_strdup((*tmp)->next_token->str);
 		current->append = 1;
 	}

@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 17:02:06 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/30 12:42:05 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/08/02 16:17:59 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,4 +21,6 @@ void	redir_error(t_exec *exec)
 	else if (exec->tmp->outfile && exec->tmp->append == 1)
 		printf("minishell: %s: %s\n", exec->tmp->outfile, strerror(errno));
 	exec->status = 1;
+	close_files(exec);
+	free_all(exec);	
 }
