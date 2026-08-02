@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:49:08 by azenk             #+#    #+#             */
-/*   Updated: 2026/07/31 16:34:34 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/08/02 19:47:59 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,13 @@ void	ft_echo(t_exec *exec)
 	char	*cmd1;
 
 	cmd1 = exec->tmp->args[0];
-	if (cmd1 && exec->tmp->args[1] == NULL)
-	{
-		printf("\n");
-		return ;
-	}
-	if (check_n_valid(exec->tmp->args[1]) == 1)
-	{
-		echo_n(exec);
-		return ;
-	}
-	if (ft_strcmp(cmd1, "echo") == 0)
-		echo(exec);
-	else
+	if (ft_strcmp(cmd1, "echo") != 0)
 	{
 		printf("minishell: %s: command not found\n", cmd1);
 		exec->status = 127;
+		return ;
 	}
+	echo(exec);
 	exec->status = 0;
 }
 
@@ -41,12 +31,16 @@ void	echo(t_exec *exec)
 {
 	char	**line;
 	int		i;
+	int		newline;
 
 	i = 1;
+	newline = 1;
 	line = exec->tmp->args;
-	if (ft_strcmp(exec->tmp->args[0], "echo") == 0
-		&& ft_strcmp(exec->tmp->args[1], "-n") == 0)
-		return ;
+	while (line[i] && check_n_valid(line[i]) == 1)
+	{
+		newline = 0;
+		i++;
+	}
 	while (line[i])
 	{
 		write(STDOUT_FILENO, line[i], ft_strlen(line[i]));
@@ -54,46 +48,27 @@ void	echo(t_exec *exec)
 			write(STDOUT_FILENO, " ", 1);
 		i++;
 	}
-	write(STDOUT_FILENO, "\n", 1);
+	if (newline)
+		write(STDOUT_FILENO, "\n", 1);
 }
 
 void	echo_n(t_exec *exec)
 {
-	int		i;
-	char	**line;
-
-	i = 1;
-	line = exec->tmp->args;
-	while (line[i])
-	{
-		if (check_n_valid(line[i]) == 1)
-			i++;
-		else
-		{
-			printf("%s", line[i]);
-			if (line[i + 1])
-				printf(" ");
-			i++;
-		}
-	}
+	echo(exec);
 }
 
 int	check_n_valid(char *line)
 {
 	int	i;
 
-	i = 0;
-	if (line[0] != '-')
+	if (!line || line[0] != '-' || line[1] == '\0')
 		return (0);
-	else
+	i = 1;
+	while (line[i])
 	{
-		i = 1;
-		while (line[i])
-		{
-			if (line[i] != 'n')
-				return (0);
-			i++;
-		}
+		if (line[i] != 'n')
+			return (0);
+		i++;
 	}
 	return (1);
 }

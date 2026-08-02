@@ -1,21 +1,12 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   close_files.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/28 16:34:33 by azenk             #+#    #+#             */
-/*   Updated: 2026/08/02 18:24:51 by rijebbar         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h"
 
 void	create_saved_files(t_exec *exec)
 {
 	exec->saved_stdout = dup(STDOUT_FILENO);
-	exec->saved_stdin = dup(STDIN_FILENO);
+	if (exec->saved_stdin_heredoc != -1)
+		exec->saved_stdin = dup(exec->saved_stdin_heredoc);
+	else
+		exec->saved_stdin = dup(STDIN_FILENO);
 }
 
 void	dup_close_heredoc(t_exec *exec)
@@ -23,9 +14,13 @@ void	dup_close_heredoc(t_exec *exec)
 	if (exec->saved_stdin_heredoc != -1)
 	{
 		dup2(exec->saved_stdin_heredoc, STDIN_FILENO);
-			exec->saved_stdin_heredoc);
 		close(exec->saved_stdin_heredoc);
 		exec->saved_stdin_heredoc = -1;
+	}
+	if (exec->heredoc_fd != -1)
+	{
+		close(exec->heredoc_fd);
+		exec->heredoc_fd = -1;
 	}
 }
 
@@ -44,8 +39,16 @@ void	close_files(t_exec *exec)
 
 void	close_saved_files(t_exec *exec)
 {
-	close(exec->saved_stdin);
-	close(exec->saved_stdout);
+	if (exec->saved_stdin != -1)
+	{
+		close(exec->saved_stdin);
+		exec->saved_stdin = -1;
+	}
+	if (exec->saved_stdout != -1)
+	{
+		close(exec->saved_stdout);
+		exec->saved_stdout = -1;
+	}
 }
 
 void	dup_and_close(t_exec *exec)

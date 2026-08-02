@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/28 16:45:59 by azenk             #+#    #+#             */
-/*   Updated: 2026/08/02 18:19:06 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/08/02 19:36:21 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,12 @@ void	heredocs(t_exec *exec)
 	close(exec->heredoc_fd);
 	exec->saved_stdin_heredoc = dup(STDIN_FILENO);
 	exec->heredoc_fd = open(exec->saved, O_RDONLY, 0644);
-	dup2(exec->heredoc_fd, STDIN_FILENO);
-	close(exec->heredoc_fd);
+	if (exec->heredoc_fd == -1)
+	{
+		perror("open");
+		exec->status = 1;
+		return ;
+	}
 	unlink(exec->saved);
 	rl_event_hook = NULL;
 	init_parent_signals();

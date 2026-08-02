@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/30 16:35:39 by rijebbar          #+#    #+#             */
-/*   Updated: 2026/08/02 18:14:30 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/08/02 19:36:21 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	loop_shell(t_exec *exec)
 		}
 		exec->tmp = *exec->cmd;
 		init_heredocs(exec);
-		exec->saved_stdin_heredoc = -1;
 		if (check_directory(exec) == 1)
 		{
 			free_parsing(exec);
@@ -38,7 +37,7 @@ void	loop_shell(t_exec *exec)
 			continue ;
 		}
 		exec_pipe(exec);
-		if(found_heredocs(exec) == 0)
+		if (exec->saved_stdin_heredoc != -1)
 			dup_close_heredoc(exec);
 		free_parsing(exec);
 	}
@@ -96,6 +95,14 @@ int	main(int ac, char **av, char **envp)
 		return (1);
 	exec = malloc(sizeof(t_exec));
 	ft_memset(exec, 0, sizeof(t_exec));
+	exec->saved_stdin_heredoc = -1;
+	exec->saved_stdin = -1;
+	exec->saved_stdout = -1;
+	exec->heredoc_fd = -1;
+	exec->fd[0] = -1;
+	exec->fd[1] = -1;
+	exec->old_fd = -1;
+	exec->redir_fd = -1;
 	env = NULL;
 	if (init(exec) == 1)
 		return (1);
