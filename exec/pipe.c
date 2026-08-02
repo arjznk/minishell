@@ -72,7 +72,10 @@ void	dup_for_pipe(t_exec *exec)
 		close(exec->redir_fd);
 	}
 	if (exec->old_fd != -1)
-		dup2(exec->old_fd, STDIN_FILENO);
+	{
+		if (dup2(exec->old_fd, STDIN_FILENO) == -1)
+			exit(1);
+	}
 	if (exec->tmp->next_cmd)
 		dup2(exec->fd[1], STDOUT_FILENO);
 }
