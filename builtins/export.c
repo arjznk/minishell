@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:49:21 by azenk             #+#    #+#             */
-/*   Updated: 2026/08/02 20:08:46 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/08/02 23:14:00 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,28 +27,27 @@ void	ft_export(t_exec *exec)
 		exec->status = 0;
 	}
 }
-
-int	export_error(t_exec *exec)
+int export_error(t_exec *exec)
 {
-	char	*var;
-	char	*name;
-	int		i;
+    char    *var;
+    char    *name;
+    int     i;
 
-	i = 1;
-	while (exec->tmp->args[i])
-	{
-		var = exec->tmp->args[i];
-		name = search_and_stop(var, '=');
-		if (ft_isalnum_export(name[0]) == 0 || ft_isalpha(name) == 0)
-		{
-			return_export(exec, var);
-			free(name);
-			return (1);
-		}
-		free(name);
-		i++;
-	}
-	return (0);
+    i = 1;
+    while (exec->tmp->args[i])
+    {
+        var = exec->tmp->args[i];
+        name = search_and_stop(var, '=');
+        if (ft_isalnum_export(name[0]) == 0 || ft_isalpha(name) == 0)
+        {
+            return_export(exec, var);
+            free(name);
+            return (1);
+        }
+        free(name);
+        i++;
+    }
+    return (0);
 }
 
 void	return_export(t_exec *exec, char *var)
@@ -67,7 +66,7 @@ void	export_w_error(t_exec *exec)
 	int		i;
 
 	i = 1;
-	while (exec->tmp->args[i++])
+	while (exec->tmp->args[i])
 	{
 		temp = search_and_stop(exec->tmp->args[i], '=');
 		tp = (*exec->env);
@@ -77,7 +76,7 @@ void	export_w_error(t_exec *exec)
 			if (ft_strcmp(temp, tp->variable) == 0)
 			{
 				exist_var(exec, i, tp, temp);
-				free(temp);
+				free(temp); 
 				found = 1;
 				break ;
 			}
@@ -85,6 +84,7 @@ void	export_w_error(t_exec *exec)
 		}
 		if (!found)
 			add_to_env(exec, i, temp);
+		i++;
 	}
 }
 

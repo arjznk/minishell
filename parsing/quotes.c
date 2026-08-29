@@ -6,7 +6,7 @@
 /*   By: rijebbar <rijebbar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 17:48:02 by azenk             #+#    #+#             */
-/*   Updated: 2026/08/02 20:54:01 by rijebbar         ###   ########.fr       */
+/*   Updated: 2026/08/04 09:53:34 by rijebbar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	check_quotes(char *str, t_exec *exec)
 	int	i;
 
 	i = 0;
-	while (str[i++])
+	while (str[i])
 	{
 		if (str[i] == '\'')
 		{
@@ -25,8 +25,11 @@ int	check_quotes(char *str, t_exec *exec)
 			while (str[i] && str[i] != '\'')
 				i++;
 			if (!str[i])
-				return (printf("minishell: syntax error: unclosed quote\n"),
-					exec->status = 2, 1);
+			{
+				printf("minishell: syntax error: unclosed quote\n"),
+					exec->status = 2;
+				return (1);
+			}
 		}
 		if (str[i] == '"')
 		{
@@ -34,9 +37,13 @@ int	check_quotes(char *str, t_exec *exec)
 			while (str[i] && str[i] != '"')
 				i++;
 			if (!str[i])
-				return (printf("minishell: syntax error: unclosed quote\n"),
-					exec->status = 2, 1);
+			{
+				printf("minishell: syntax error: unclosed quote\n"),
+				exec->status = 2;
+				return (1);
+			}
 		}
+		
 	}
 	return (0);
 }
